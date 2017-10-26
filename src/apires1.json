@@ -1,0 +1,307 @@
+{
+    "data": [
+        {
+            "data": {
+                "rows": [
+                    {
+                        "service_name": "License Residential",
+                        "count": 3735
+                    },
+                    {
+                        "service_name": "Other Dangerous",
+                        "count": 754
+                    },
+                    {
+                        "service_name": "Traffic Signal Emergency",
+                        "count": 9746
+                    },
+                    {
+                        "service_name": "Newsstand/Outdoor Cafe",
+                        "count": 1
+                    },
+                    {
+                        "service_name": "Complaint (Streets)",
+                        "count": 3266
+                    },
+                    {
+                        "service_name": "Salting",
+                        "count": 16081
+                    },
+                    {
+                        "service_name": "Hydrant Request",
+                        "count": 1022
+                    },
+                    {
+                        "service_name": "Information Request",
+                        "count": 1104537
+                    },
+                    {
+                        "service_name": "Street Paving",
+                        "count": 1620
+                    },
+                    {
+                        "service_name": "Abandoned Vehicle",
+                        "count": 44923
+                    },
+                    {
+                        "service_name": "Street Defect",
+                        "count": 33827
+                    },
+                    {
+                        "service_name": "Illegal Dumping",
+                        "count": 47774
+                    },
+                    {
+                        "service_name": "Fire Residential or Commercial",
+                        "count": 4342
+                    },
+                    {
+                        "service_name": "Newsstand Outdoor Cafe",
+                        "count": 109
+                    },
+                    {
+                        "service_name": "Line Striping",
+                        "count": 838
+                    },
+                    {
+                        "service_name": "Street Light Outage",
+                        "count": 22469
+                    },
+                    {
+                        "service_name": "Alley Light Outage",
+                        "count": 4797
+                    },
+                    {
+                        "service_name": "Emergency Air Conditioning",
+                        "count": 2
+                    },
+                    {
+                        "service_name": "Graffiti Removal",
+                        "count": 34057
+                    },
+                    {
+                        "service_name": "Zoning Business",
+                        "count": 4885
+                    },
+                    {
+                        "service_name": "Boarding Room House",
+                        "count": 1757
+                    },
+                    {
+                        "service_name": "Sanitation / Dumpster Violation",
+                        "count": 13096
+                    },
+                    {
+                        "service_name": "Rubbish/Recyclable Material Collection",
+                        "count": 56686
+                    },
+                    {
+                        "service_name": "LI Escalation",
+                        "count": 507
+                    },
+                    {
+                        "service_name": "Building Construction",
+                        "count": 6999
+                    },
+                    {
+                        "service_name": "Parks and Rec Safety and Maintenance",
+                        "count": 4012
+                    },
+                    {
+                        "service_name": "Building Force",
+                        "count": 2823
+                    },
+                    {
+                        "service_name": "Tree Dangerous",
+                        "count": 711
+                    },
+                    {
+                        "service_name": "No Heat Residential",
+                        "count": 8
+                    },
+                    {
+                        "service_name": "Complaints against Fire or EMS",
+                        "count": 195
+                    },
+                    {
+                        "service_name": "Building Dangerous",
+                        "count": 8149
+                    },
+                    {
+                        "service_name": "Hydrant Knocked Down (No Water)",
+                        "count": 51
+                    },
+                    {
+                        "service_name": "Inlet Cleaning",
+                        "count": 4146
+                    },
+                    {
+                        "service_name": "Maintenance Residential or Commercial",
+                        "count": 69590
+                    },
+                    {
+                        "service_name": "Traffic (Other)",
+                        "count": 4104
+                    },
+                    {
+                        "service_name": "Vacant Lot Clean-Up",
+                        "count": 20163
+                    },
+                    {
+                        "service_name": "Stop Sign Repair",
+                        "count": 2650
+                    },
+                    {
+                        "service_name": "Smoke Detector",
+                        "count": 7788
+                    },
+                    {
+                        "service_name": "Infestation Residential",
+                        "count": 2331
+                    },
+                    {
+                        "service_name": "Vacant House or Commercial",
+                        "count": 18302
+                    },
+                    {
+                        "service_name": "Dangerous Sidewalk",
+                        "count": 4148
+                    },
+                    {
+                        "service_name": "Shoveling",
+                        "count": 2864
+                    },
+                    {
+                        "service_name": "Manhole Cover",
+                        "count": 1245
+                    },
+                    {
+                        "service_name": "Police Complaint",
+                        "count": 354
+                    },
+                    {
+                        "service_name": "Dead Animal in Street",
+                        "count": 2754
+                    },
+                    {
+                        "service_name": "Construction Site Task Force",
+                        "count": 7891
+                    },
+                    {
+                        "service_name": "Zoning Residential",
+                        "count": 3586
+                    },
+                    {
+                        "service_name": "Abandoned Bike",
+                        "count": 459
+                    },
+                    {
+                        "service_name": "Daycare Residential or Commercial",
+                        "count": 143
+                    },
+                    {
+                        "service_name": "No Heat (Residential)",
+                        "count": 3467
+                    },
+                    {
+                        "service_name": "Miscellaneous",
+                        "count": 4831
+                    },
+                    {
+                        "service_name": "Directory Assistance",
+                        "count": 40254
+                    },
+                    {
+                        "service_name": "Street Trees",
+                        "count": 9743
+                    },
+                    {
+                        "service_name": "Other (Streets)",
+                        "count": 6835
+                    }
+                ],
+                "time": 0.667,
+                "fields": {
+                    "service_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "number"
+                    }
+                },
+                "total_rows": 54
+            },
+            "resourceHandle": "byServiceName",
+            "comment": "**All imported data is assumed to be in cartodb sql api return value format",
+            "resourceType": "cartodb",
+            "url": "https://phl.carto.com/api/v2/sql",
+            "query": "?q=SELECT%20service_name,%20COUNT(cartodb_id)%20FROM%20public_cases_fc%20GROUP%20BY%20service_name"
+        }
+    ],
+    "title": "Philly 311 Data Visualized",
+    "backend": "cartodb",
+    "dataResources": [
+        {
+            "resourceHandle": "byServiceName",
+            "comment": "**All imported data is assumed to be in cartodb sql api return value format",
+            "resourceType": "cartodb",
+            "url": "https://phl.carto.com/api/v2/sql",
+            "query": "?q=SELECT%20service_name,%20COUNT(cartodb_id)%20FROM%20public_cases_fc%20GROUP%20BY%20service_name"
+        }
+    ],
+    "regions": [
+        {
+            "id": "region-1",
+            "className": "row",
+            "children": [
+                {
+                    "type": "Chart",
+                    "dataType": "NVD3Series",
+                    "header": "Request Type",
+                    "className": "col-md-6",
+                    "iconClass": "fa fa-tree",
+                    "dataFields": [
+                        {
+                            "fieldName": "x",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "service_name"
+                        },
+                        {
+                            "fieldName": "y",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "pieChart",
+                        "x": "x",
+                        "y": "y"
+                    }
+                },
+                {
+                    "type": "Chart",
+                    "header": "Request Type ][",
+                    "className": "col-md-6",
+                    "iconClass": "fa fa-car",
+                    "dataFields": [
+                        {
+                            "fieldName": "x",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "service_name"
+                        },
+                        {
+                            "fieldName": "y",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "pieChart",
+                        "x": "x",
+                        "y": "y"
+                    }
+                }
+            ]
+        }
+    ]
+}

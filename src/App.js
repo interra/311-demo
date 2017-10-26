@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Dashboard from './Dashboard.js'
-import dashObject from './apires1.json'
+import dashObject from './dashFromTest.json'
 
 console.log(dashObject)
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Components from './components/Components.js'
+import Card from './components/Card.js'
 
+console.log("cc",Card)
 export default class Dashboard extends Component {
   static propTypes = {
 	}
@@ -19,13 +21,16 @@ export default class Dashboard extends Component {
     return (
       <div id={region.id} className={region.className} key={region.id} >
         {
-          region.children.map(component => { 
-          
+          region.children.map(component => {
+            console.log('component', component)
             if (Components.hasOwnProperty(component.type)) {
               let Component = Components[component.type];
-              return <Component {...component} />
+              const cardProps = component.cardProps || {}
+              const toCard = Object.assign(cardProps, {children: [<Component {...component}/>]})
+              // wrap component in Card component and return
+              return <Card {...toCard}/>
             } else {	
-              console.warn("No component of type "+component.type)
+              return <p>"BAD COMPONENT DEFINITION"</p>
             } 
           })
         }

@@ -41,7 +41,6 @@ export default class Chart extends Component{
 
   render() {
     const props = Object.assign({}, this.props);
-    console.log("PP", props)
     const settings = Object.assign({datum: this.props.data || [], key: this.props.key}, this.getFormattedSettings());
 
     return (

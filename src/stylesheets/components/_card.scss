@@ -1,0 +1,20 @@
+/* Styles for cards*/
+
+.card-header {
+  @include header;
+  .glyphicon {
+    margin-right: 12px;
+  }
+  .fa {
+    padding-right: 10px;
+  }
+}
+
+.card-card {
+  margin: 20px 0px;
+  .card-content {
+    padding-bottom: 10px;
+    padding-top: 5px;
+  }
+}
+

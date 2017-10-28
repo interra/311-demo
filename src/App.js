@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import Dashboard from './Dashboard.js'
 import dashObject from './dashFromTest.json'
 

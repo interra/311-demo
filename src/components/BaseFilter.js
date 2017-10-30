@@ -1,50 +1,55 @@
 import React, { Component } from 'react'
-import { paramsFromQ, objToQueryString } from '../paramRouting'
+import queryString from 'query-string'
 
 export default class BaseFilter extends Component {
-
-  appliedFilters = {}
-  ownFilters = {}
-  
-  q = (window.location.search) ? window.location.search.slice(1) : null
-  
-  componentWillMount() {
-    if (this.q) {
-      this.appliedFilters = paramsFromQ(this.q)
-      this.ownFilters = this.appliedFilters[this.props.field] || ""
-    }
-    
-    console.log("field", this.props.field)
-    console.log('Apf', this.appliedFilters, this.ownFilters)
+  getAppliedFilters(q) {
+      return queryString.parse(q, {arrayFormat: 'bracket'})
   }
   
   getFilterValue() {
     let val
+    const q = (window.location.search) ? window.location.search.slice(1) : null
+    let appliedFilters
+    let ownFilters
 
-    if (this.isDisabled()) {
-      return []
+    if (q) {
+      appliedFilters = this.getAppliedFilters(q)
+      ownFilters = appliedFilters[this.props.field] || ""
+      console.log("OO",appliedFilters, ownFilters)
+      if (this.isDisabled(appliedFilters)) {
+        return []
+      }
     }
 
-    if (this.ownFilters) {
-      val = this.ownFilters
+    console.log(ownFilters, appliedFilters, q)
+
+
+    if (ownFilters) {
+      val = ownFilters
     } else if (this.props.initVal) {
       val = this.props.initVal
-    } else if (this.props.options) {
-      val = this.props.options[0].value
-    }
+    } 
     
     return val
   }
 
   onChange(e) {
-    console.log(e)
+    console.log('onChange', e)
     const field = this.props.field
-    const val = e.value
-    const newFilter = {}
-    newFilter[field] = val
-    const newAppliedFilters = Object.assign(this.appliedFilters, newFilter)
+    let val = e.value
     
-    window.history.pushState("","", "?"+objToQueryString(newAppliedFilters))
+    const newFilter = {}
+
+    if (this.props.multi) {
+      val = e.map(item => item.value)
+    } 
+    newFilter[field] = val
+
+    const newAppliedFilters = Object.assign(this.getAppliedFilters(window.location.search), newFilter)
+    
+    window.history.pushState("","", "?"+queryString.stringify(newAppliedFilters, {arrayFormat: 'bracket'}))
+
+    this.forceUpdate()
     // write new url 
     // refetch data
   }
@@ -52,14 +57,14 @@ export default class BaseFilter extends Component {
   // Check if the filter is disabled
   // Filters can be disabled via props, or if a specified filter is present
   // in applied filters
-  isDisabled() {
+  isDisabled(appliedFilters) {
     let disabled = false
 
     if (this.props.disabled) disabled = true
 
-    if (this.props.disabledBy) {
+    if (this.props.disabledBy && appliedFilters) {
       this.props.disabledBy.forEach(field => {
-        if (this.appliedFilters[field]) disabled = true
+        if (appliedFilters[field]) disabled = true
       })
     }
 

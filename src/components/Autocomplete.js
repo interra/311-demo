@@ -7,7 +7,7 @@ import cx from 'classnames/bind'
 export default class Autocomplete extends BaseFilter {
   render(){
     let props = this.props
-    let val = this.getFilterValue()
+    let val = this.getFilterValue() || ''
     let label = props.label || 'Filter Label'
     let labelClass = (props.label) ? '' : 'sr-only'
     let { className } = this.props

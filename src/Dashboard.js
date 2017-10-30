@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Components from './components/Components.js'
 import Card from './components/Card.js'
 
-console.log("cc",Card)
 export default class Dashboard extends Component {
   static propTypes = {
 	}
@@ -17,16 +16,16 @@ export default class Dashboard extends Component {
     }
   }
 
-  getRegion(region) {
+  getRegion(region, i) {
     return (
       <div id={region.id} className={region.className} key={region.id} >
         {
-          region.children.map(component => {
+          region.children.map((component,j) => {
             console.log('component', component)
             if (Components.hasOwnProperty(component.type)) {
               let Component = Components[component.type];
               const cardProps = component.cardProps || {}
-              const toCard = Object.assign(cardProps, {children: [<Component {...component}/>]})
+              const toCard = Object.assign(cardProps, {children: [<Component {...component}/>], key: i + '__' + j})
               // wrap component in Card component and return
               return <Card {...toCard}/>
             } else {	
@@ -39,7 +38,7 @@ export default class Dashboard extends Component {
   }
   
   getRegions(regions) {
-    return this.props.regions.map(region => this.getRegion(region))
+    return this.props.regions.map(this.getRegion)
   }
 
   render() {

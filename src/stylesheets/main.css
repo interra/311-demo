@@ -134,6 +134,15 @@ a {
     padding-bottom: 10px;
     padding-top: 5px; }
 
+.nvd3-svg {
+  width: 80%; }
+
+.nv-wrap {
+  width: 100%; }
+
+.nv-pie {
+  width: 100%; }
+
 .Select-control {
   border-radius: 0; }
 

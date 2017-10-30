@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import Dashboard from './Dashboard.js'
 import dashObject from './dashFromTest.json'
 
-console.log(dashObject)
-
 class App extends Component {
+  fetch() {
+  
+  }
+  
+  mapFilters() {
+  
+  }
+  
   render() {
     return (
       <div className="App">

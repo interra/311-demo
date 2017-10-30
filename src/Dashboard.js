@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import Components from './components/Components.js'
 import Card from './components/Card.js'
+import createHistory from 'history/createBrowserHistory'
+
+const history = createHistory()
 
 export default class Dashboard extends Component {
   static propTypes = {
 	}
+
+  componentWillMount() {
+    console.log('dash will mount')
+    const unlisten = history.listen((location, action) => {
+      console.log('history listen', location, action)
+      // if we need to refetch
+      this.forceUpdate()
+    })
+  }
   
 	getTitle(title) {
     if (title) {
@@ -25,7 +37,7 @@ export default class Dashboard extends Component {
             if (Components.hasOwnProperty(component.type)) {
               let Component = Components[component.type];
               const cardProps = component.cardProps || {}
-              const toCard = Object.assign(cardProps, {children: [<Component {...component}/>], key: i + '__' + j})
+              const toCard = Object.assign(cardProps, {children: [<Component {...component} history={history} />], key: i + '__' + j})
               // wrap component in Card component and return
               return <Card {...toCard}/>
             } else {	

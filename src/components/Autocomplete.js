@@ -16,7 +16,7 @@ export default class Autocomplete extends BaseFilter {
     return (
       <div className={cx('autocomplete-filter-container', className)}>
         <label htmlFor={this.props.key} className={labelClass}>Filter Label</label>
-        <ReactSelect value={val} disabled={this.isDisabled()} {...props} onChange={this.onChange.bind(this)} key={this.props.key} inputProps={inputProps} />
+        <ReactSelect value={val} disabled={this.isDisabled(window.location.search)} {...props} onChange={this.onChange.bind(this)} key={this.props.key} inputProps={inputProps} />
       </div>
     )
   }

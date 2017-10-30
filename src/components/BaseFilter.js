@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import queryString from 'query-string'
 
+
 export default class BaseFilter extends Component {
   getAppliedFilters(q) {
       return queryString.parse(q, {arrayFormat: 'bracket'})
   }
-  
+
   getFilterValue() {
     let val
     const q = (window.location.search) ? window.location.search.slice(1) : null
@@ -20,9 +21,6 @@ export default class BaseFilter extends Component {
         return []
       }
     }
-
-    console.log(ownFilters, appliedFilters, q)
-
 
     if (ownFilters) {
       val = ownFilters
@@ -47,23 +45,27 @@ export default class BaseFilter extends Component {
 
     const newAppliedFilters = Object.assign(this.getAppliedFilters(window.location.search), newFilter)
     
-    window.history.pushState("","", "?"+queryString.stringify(newAppliedFilters, {arrayFormat: 'bracket'}))
+    const newQuery = "?"+queryString.stringify(newAppliedFilters, {arrayFormat: 'bracket'})
 
-    this.forceUpdate()
-    // write new url 
-    // refetch data
+    this.props.history.push({
+      pathname: '/',
+      search: newQuery
+    })
   }
 
   // Check if the filter is disabled
   // Filters can be disabled via props, or if a specified filter is present
   // in applied filters
-  isDisabled(appliedFilters) {
+  isDisabled(q) {
     let disabled = false
+    const appliedFilters = this.getAppliedFilters(q)
 
     if (this.props.disabled) disabled = true
 
     if (this.props.disabledBy && appliedFilters) {
+      console.log('up', this.props.disabledBy, appliedFilters)
       this.props.disabledBy.forEach(field => {
+        console.log('>>', field, appliedFilters[field])
         if (appliedFilters[field]) disabled = true
       })
     }

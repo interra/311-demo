@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
 import queryString from 'query-string'
 
-
 export default class BaseFilter extends Component {
   getAppliedFilters(q) {
-      return queryString.parse(q, {arrayFormat: 'bracket'})
+      // @@TODO need to filter out disabled filter values
+      const queryObj = queryString.parse(q, {arrayFormat: 'bracket'})
+      return queryObj
   }
 
   getFilterValue() {
     let val
-    const q = (window.location.search) ? window.location.search.slice(1) : null
+    const history = this.props.history
+    const q = (history.location.search) ? history.location.search.slice(1) : null
     let appliedFilters
     let ownFilters
 
     if (q) {
       appliedFilters = this.getAppliedFilters(q)
-      ownFilters = appliedFilters[this.props.field] || ""
-      console.log("OO",appliedFilters, ownFilters)
+      ownFilters = appliedFilters[this.props.filterKey] || ""
       if (this.isDisabled(appliedFilters)) {
         return []
       }
@@ -32,18 +33,17 @@ export default class BaseFilter extends Component {
   }
 
   onChange(e) {
-    console.log('onChange', e)
-    const field = this.props.field
+    const filterKey = this.props.filterKey
+    const history = this.props.history
     let val = e.value
-    
     const newFilter = {}
 
     if (this.props.multi) {
       val = e.map(item => item.value)
-    } 
-    newFilter[field] = val
+    }
+    newFilter[filterKey] = val
 
-    const newAppliedFilters = Object.assign(this.getAppliedFilters(window.location.search), newFilter)
+    const newAppliedFilters = Object.assign(this.getAppliedFilters(history.location.search), newFilter)
     
     const newQuery = "?"+queryString.stringify(newAppliedFilters, {arrayFormat: 'bracket'})
 
@@ -63,10 +63,8 @@ export default class BaseFilter extends Component {
     if (this.props.disabled) disabled = true
 
     if (this.props.disabledBy && appliedFilters) {
-      console.log('up', this.props.disabledBy, appliedFilters)
-      this.props.disabledBy.forEach(field => {
-        console.log('>>', field, appliedFilters[field])
-        if (appliedFilters[field]) disabled = true
+      this.props.disabledBy.forEach(filterKey => {
+        if (appliedFilters[filterKey]) disabled = true
       })
     }
 

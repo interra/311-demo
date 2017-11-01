@@ -9,7 +9,6 @@ const CARD_REGIONS = [
 
 export default class Card extends Component {
   render() {
-    console.log("Render Card")
     let props = this.props;
     let style = props.style || {};
     let regions = {};

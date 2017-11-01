@@ -1,0 +1,165 @@
+{
+    "title": "Philly 311 Data Visualized",
+    "backend": "cartodb",
+    "dataResources": [
+        {
+            "resourceHandle": "byServiceName",
+            "comment": "**All imported data is assumed to be in cartodb sql api return value format",
+            "resourceType": "cartodb",
+            "url": "https://phl.carto.com/api/v2/sql",
+            "query": "?q=SELECT service_name, COUNT(cartodb_id) FROM public_cases_fc WHERE service_name NOT IN ('Information Request') GROUP BY service_name ORDER BY count DESC LIMIT 10"
+        }
+    ],
+    "regions": [
+        {
+            "id": "filters",
+            "children": [
+                {
+                    "type": "Autocomplete",
+                    "filterKey": "include",
+                    "label": "My Label",
+                    "field": "service_name",
+                    "multi": true,
+                    "operation": "IN",
+                    "options": [{"label":"foo", "value": "foo"},{"label":"bar", "value": "bar"}, {"label": "baz", "value": "baz"}]
+                },
+                {
+                    "type": "Autocomplete",
+                    "filterKey": "start_date",
+                    "label": "Start Date",
+                    "field": "date",
+                    "multi": true,
+                    "operation": ">=",
+                    "options": [{"label":"foo", "value": "foo"},{"label":"bar", "value": "bar"}, {"label": "baz", "value": "baz"}]
+                },
+                {
+                    "type": "Autocomplete",
+                    "filterKey": "end_date",
+                    "label": "End Date",
+                    "field": "date",
+                    "multi": true,
+                    "operation": "<=",
+                    "options": [{"label":"foo", "value": "foo"},{"label":"bar", "value": "bar"}, {"label": "baz", "value": "baz"}]
+                }
+            ]
+        },
+        {
+            "id": "region-1",
+            "children": [
+                {
+                    "type": "Metric",
+                    "value": "A",
+                    "key": "metric-a",
+                    "background": "red",
+                    "caption": "caption a",
+                    "icon": "tree",
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                },
+                {
+                    "type": "Metric",
+                    "value": "B",
+                    "key": "metric-b",
+                    "background": "blue",
+                    "caption": "caption b",
+                    "icon": "rocket",
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                },
+                {
+                    "type": "Metric",
+                    "value": "C",
+                    "key": "metric-c",
+                    "background": "green",
+                    "caption": "caption c",
+                    "icon": "telegram",
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                },
+                {
+                    "type": "Metric",
+                    "value": "D",
+                    "key": "metric-d",
+                    "background": "black",
+                    "caption": "caption d",
+                    "icon": "shower",
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                }
+            ]
+        },
+        {
+            "id": "region-2",
+            "children": [
+                {
+                    "type": "Chart",
+                    "key": "chart-1",
+                    "dataType": "NVD3Series",
+                    "dataFields": [
+                        {
+                            "fieldName": "x",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "service_name"
+                        },
+                        {
+                            "fieldName": "y",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "pieChart",
+                        "labelType": "key",
+                        "labelSunbeamLayout": true,
+                        "showLegend": false,
+                        "donut": true,
+                        "donutRatio": ".65",
+                        "height": "800"
+                    },
+                    "cardProps": {
+                        "header": "Request Type",
+                        "subheader": "(excluding requests for information)",
+                        "cardClasses": ["col-md-6"],
+                        "iconClass": "fa fa-tree"
+                    }
+                },
+                {
+                    "type": "Chart",
+                    "key": "chart-2",
+                    "dataType": "NVD3Series",
+                    "dataFields": [
+                        {
+                            "fieldName": "x",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "service_name"
+                        },
+                        {
+                            "fieldName": "y",
+                            "dataResource": "byServiceName",
+                            "dataResourceField": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "pieChart",
+                        "labelType": "key",
+                        "labelSunbeamLayout": true,
+                        "showLegend": false,
+                        "donut": true,
+                        "donutRatio": ".65",
+                        "height": "800"
+                    },
+                    "cardProps": {
+                        "header": "Request Type",
+                        "subheader": "(excluding requests for information)",
+                        "cardClasses": ["col-md-6"],
+                        "iconClass": "fa fa-tree"
+                    }
+                }
+            ]
+        }
+    ]
+}

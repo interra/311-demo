@@ -14,12 +14,12 @@ class App extends Component {
       console.log('history listen', location, action)
       this.handleUpdate(location, action)
     })
-    this.fetchDashboard()
-    //this.handleUpdate(history)
+    const params = (history.search) ? queryString.parse(history.search, {arrayFormat: 'bracket'}) : {}
+    this.fetchDashboard(params)
   }
   
   handleUpdate(history) {
-    const params = (history.location) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
+    const params = (history.search) ? queryString.parse(history.search, {arrayFormat: 'bracket'}) : {}
     this.forceUpdate()
     this.fetchDashboard(params)
     console.log('handleUpdate', params, history)

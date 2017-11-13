@@ -22,7 +22,19 @@
                     "field": "service_name",
                     "multi": true,
                     "operation": "IN",
-                    "options": [{"label":"foo", "value": "foo"},{"label":"bar", "value": "bar"}, {"label": "baz", "value": "baz"}]
+                    "options": 
+			[
+			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
+			    {"label": "Rubbish/Recyclable Material Collection", "value": "Rubbish/Recyclable Material Collection"},
+			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},
+			    {"label": "Abandoned Vehicle", "value": "Abandoned Vehicle"},
+			    {"label": "Directory Assistance", "value": "Directory Assistance"},
+			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},
+			    {"label": "Street Defect", "value": "Street Defect"},
+			    {"label": "Street Light Outage", "value": "Street Light Outage"},
+			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
+			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"}
+			]
                 },
                 {
                     "type": "Autocomplete",

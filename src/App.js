@@ -1,10 +1,46 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Dashboard from './Dashboard.js'
 import config from './config.json'
-import _dashObject from './dashFromTest.json'
 import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
+import { ApolloClient } from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import gql from 'graphql-tag'
 
+const API_URI = "http://localhost:3333/graphql"
+
+const client = new ApolloClient({
+  link: new HttpLink({ uri: API_URI }),
+  cache: new InMemoryCache()
+});
+
+const components = gql`
+{ 
+getComponents (
+        components: [
+      {   
+        type: "Nvd3Chart", resourceHandle: "byServiceName", dataFields: [
+                        {field: "service_name", resourceHandle: "byServiceName", fieldHandle: "x", type: "STRING"},
+                        {field: "count", resourceHandle: "byServiceName", fieldHandle: "y", type: "INTEGER"},
+        ]
+      }
+    ]
+  )
+  {
+    type
+    data {
+      JSONResponse
+      total_rows
+      time
+      fields {
+        field
+        type
+      }   
+    }
+  }
+}
+`
 const history = createHistory()
 
 class App extends Component {
@@ -15,13 +51,13 @@ class App extends Component {
       this.handleUpdate(location, action)
     })
     const params = (history.search) ? queryString.parse(history.search, {arrayFormat: 'bracket'}) : {}
-    this.fetchDashboard(params)
+		client.query({query: components}).then(console.log)
+  //  this.fetchDashboard(params)
   }
   
   handleUpdate(history) {
     const params = (history.search) ? queryString.parse(history.search, {arrayFormat: 'bracket'}) : {}
     this.forceUpdate()
-    this.fetchDashboard(params)
     console.log('handleUpdate', params, history)
   }
   
@@ -29,7 +65,7 @@ class App extends Component {
      const request = Object.assign({appliedFilters: params}, config)
      console.log('req',request)
      
-     fetch('http://localhost:4000/dashboard', {
+     fetch(API_URI, {
         method: "post",
         body: JSON.stringify(request),
         headers: {

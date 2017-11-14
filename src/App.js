@@ -1,58 +1,21 @@
 import React, { Component } from 'react'
-import Dashboard from './Dashboard.js'
+import Dashboard from './components/Dashboard.js'
 import config from './config.json'
 import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
-import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-const API_URI = "http://localhost:3333/graphql"
-
-const client = new ApolloClient({
-  link: new HttpLink({ uri: API_URI }),
-  cache: new InMemoryCache()
-});
-
-const components = gql`
-{ 
-getComponents (
-        components: [
-      {   
-        type: "Nvd3Chart", resourceHandle: "byServiceName", dataFields: [
-                        {field: "service_name", resourceHandle: "byServiceName", fieldHandle: "x", type: "STRING"},
-                        {field: "count", resourceHandle: "byServiceName", fieldHandle: "y", type: "INTEGER"},
-        ]
-      }
-    ]
-  )
-  {
-    type
-    data {
-      JSONResponse
-      total_rows
-      time
-      fields {
-        field
-        type
-      }   
-    }
-  }
-}
-`
 const history = createHistory()
 
 class App extends Component {
   componentWillMount() {
-    console.log('dash will mount')
+    console.log('dash will mount', config)
     const unlisten = history.listen((location, action) => {
       console.log('history listen', location, action)
       this.handleUpdate(location, action)
     })
     const params = (history.search) ? queryString.parse(history.search, {arrayFormat: 'bracket'}) : {}
-		client.query({query: components}).then(console.log)
-  //  this.fetchDashboard(params)
   }
   
   handleUpdate(history) {
@@ -61,39 +24,20 @@ class App extends Component {
     console.log('handleUpdate', params, history)
   }
   
-  fetchDashboard(params) {
-     const request = Object.assign({appliedFilters: params}, config)
-     console.log('req',request)
-     
-     fetch(API_URI, {
-        method: "post",
-        body: JSON.stringify(request),
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-          "Accept": "application/json, text/html",        }
-     }).then(data => {
-        console.log('data', data)
-        return data.json()
-     }).then(dashObject => {
-        console.log('json', dashObject)
-       this.dashObject = Object.assign({history: history}, dashObject)
-       this.forceUpdate()
-      }
-    ).catch(err => {
-      console.log('Error on fetch', err)
-    })
-  }
-  
   render() {
+    console.log('DATA', this.props.data)
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">{"(O)pen(d)ata (V)isuals"}</h1>
+          <h1 className="app-title">{"(O)pen(d)ata (V)isuals"}</h1>
         </header>
-        <Dashboard {...this.dashObject} />
+        <Dashboard data={this.props.data }/>
       </div>
     )
   }
 }
 
-export default App;
+const query = gql`{
+  getComponents(components: [{type: "Nvd3Chart", resourceHandle: "byServiceName", dataFields: [{field: "service_name", resourceHandle: "byServiceName", fieldHandle: "x", type: "STRING"}, {field: "count", resourceHandle: "byServiceName", fieldHandle: "y", type: "INTEGER"}]}]) { type }}`
+
+  export default graphql(query)(App)

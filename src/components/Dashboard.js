@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Components from './components/Components.js'
-import Card from './components/Card.js'
+import Components from './Components.js'
+import Card from './Card.js'
 
 export default class Dashboard extends Component {
   componentWillMount() {
+    console.log('dash will mount __')
     this.history = this.props.history
   }
 
@@ -49,6 +50,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
+    console.log("DASH", this)
     return (
       <div className="dashboard-container">
           {this.getTitle(this.props.title)}

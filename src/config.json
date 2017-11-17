@@ -145,7 +145,7 @@
                 {
                     "type": "Chart",
                     "key": "chart-2",
-                    "dataType": "NVD3PieChartSeries",
+                    "dataType": "NVD3ChartSeries",
                     "x": "service_name",
                     "y": "count",
                     "dataFields": [
@@ -161,8 +161,7 @@
                         }
                     ],
                     "settings": {
-                        "type": "pieChart",
-                        "labelType": "percent",
+                        "type": "multiBarHorizontalChart",
                         "labelSunbeamLayout": true,
                         "showLegend": false,
                         "donut": true,

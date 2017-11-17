@@ -19,7 +19,19 @@ export default class Dashboard extends Component {
   }
   
   getNVD3ChartData(data) {
-   return data
+    const series1 = {
+      key: 'Key1',
+      color: 'blue',
+      values: data.slice(0,5)
+    }
+    
+    const series2 = {
+      key: 'Key2',
+      color: 'red',
+      values: data.slice(5, 10)
+    }
+
+    return [series1, series2]
   }
   
   getPieChartData(data) {

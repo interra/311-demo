@@ -18,6 +18,14 @@ export default class Dashboard extends Component {
     }
   }
   
+  getNVD3ChartData(data) {
+   return data
+  }
+  
+  getPieChartData(data) {
+    return data
+  }
+  
   // given a dashboard component definition, return appropriate data from API response
   getComponentData(component) {
     console.log('component', component)
@@ -32,8 +40,17 @@ export default class Dashboard extends Component {
       console.log('cDatas', cDatas)
       if (cDatas.length > 0) {
         const cData = JSON.parse(cDatas[0].data.JSONResponse)
-        console.log("cdata", cData)
-        return cData
+        console.log("cdata", cData, component.type)
+        switch (component.dataType) {
+          case 'NVD3PieChartSeries':
+            const pieData = this.getPieChartData(cData)
+            console.log('the data', pieData)
+            return pieData
+          case 'NVD3ChartSeries':
+            return this.getNVD3ChartData(cData)
+          default:
+            return cData
+        }
       } else {
         return []
       }

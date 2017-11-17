@@ -129,6 +129,8 @@
                     "settings": {
                         "type": "pieChart",
                         "labelType": "key",
+                        "x": "count",
+                        "y": "service_name",
                         "labelSunbeamLayout": true,
                         "showLegend": false,
                         "donut": true,

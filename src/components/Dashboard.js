@@ -40,23 +40,18 @@ export default class Dashboard extends Component {
   
   // given a dashboard component definition, return appropriate data from API response
   getComponentData(component) {
-    console.log('component', component)
     if (this.props.data.getComponents && this.props.data.getComponents) {
       const cDatas = this.props.data.getComponents.filter(item => {
-        console.log('item', item)
         if (item.componentKey) {
           return item.componentKey === component.key
         }
         return false
       })
-      console.log('cDatas', cDatas)
       if (cDatas.length > 0) {
         const cData = JSON.parse(cDatas[0].data.JSONResponse)
-        console.log("cdata", cData, component.type)
         switch (component.dataType) {
           case 'NVD3PieChartSeries':
             const pieData = this.getPieChartData(cData)
-            console.log('the data', pieData)
             return pieData
           case 'NVD3ChartSeries':
             return this.getNVD3ChartData(cData)
@@ -76,12 +71,9 @@ export default class Dashboard extends Component {
         {
           region.children.map((component,j) => {
             if (Components.hasOwnProperty(component.type)) {
-              console.log('CC', component)
-              console.log('test', )
               const Component = Components[component.type]
               const componentData = this.getComponentData(component)
               const componentProps = Object.assign(component, {data: componentData})
-              console.log('hasCompData', componentData)
               const cardProps = component.cardProps || {}
               const toCard = Object.assign(cardProps, {children: [<Component {...component} history={region.history} />], key: i + '__' + j})
               // wrap component in Card component and return

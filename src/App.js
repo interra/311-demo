@@ -5,25 +5,24 @@ import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import dashFromTest from './dashFromTest.json'
 
 const history = createHistory()
 
 class App extends Component {
   componentWillMount() {
-    console.log('app will mount', config, this.props)
-
-    const unlisten = history.listen((location, action) => {
-      console.log('history listen', location, action)
+    history.listen((location, action) => {
       this.handleUpdate(location, action)
     })
-    const params = (history.search) ? queryString.parse(history.search, {arrayFormat: 'bracket'}) : {}
+
+    console.log('app will mount', config, this.props)
   }
   
-  handleUpdate(history) {
-    const params = (history.search) ? queryString.parse(history.search, {arrayFormat: 'bracket'}) : {}
+  handleUpdate(location) {
+    console.log("hU0", history)
+    
+    const params = (location.search) ? queryString.parse(location.search, {arrayFormat: 'bracket'}) : {}
     this.forceUpdate()
-    console.log('handleUpdate', params, history)
+    console.log('hU1', params, history)
   }
 
   componentDidMount() {
@@ -31,7 +30,8 @@ class App extends Component {
   }
 
   componentWillUpdate() {
-    console.log('app will update', this.props)
+    const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
+    console.log('app will update', this.props, params)
   }
 
   componentDidUpdate() {
@@ -40,6 +40,8 @@ class App extends Component {
   
   render() {
     console.log('dash render', this.props)
+    const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
+    console.log("PR", history, params)
     // parse JSONResponse data
     // map data to appropriate component
     const props = Object.assign(config, this.props)

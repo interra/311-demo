@@ -10,9 +10,6 @@ const history = createHistory()
 
 class App extends Component {
   componentWillMount() {
-    history.listen((location, action) => {
-      this.forceUpdate()
-    })
 
     console.log('app will mount', config, this.props)
   }
@@ -26,11 +23,16 @@ class App extends Component {
 
   componentDidMount() {
     console.log('app did mount', this.props)
+    history.listen((location, action) => {
+      const vars = graphqlQueryVars()
+      console.log('refetch', vars)
+      this.props.data.forceRefetch = true
+      this.props.data.refetch( vars )
+    })
   }
 
   componentWillUpdate() {
-    const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
-    console.log('app will update', this.props, params)
+    console.log('app will update', this.props)
   }
 
   componentDidUpdate() {
@@ -39,11 +41,9 @@ class App extends Component {
   
   render() {
     console.log('dash render', this.props)
-    const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
-    console.log("PR", history, params)
     // parse JSONResponse data
     // map data to appropriate component
-    const props = Object.assign(config, this.props, {appliedFilters: params})
+    const props = Object.assign(config, this.props)
     return (
       <div className="App">
         <header className="App-header">
@@ -81,13 +81,18 @@ const query = gql`
   }
 `
 
-export default graphql(query, { options : { variables : {
+// generate qraphql query vars from app config and
+// user supplied filter values
+const graphqlQueryVars = () => { 
+    const params = getParams()
+    const limit = parseInt(params.start_date[0]) || 4 // configure default filter values
+    const variables = {
     components: [
       {
         type: "Nvd3Chart", 
         resourceHandle: "byServiceName", 
         componentKey: "chart-2",
-        limit: 10,
+        limit: limit,
         dataFields: [
           {
             field: "service_name",
@@ -107,7 +112,7 @@ export default graphql(query, { options : { variables : {
         type: "Nvd3Chart", 
         resourceHandle: "byServiceName", 
         componentKey: "chart-1",
-        limit: 30,
+        limit: limit,
         dataFields: [
           {
             field: "service_name",
@@ -124,4 +129,19 @@ export default graphql(query, { options : { variables : {
         ]
       }
     ]
-  }}})(App)
+  }
+
+  console.log('query variables', variables)
+
+  return variables
+}
+
+const getParams = () => {
+  const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
+  console.log("PR", history, params)
+  return params
+}
+
+console.log("CONFIG", config)
+
+export default graphql(query, { options : { variables : graphqlQueryVars() }})(App)

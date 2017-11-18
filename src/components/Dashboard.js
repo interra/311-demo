@@ -40,6 +40,7 @@ export default class Dashboard extends Component {
   
   // given a dashboard component definition, return appropriate data from API response
   getComponentData(component) {
+    console.log('gCD0', this.props)
     if (this.props.data.getComponents && this.props.data.getComponents) {
       const cDatas = this.props.data.getComponents.filter(item => {
         if (item.componentKey) {

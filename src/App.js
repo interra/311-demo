@@ -64,14 +64,30 @@ class App extends Component {
 // @@NOTE the approach here seems to be to use graphql query 
 // @@NOTE variables and to 
 const query = gql`
-  query getComponents ($limit: Int!) {
+  query getComponents ($components: [ComponentInput]!) {
   getComponents(
+    components: $components
+  ) 
+  
+  { 
+    type
+    componentKey
+    data {
+      JSONResponse
+      total_rows
+      time
+    }
+  }
+  }
+`
+
+export default graphql(query, { options : { variables : {
     components: [
       {
         type: "Nvd3Chart", 
         resourceHandle: "byServiceName", 
-        componentKey: "chart-1",
-        limit: $limit,
+        componentKey: "chart-2",
+        limit: 10,
         dataFields: [
           {
             field: "service_name",
@@ -90,8 +106,8 @@ const query = gql`
       {
         type: "Nvd3Chart", 
         resourceHandle: "byServiceName", 
-        componentKey: "chart-2",
-        limit: $limit,
+        componentKey: "chart-1",
+        limit: 30,
         dataFields: [
           {
             field: "service_name",
@@ -108,21 +124,4 @@ const query = gql`
         ]
       }
     ]
-  ) 
-  
-  
-  { 
-    type
-    componentKey
-    data {
-      JSONResponse
-      total_rows
-      time
-    }
-  }
-  }
-`
-
-export default graphql(query, { options : { variables : {
-      limit: 11
   }}})(App)

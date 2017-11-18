@@ -11,7 +11,7 @@ const history = createHistory()
 class App extends Component {
   componentWillMount() {
     history.listen((location, action) => {
-      this.handleUpdate(location, action)
+      this.forceUpdate()
     })
 
     console.log('app will mount', config, this.props)
@@ -21,7 +21,6 @@ class App extends Component {
     console.log("hU0", history)
     
     const params = (location.search) ? queryString.parse(location.search, {arrayFormat: 'bracket'}) : {}
-    this.forceUpdate()
     console.log('hU1', params, history)
   }
 
@@ -44,7 +43,7 @@ class App extends Component {
     console.log("PR", history, params)
     // parse JSONResponse data
     // map data to appropriate component
-    const props = Object.assign(config, this.props)
+    const props = Object.assign(config, this.props, {appliedFilters: params})
     return (
       <div className="App">
         <header className="App-header">
@@ -62,14 +61,17 @@ class App extends Component {
 //
 // need to build appropriate query from config
 // need to map filter values onto query
-const query = gql`{
+// @@NOTE the approach here seems to be to use graphql query 
+// @@NOTE variables and to 
+const query = gql`
+  query getComponents ($limit: Int!) {
   getComponents(
     components: [
       {
         type: "Nvd3Chart", 
         resourceHandle: "byServiceName", 
         componentKey: "chart-1",
-        limit: 10,
+        limit: $limit,
         dataFields: [
           {
             field: "service_name",
@@ -89,7 +91,7 @@ const query = gql`{
         type: "Nvd3Chart", 
         resourceHandle: "byServiceName", 
         componentKey: "chart-2",
-        limit: 10,
+        limit: $limit,
         dataFields: [
           {
             field: "service_name",
@@ -108,6 +110,7 @@ const query = gql`{
     ]
   ) 
   
+  
   { 
     type
     componentKey
@@ -117,6 +120,9 @@ const query = gql`{
       time
     }
   }
-}`
+  }
+`
 
-  export default graphql(query)(App)
+export default graphql(query, { options : { variables : {
+      limit: 11
+  }}})(App)

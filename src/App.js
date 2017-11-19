@@ -9,41 +9,18 @@ import gql from 'graphql-tag'
 const history = createHistory()
 
 class App extends Component {
-  componentWillMount() {
-
-    console.log('app will mount', config, this.props)
-  }
   
-  handleUpdate(location) {
-    console.log("hU0", history)
-    
-    const params = (location.search) ? queryString.parse(location.search, {arrayFormat: 'bracket'}) : {}
-    console.log('hU1', params, history)
-  }
-
   componentDidMount() {
-    console.log('app did mount', this.props)
+    // subscribe to query update
     history.listen((location, action) => {
-      const vars = graphqlQueryVars()
-      console.log('refetch', vars)
-      this.props.data.forceRefetch = true
-      this.props.data.refetch( vars )
+      this.forceUpdate()
+      this.props.data.refetch(graphqlQueryVars())
     })
   }
 
-  componentWillUpdate() {
-    console.log('app will update', this.props)
-  }
-
-  componentDidUpdate() {
-    console.log('app did update', this.props)
-  }
-  
   render() {
-    console.log('dash render', this.props)
-    // parse JSONResponse data
-    // map data to appropriate component
     const props = Object.assign(config, this.props)
+    
     return (
       <div className="App">
         <header className="App-header">
@@ -55,14 +32,6 @@ class App extends Component {
   }
 }
 
-// API returns a flat array of component data
-// Use data.components[n].componentKey -> component.key
-// to map data to appropriate component
-//
-// need to build appropriate query from config
-// need to map filter values onto query
-// @@NOTE the approach here seems to be to use graphql query 
-// @@NOTE variables and to 
 const query = gql`
   query getComponents ($components: [ComponentInput]!) {
   getComponents(
@@ -81,12 +50,39 @@ const query = gql`
   }
 `
 
+const getDashFilters = () => {
+  const filterRegion = config.regions.filter(region => region.id === "filters")
+  if (filterRegion.length == 1) {
+    return filterRegion[0].children
+  } else {
+    return []
+  }
+}
+
+// we want an array of all the dashboard's components so we just flatten all the regions children 
+const getDashComponents = () => {
+  const regions = config.regions.filter(region => region.id !== "filters")
+	
+	const components = regions.reduce((acc, region) => {
+			return acc.concat(region.children)
+		}, [])
+
+  return components
+}
+
 // generate qraphql query vars from app config and
 // user supplied filter values
 const graphqlQueryVars = () => { 
+    // @@TODO params should be assigned based on config filter definitions
     const params = getParams()
-    const limit = parseInt(params.start_date[0]) || 4 // configure default filter values
+    const filters = getDashFilters()
+    console.log("FF",filters)
+    const components = getDashComponents()
+    console.log('CC', components)
+    const limit = (params && params.start_date) ? parseInt(params.start_date[0]) : 4 // configure default filter values
     const variables = {
+
+    // @@TODO this should be built from the config regions
     components: [
       {
         type: "Nvd3Chart", 
@@ -138,7 +134,6 @@ const graphqlQueryVars = () => {
 
 const getParams = () => {
   const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
-  console.log("PR", history, params)
   return params
 }
 

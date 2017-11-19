@@ -4,7 +4,6 @@ import Card from './Card.js'
 
 export default class Dashboard extends Component {
   componentWillMount() {
-    console.log('dash will mount __')
     this.history = this.props.history
   }
 
@@ -18,6 +17,8 @@ export default class Dashboard extends Component {
     }
   }
   
+  // @@TODO should return n series
+  // @@TODO based on config
   getNVD3ChartData(data) {
     const series1 = {
       key: 'Key1',
@@ -40,13 +41,15 @@ export default class Dashboard extends Component {
   
   // given a dashboard component definition, return appropriate data from API response
   getComponentData(component) {
-    if (this.props.data.getComponents && this.props.data.getComponents) {
+    if (this.props.data.getComponents) {
       const cDatas = this.props.data.getComponents.filter(item => {
         if (item.componentKey) {
           return item.componentKey === component.key
         }
+
         return false
       })
+
       if (cDatas.length > 0) {
         const cData = JSON.parse(cDatas[0].data.JSONResponse)
         switch (component.dataType) {
@@ -62,6 +65,7 @@ export default class Dashboard extends Component {
         return []
       }
     }
+
     return []
   }
   
@@ -99,7 +103,6 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    console.log("DASH", this)
     return (
       <div className="dashboard-container">
           {this.getTitle(this.props.title)}

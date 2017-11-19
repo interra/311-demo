@@ -5,6 +5,7 @@ import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+console.log('CONF 1', config)
 
 const history = createHistory()
 
@@ -59,14 +60,30 @@ const getDashFilters = () => {
   }
 }
 
-// we want an array of all the dashboard's components so we just flatten all the regions children 
+// A flat array of all of the dashboards components from config
 const getDashComponents = () => {
   const regions = config.regions.filter(region => region.id !== "filters")
-	
 	const components = regions.reduce((acc, region) => {
-			return acc.concat(region.children)
-		}, [])
+		return acc.concat(region.children)
+	}, [])
 
+  console.log('gdc config', config)
+  console.log('gdc', components)
+
+  return components
+}
+
+// do any pre-fetch processing of component definits here
+const prefetchProcessDashComponents = (_components, params) => {
+  // @@TODO apply filter variables
+  console.log('pfdc', params)
+  const components = _components.map(component => {
+    delete component.data
+    return Object.assign(component, params, {componentKey: component.key})
+  })
+
+  console.log('ccc', components)
+  
   return components
 }
 
@@ -77,10 +94,16 @@ const graphqlQueryVars = () => {
     const params = getParams()
     const filters = getDashFilters()
     console.log("FF",filters)
-    const components = getDashComponents()
-    console.log('CC', components)
-    const limit = (params && params.start_date) ? parseInt(params.start_date[0]) : 4 // configure default filter values
+    const _components = getDashComponents()
+    console.log('_CC', _components)
+    const CC = prefetchProcessDashComponents(_components, params).slice(-1)
+    console.log('CC', CC)
     const variables = {
+      components: CC
+    }
+
+    const limit = (params && params.start_date) ? parseInt(params.start_date[0]) : 4 // configure default filter values
+    const _variables = {
 
     // @@TODO this should be built from the config regions
     components: [
@@ -127,9 +150,8 @@ const graphqlQueryVars = () => {
     ]
   }
 
-  console.log('query variables', variables)
 
-  return variables
+  return _variables
 }
 
 const getParams = () => {

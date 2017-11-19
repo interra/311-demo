@@ -1,5 +1,5 @@
 {
-    "title": "Philly 311 Data Visualized",
+    "title": "Philly 311 Data Visualizedidd",
     "backend": "cartodb",
     "dataResources": [
         {
@@ -38,11 +38,10 @@
                 },
                 {
                     "type": "Autocomplete",
-                    "filterKey": "start_date",
+                    "filterKey": "limit",
                     "label": "Start Date",
                     "willFilter": ["byServiceName"],
                     "field": "date",
-                    "multi": true,
                     "operation": ">=",
                     "options": [{"label":10, "value":10},{"label":20, "value": 20}, {"label": 30, "value": 30}]
                 },
@@ -65,6 +64,7 @@
                     "type": "Metric",
                     "value": "A",
                     "key": "metric-a",
+                    "resourceHandle": "byServiceName",
                     "background": "red",
                     "caption": "caption a",
                     "icon": "tree",
@@ -76,6 +76,7 @@
                     "type": "Metric",
                     "value": "B",
                     "key": "metric-b",
+                    "resourceHandle": "byServiceName",
                     "background": "blue",
                     "caption": "caption b",
                     "icon": "rocket",
@@ -87,6 +88,7 @@
                     "type": "Metric",
                     "value": "C",
                     "key": "metric-c",
+                    "resourceHandle": "byServiceName",
                     "background": "green",
                     "caption": "caption c",
                     "icon": "telegram",
@@ -98,6 +100,7 @@
                     "type": "Metric",
                     "value": "D",
                     "key": "metric-d",
+                    "resourceHandle": "byServiceName",
                     "background": "black",
                     "caption": "caption d",
                     "icon": "shower",
@@ -114,6 +117,7 @@
                     "type": "Chart",
                     "key": "chart-1",
                     "dataType": "NVD3PieChartSeries",
+                    "resourceHandle": "byServiceName",
                     "x": "service_name",
                     "y": "count",
                     "dataFields": [
@@ -146,6 +150,7 @@
                     "type": "Chart",
                     "key": "chart-2",
                     "dataType": "NVD3ChartSeries",
+                    "resourceHandle": "byServiceName",
                     "x": "service_name",
                     "y": "count",
                     "dataFields": [

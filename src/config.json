@@ -1,5 +1,5 @@
 {
-    "title": "Philly 311 Data Visualizedidd",
+    "title": "Philly 311 Data Visualized",
     "backend": "cartodb",
     "dataResources": [
         {
@@ -62,48 +62,128 @@
             "children": [
                 {
                     "type": "Metric",
-                    "value": "A",
                     "key": "metric-a",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
                     "resourceHandle": "byServiceName",
                     "background": "red",
-                    "caption": "caption a",
+                    "caption": "Street Defects",
                     "icon": "tree",
+                    "field": "count",
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": "Street Defect"
+                        }
+                    ],
                     "cardProps": {
                         "cardClasses": ["col-md-3"]
                     } 
                 },
                 {
                     "type": "Metric",
-                    "value": "B",
                     "key": "metric-b",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
                     "resourceHandle": "byServiceName",
-                    "background": "blue",
-                    "caption": "caption b",
-                    "icon": "rocket",
+                    "background": "gold",
+                    "caption": "Abandoned Vehicles",
+                    "icon": "tree",
+                    "field": "count",
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": "Abandoned Vehicle"
+                        }
+                    ],
                     "cardProps": {
                         "cardClasses": ["col-md-3"]
                     } 
                 },
                 {
                     "type": "Metric",
-                    "value": "C",
                     "key": "metric-c",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
                     "resourceHandle": "byServiceName",
-                    "background": "green",
-                    "caption": "caption c",
-                    "icon": "telegram",
+                    "background": "purple",
+                    "caption": "Street Light Outage",
+                    "icon": "tree",
+                    "field": "count",
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": "Street Light Outage"
+                        }
+                    ],
                     "cardProps": {
                         "cardClasses": ["col-md-3"]
                     } 
                 },
                 {
                     "type": "Metric",
-                    "value": "D",
                     "key": "metric-d",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
                     "resourceHandle": "byServiceName",
-                    "background": "black",
-                    "caption": "caption d",
-                    "icon": "shower",
+                    "background": "brown",
+                    "caption": "Illegal Dumping",
+                    "icon": "tree",
+                    "field": "count",
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": "Illegal Dumping"
+                        }
+                    ],
                     "cardProps": {
                         "cardClasses": ["col-md-3"]
                     } 
@@ -120,14 +200,19 @@
                     "resourceHandle": "byServiceName",
                     "x": "service_name",
                     "y": "count",
+                    "limit": 50,
                     "dataFields": [
                         {
-                            "dataResource": "byServiceName",
-                            "dataResourceField": "service_name"
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
                         },
                         {
-                            "dataResource": "byServiceName",
-                            "dataResourceField": "count"
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
                         }
                     ],
                     "settings": {
@@ -155,14 +240,16 @@
                     "y": "count",
                     "dataFields": [
                         {
-                            "fieldName": "x",
-                            "dataResource": "byServiceName",
-                            "dataResourceField": "service_name"
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
                         },
                         {
-                            "fieldName": "y",
-                            "dataResource": "byServiceName",
-                            "dataResourceField": "count"
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
                         }
                     ],
                     "settings": {

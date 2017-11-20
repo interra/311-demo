@@ -4,8 +4,14 @@ import { format } from 'd3';
 
 export default class Metric extends Component{
   getValue() {
+    console.log('metr', this)
+
     let val = this.props.value || this.props.data[0];
     let formatter;
+
+    if (this.props.field && this.props.data.length > 0) {
+      val = this.props.data[0][this.props.field]
+    }
 
     if (this.props.format) {
       formatter = format(this.props.format);

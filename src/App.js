@@ -5,7 +5,6 @@ import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-console.log('CONF 1', config)
 
 const history = createHistory()
 
@@ -78,8 +77,24 @@ const prefetchProcessDashComponents = (_components, params) => {
   // @@TODO apply filter variables
   console.log('pfdc', params)
   const components = _components.map(component => {
-    delete component.data
-    return Object.assign(component, params, {componentKey: component.key})
+    let componentInput = {
+      type: component.type,
+      resourceHandle: component.resourceHandle,
+      componentKey: component.key,
+      dataFields: component.dataFields
+    }
+
+    // add valid filter values if present
+    if (params.limit || component.limit) {
+      componentInput.limit = params.limit || component.limit
+    }
+    
+    if (params.where || component.where) {
+      componentInput.where = params.where || component.where
+    }
+
+    // @@TODO add where order limit (add'l filters) based on params
+    return componentInput
   })
 
   console.log('ccc', components)
@@ -90,75 +105,26 @@ const prefetchProcessDashComponents = (_components, params) => {
 // generate qraphql query vars from app config and
 // user supplied filter values
 const graphqlQueryVars = () => { 
-    // @@TODO params should be assigned based on config filter definitions
-    const params = getParams()
-    const filters = getDashFilters()
-    console.log("FF",filters)
-    const _components = getDashComponents()
-    console.log('_CC', _components)
-    const CC = prefetchProcessDashComponents(_components, params).slice(-1)
-    console.log('CC', CC)
-    const variables = {
-      components: CC
-    }
-
-    const limit = (params && params.start_date) ? parseInt(params.start_date[0]) : 4 // configure default filter values
-    const _variables = {
-
-    // @@TODO this should be built from the config regions
-    components: [
-      {
-        type: "Nvd3Chart", 
-        resourceHandle: "byServiceName", 
-        componentKey: "chart-2",
-        limit: limit,
-        dataFields: [
-          {
-            field: "service_name",
-            resourceHandle: "byServiceName", 
-            fieldHandle: "x", 
-            type: "STRING"
-          }, 
-          {
-            field: "count", 
-            resourceHandle: "byServiceName", 
-            fieldHandle: "y", 
-            type: "INTEGER"
-          }
-        ]
-      },
-      {
-        type: "Nvd3Chart", 
-        resourceHandle: "byServiceName", 
-        componentKey: "chart-1",
-        limit: limit,
-        dataFields: [
-          {
-            field: "service_name",
-            resourceHandle: "byServiceName", 
-            fieldHandle: "x", 
-            type: "STRING"
-          }, 
-          {
-            field: "count", 
-            resourceHandle: "byServiceName", 
-            fieldHandle: "y", 
-            type: "INTEGER"
-          }
-        ]
-      }
-    ]
+  // @@TODO params should be assigned based on config filter definitions
+  const params = getParams()
+  const filters = getDashFilters()
+  console.log("FF",filters)
+  const _components = getDashComponents()
+  console.log('_CC', _components)
+  const components = prefetchProcessDashComponents(_components, params)
+  console.log('CC', components)
+  const variables = {
+    components: components
   }
 
+  const limit = (params && params.start_date) ? parseInt(params.start_date[0]) : 4 // configure default filter values
 
-  return _variables
+  return variables
 }
 
 const getParams = () => {
   const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
   return params
 }
-
-console.log("CONFIG", config)
 
 export default graphql(query, { options : { variables : graphqlQueryVars() }})(App)

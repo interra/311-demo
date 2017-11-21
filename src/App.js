@@ -5,11 +5,40 @@ import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { Map, Circle, Marker, Popup, TileLayer } from 'react-leaflet';
 
 const history = createHistory()
 
+const tileURL = 'http://stamen-tiles-{s}.a.ssl.fastly.net/toner-background/{z}/{x}/{y}.png';
+const tileAttr = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+const mapCenter = [39.9528, -75.1638]
+const zoomLevel = 12
+
+const mapOpts = { 
+  center: [40.655769,-73.938503],
+  zoomControl: false,
+  zoom: 13, 
+  maxZoom: 19, 
+  minZoom: 11, 
+  scrollwheel: false,
+  legends: true,
+  infoControl: false,
+  attributionControl: true
+}
+
 class App extends Component {
-  
+	getMap() {
+	const map = 
+      <Map {...mapOpts} >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+        />
+      </Map>
+
+    return map
+  }
+
   componentDidMount() {
     // subscribe to query update
     history.listen((location, action) => {
@@ -22,12 +51,7 @@ class App extends Component {
     const props = Object.assign(config, this.props)
     
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="app-title">{"(O)pen(d)ata (V)isuals"}</h1>
-        </header>
-        <Dashboard {...props} history={history} />
-      </div>
+      this.getMap()
     )
   }
 }

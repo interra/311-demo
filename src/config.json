@@ -59,6 +59,7 @@
         },
         {
             "id": "region-1",
+            "title": "Top Requests",
             "children": [
                 {
                     "type": "Metric",
@@ -230,7 +231,12 @@
                         "cardClasses": ["col-md-6"],
                         "iconClass": "fa fa-tree"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "id": "region-3",
+            "children": [
                 {
                     "type": "Chart",
                     "key": "chart-2",
@@ -253,17 +259,17 @@
                         }
                     ],
                     "settings": {
-                        "type": "multiBarHorizontalChart",
-                        "labelSunbeamLayout": true,
-                        "showLegend": false,
-                        "donut": true,
-                        "donutRatio": ".65",
-                        "height": "800"
+                        "type": "discreteBarChart",
+                        "rotateLabels": 45,
+                        "height": 1800,
+                        "legend": {
+                            "maxKeyLength": 1500
+                        }
                     },
                     "cardProps": {
                         "header": "Request Type",
                         "subheader": "(excluding requests for information)",
-                        "cardClasses": ["col-md-6"],
+                        "cardClasses": ["col-md-12"],
                         "iconClass": "fa fa-tree"
                     }
                 }

@@ -69,9 +69,18 @@ export default class Dashboard extends Component {
     return []
   }
   
+  getRegionTitle(region) {
+    if (region.title) { 
+      return <h2>{region.title} </h2>
+    } else {
+      return ""
+    }
+  }
+  
   getRegion(region, i) {
     return (
       <div id={region.id} className={region.className} key={region.id} >
+        {this.getRegionTitle(region)}
         {
           region.children.map((component,j) => {
             if (Components.hasOwnProperty(component.type)) {

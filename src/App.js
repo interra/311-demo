@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import Dashboard from './components/Dashboard.js'
+import NeighborhoodFilter from './components/NeighborhoodFilter.js'
 import config from './config.json'
 import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Map, Circle, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet'
+import FontAwesome from 'react-fontawesome'
+import { Map, Circle, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
 import phillyHoodsGeoJson from './lib/Neighborhoods_Philadelphia.json'
 
 console.log("PHLH", phillyHoodsGeoJson)
@@ -29,15 +31,23 @@ const mapOpts = {
 }
 
 class App extends Component {
-	getMap() {
+  unzoom(e) {
+    console.log('UNZOOM_', e)
+  }
+
+  getMap() {
 	const map = 
+    <div id="map-container">
+      <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom}/>
       <Map {...mapOpts} >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
         />
-        <GeoJSON data={phillyHoodsGeoJson} />
+        <NeighborhoodFilter data={phillyHoodsGeoJson} selected={['EAST_PASSYUNK', 'GIRARD_ESTATES']} />
+        <ZoomControl />
       </Map>
+    </div>
 
     return map
   }

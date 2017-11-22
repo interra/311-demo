@@ -360,6 +360,16 @@ a {
   height: 400px;
   width: 100%; }
 
+#map-container .fa-crosshairs {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  cursor: pointer; }
+
+.neighborhoods_path:hover {
+  fill: darkturquoise; }
+
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2017 Twitter, Inc.

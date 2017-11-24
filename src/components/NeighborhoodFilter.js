@@ -19,7 +19,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
 
   handleOnChange(e) {
-    let vals = this.props.selected || []
+    let vals = this.props.params[this.props.filterKey] || []
     const clicked = e.target.feature.properties.name
     const deselect = e.target.feature.properties.selected
     console.log("onchange-__-", e, vals, clicked, deselect)
@@ -48,7 +48,7 @@ export default class NeighborhoodFilter extends BaseFilter {
 	
   render(){
     return (
-        <GeoJSON 
+        <GeoJSON
           data={this.props.data}
           className="neighborhoods_path"
           onEachFeature={this.onEachFeature.bind(this)}

@@ -41,7 +41,6 @@ class App extends Component {
   }
 
   getMap() {
-  const neighborhoods = getParams().neighborhood // @@TODO little wonky since this is defined in config
 	const map = 
     <div id="map-container">
       <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom}/>
@@ -50,7 +49,7 @@ class App extends Component {
           attribution={TILE_ATTR}
           url={TILE_URL}
         />
-        <NeighborhoodFilter history={history} data={phillyHoodsGeoJson} {...this.getNeighborhoodFilterProps()} selected={neighborhoods} />
+        <NeighborhoodFilter history={history} data={phillyHoodsGeoJson} {...this.getNeighborhoodFilterProps()} params={getParams()} />
         <ZoomControl />
       </Map>
     </div>
@@ -71,8 +70,8 @@ class App extends Component {
     const props = Object.assign(config, this.props, {params: getParams(), history: history})
     
     return (
-      <div id="dash-container">
-        this.getMap()
+      <div id="app-container">
+        {this.getMap()}
         <Dashboard {...props} />
       </div>
     )

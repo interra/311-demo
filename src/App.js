@@ -12,9 +12,8 @@ import phillyHoodsGeoJson from './lib/Neighborhoods_Philadelphia.json'
 
 console.log("PHLH", phillyHoodsGeoJson)
 const history = createHistory()
-
-const tileURL = 'http://stamen-tiles-{s}.a.ssl.fastly.net/toner-background/{z}/{x}/{y}.png';
-const tileAttr = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+const TILE_URL = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+const TILE_ATTR = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 const mapCenter = [39.9528, -75.1638]
 const zoomLevel = 12
 
@@ -35,16 +34,23 @@ class App extends Component {
     console.log('UNZOOM_', e)
   }
 
+  getNeighborhoodFilterProps() {
+    const filters = getDashFilters()
+    const props = filters.filter(child => child.type == "NeighborhoodFilter")[0]
+    return props
+  }
+
   getMap() {
+  const neighborhoods = getParams().neighborhood // @@TODO little wonky since this is defined in config
 	const map = 
     <div id="map-container">
       <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom}/>
       <Map {...mapOpts} >
         <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+          attribution={TILE_ATTR}
+          url={TILE_URL}
         />
-        <NeighborhoodFilter data={phillyHoodsGeoJson} selected={['EAST_PASSYUNK', 'GIRARD_ESTATES']} />
+        <NeighborhoodFilter history={history} data={phillyHoodsGeoJson} {...this.getNeighborhoodFilterProps()} selected={neighborhoods} />
         <ZoomControl />
       </Map>
     </div>
@@ -55,13 +61,13 @@ class App extends Component {
   componentDidMount() {
     // subscribe to query update
     history.listen((location, action) => {
-      this.forceUpdate()
+      console.log('history-update', location, action, this)
       this.props.data.refetch(graphqlQueryVars())
     })
   }
 
   render() {
-    const props = Object.assign(config, this.props)
+    const props = Object.assign(config, this.props, {params: getParams()})
     
     return (
       this.getMap()
@@ -87,6 +93,7 @@ const query = gql`
   }
 `
 
+// @@TODO - following should prob be class methods
 const getDashFilters = () => {
   const filterRegion = config.regions.filter(region => region.id === "filters")
   if (filterRegion.length == 1) {
@@ -103,16 +110,11 @@ const getDashComponents = () => {
 		return acc.concat(region.children)
 	}, [])
 
-  console.log('gdc config', config)
-  console.log('gdc', components)
-
   return components
 }
 
 // do any pre-fetch processing of component definits here
 const prefetchProcessDashComponents = (_components, params) => {
-  // @@TODO apply filter variables
-  console.log('pfdc', params)
   const components = _components.map(component => {
     let componentInput = {
       type: component.type,
@@ -134,22 +136,17 @@ const prefetchProcessDashComponents = (_components, params) => {
     return componentInput
   })
 
-  console.log('ccc', components)
-  
   return components
 }
 
 // generate qraphql query vars from app config and
 // user supplied filter values
 const graphqlQueryVars = () => { 
-  // @@TODO params should be assigned based on config filter definitions
   const params = getParams()
   const filters = getDashFilters()
-  console.log("FF",filters)
   const _components = getDashComponents()
-  console.log('_CC', _components)
   const components = prefetchProcessDashComponents(_components, params)
-  console.log('CC', components)
+  
   const variables = {
     components: components
   }

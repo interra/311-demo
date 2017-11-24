@@ -54,6 +54,12 @@
                     "multi": true,
                     "operation": "<=",
                     "options": [{"label":"foo", "value": "foo"},{"label":"bar", "value": "bar"}, {"label": "baz", "value": "baz"}]
+                },
+                {
+                    "type": "NeighborhoodFilter",
+                    "filterKey": "neighborhood",
+                    "multi": true,
+                    "willFilter": ["byServiceName"]
                 }
             ]
         },

@@ -15,6 +15,8 @@ export default class BaseFilter extends Component {
     let appliedFilters
     let ownFilters
 
+    console.log('gFV=q', q)
+
     if (q) {
       appliedFilters = this.getAppliedFilters(q)
       ownFilters = appliedFilters[this.props.filterKey] || ""
@@ -33,6 +35,12 @@ export default class BaseFilter extends Component {
   }
 
   onChange(e) {
+    this.doOnChange(e)
+  }
+  
+  // so we can call this manually
+  doOnChange(e) {
+    console.log('onchange', e)
     const filterKey = this.props.filterKey
     const history = this.props.history
     let val = e.value
@@ -41,6 +49,7 @@ export default class BaseFilter extends Component {
     if (this.props.multi) {
       val = e.map(item => item.value)
     }
+
     newFilter[filterKey] = val
 
     const newAppliedFilters = Object.assign(this.getAppliedFilters(history.location.search), newFilter)

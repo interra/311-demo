@@ -86,7 +86,7 @@ export default class Dashboard extends Component {
             if (Components.hasOwnProperty(component.type)) {
               const Component = Components[component.type]
               const componentData = this.getComponentData(component)
-              const componentProps = Object.assign(component, {data: componentData})
+              const componentProps = Object.assign(component, {data: componentData, params: this.props.params})
               const cardProps = component.cardProps || {}
               const toCard = Object.assign(cardProps, {children: [<Component {...component} history={region.history} />], key: i + '__' + j})
               // wrap component in Card component and return

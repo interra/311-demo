@@ -7,12 +7,8 @@ const SELECTED_FILL_OPACITY = .65
 
 export default class NeighborhoodFilter extends BaseFilter {
   onEachFeature(feature, layer) {
-    // @@TODO - needs to be declared as filter in config
-    // @@TODO - grab filter props from config
-    // @@TODO - serialize filter values to/from url
-    // @@TODO - need to write the graphql queries for this
     const vals = this.getFilterValue()
-    console.log('VALS', vals)
+    
     if (vals && vals.indexOf(feature.properties.name) >= 0) {
       feature.properties.selected = true
     } 

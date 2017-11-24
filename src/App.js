@@ -63,14 +63,18 @@ class App extends Component {
     history.listen((location, action) => {
       console.log('history-update', location, action, this)
       this.props.data.refetch(graphqlQueryVars())
+      this.forceUpdate()
     })
   }
 
   render() {
-    const props = Object.assign(config, this.props, {params: getParams()})
+    const props = Object.assign(config, this.props, {params: getParams(), history: history})
     
     return (
-      this.getMap()
+      <div id="dash-container">
+        this.getMap()
+        <Dashboard {...props} />
+      </div>
     )
   }
 }

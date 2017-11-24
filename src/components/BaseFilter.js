@@ -2,24 +2,14 @@ import React, { Component } from 'react'
 import queryString from 'query-string'
 
 export default class BaseFilter extends Component {
-  getAppliedFilters(q) {
-      // @@TODO need to filter out disabled filter values
-      const queryObj = queryString.parse(q, {arrayFormat: 'bracket'})
-      return queryObj
-  }
-
   getFilterValue() {
     let val
-    const history = this.props.history
-    const q = (history.location.search) ? history.location.search.slice(1) : null
-    let appliedFilters
+    const q = this.props.params
+		let appliedFilters
     let ownFilters
 
-    console.log('gFV=q', q)
-
     if (q) {
-      appliedFilters = this.getAppliedFilters(q)
-      ownFilters = appliedFilters[this.props.filterKey] || ""
+      ownFilters = q[this.props.filterKey] || ""
       if (this.isDisabled(appliedFilters)) {
         return []
       }
@@ -30,11 +20,13 @@ export default class BaseFilter extends Component {
     } else if (this.props.initVal) {
       val = this.props.initVal
     } 
-    
+
+    console.log("VAL", this.props, val) 
     return val
   }
 
-  onChange(e) {
+  // onChange should listen to the componenet and update the url params only
+	onChange(e) {
     this.doOnChange(e)
   }
   
@@ -42,17 +34,20 @@ export default class BaseFilter extends Component {
   doOnChange(e) {
     console.log('onchange', e)
     const filterKey = this.props.filterKey
-    const history = this.props.history
     let val = e.value
     const newFilter = {}
 
     if (this.props.multi) {
-      val = e.map(item => item.value)
+      console.log('multi')
+      val = e.map(item => {
+        console.log('<><>', item)
+        return item.value
+      })
     }
 
     newFilter[filterKey] = val
 
-    const newAppliedFilters = Object.assign(this.getAppliedFilters(history.location.search), newFilter)
+    const newAppliedFilters = Object.assign(this.props.params, newFilter)
     
     const newQuery = "?"+queryString.stringify(newAppliedFilters, {arrayFormat: 'bracket'})
 
@@ -67,7 +62,7 @@ export default class BaseFilter extends Component {
   // in applied filters
   isDisabled(q) {
     let disabled = false
-    const appliedFilters = this.getAppliedFilters(q)
+    const appliedFilters = this.props.params
 
     if (this.props.disabled) disabled = true
 

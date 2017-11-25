@@ -15,9 +15,17 @@
             "id": "filters",
             "children": [
                 {
+                    "type": "NeighborhoodFilter",
+                    "filterKey": "neighborhood",
+                    "multi": true,
+                    "className": "map-left",
+                    "willFilter": ["byServiceName"]
+                },
+                {
                     "type": "Autocomplete",
                     "filterKey": "include",
                     "label": "My Label",
+                    "className": "filter-right",
                     "willFilter": ["byServiceName"],
                     "field": "service_name",
                     "multi": true,
@@ -40,6 +48,7 @@
                     "type": "Autocomplete",
                     "filterKey": "limit",
                     "label": "Start Date",
+                    "className": "filter-right",
                     "willFilter": ["byServiceName"],
                     "field": "date",
                     "operation": ">=",
@@ -49,17 +58,12 @@
                     "type": "Autocomplete",
                     "filterKey": "end_date",
                     "label": "End Date",
+                    "className": "filter-right",
                     "willFilter": ["byServiceName"],
                     "field": "date",
                     "multi": true,
                     "operation": "<=",
                     "options": [{"label":"foo", "value": "foo"},{"label":"bar", "value": "bar"}, {"label": "baz", "value": "baz"}]
-                },
-                {
-                    "type": "NeighborhoodFilter",
-                    "filterKey": "neighborhood",
-                    "multi": true,
-                    "willFilter": ["byServiceName"]
                 }
             ]
         },
@@ -207,6 +211,7 @@
                     "resourceHandle": "byServiceName",
                     "x": "service_name",
                     "y": "count",
+                    "className": "col-md-6",
                     "limit": 50,
                     "dataFields": [
                         {
@@ -229,7 +234,7 @@
                         "showLegend": false,
                         "donut": true,
                         "donutRatio": ".65",
-                        "height": "800"
+                        "height": "500"
                     },
                     "cardProps": {
                         "header": "Request Type",
@@ -248,6 +253,7 @@
                     "key": "chart-2",
                     "dataType": "NVD3ChartSeries",
                     "resourceHandle": "byServiceName",
+                    "className": "col-md-6",
                     "x": "service_name",
                     "y": "count",
                     "dataFields": [
@@ -267,7 +273,7 @@
                     "settings": {
                         "type": "discreteBarChart",
                         "rotateLabels": 45,
-                        "height": 1800,
+                        "height": 500,
                         "legend": {
                             "maxKeyLength": 1500
                         }
@@ -275,7 +281,7 @@
                     "cardProps": {
                         "header": "Request Type",
                         "subheader": "(excluding requests for information)",
-                        "cardClasses": ["col-md-12"],
+                        "cardClasses": ["col-md-6"],
                         "iconClass": "fa fa-tree"
                     }
                 }

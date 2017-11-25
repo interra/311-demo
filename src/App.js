@@ -1,62 +1,15 @@
 import React, { Component } from 'react'
 import Dashboard from './components/Dashboard.js'
-import NeighborhoodFilter from './components/NeighborhoodFilter.js'
 import config from './config.json'
 import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import FontAwesome from 'react-fontawesome'
-import { Map, Circle, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
-import phillyHoodsGeoJson from './lib/Neighborhoods_Philadelphia.json'
 
-console.log("PHLH", phillyHoodsGeoJson)
 const history = createHistory()
-const TILE_URL = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-const TILE_ATTR = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-const mapCenter = [39.9528, -75.1638]
-const zoomLevel = 12
-
-const mapOpts = { 
-  center: [39.9526, -75.1652],
-  zoomControl: false,
-  zoom: 13, 
-  maxZoom: 19, 
-  minZoom: 11, 
-  scrollwheel: false,
-  legends: true,
-  infoControl: false,
-  attributionControl: true
-}
 
 class App extends Component {
-  unzoom(e) {
-    console.log('UNZOOM_', e)
-  }
-
-  getNeighborhoodFilterProps() {
-    const filters = getDashFilters()
-    const props = filters.filter(child => child.type == "NeighborhoodFilter")[0]
-    return props
-  }
-
-  getMap() {
-	const map = 
-    <div id="map-container">
-      <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom}/>
-      <Map {...mapOpts} >
-        <TileLayer
-          attribution={TILE_ATTR}
-          url={TILE_URL}
-        />
-        <NeighborhoodFilter history={history} data={phillyHoodsGeoJson} {...this.getNeighborhoodFilterProps()} params={getParams()} />
-        <ZoomControl />
-      </Map>
-    </div>
-
-    return map
-  }
-
   componentDidMount() {
     // subscribe to query update
     history.listen((location, action) => {
@@ -71,7 +24,7 @@ class App extends Component {
     
     return (
       <div id="app-container">
-        {this.getMap()}
+        <h1>{props.title}</h1>
         <Dashboard {...props} />
       </div>
     )

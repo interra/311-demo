@@ -7,16 +7,6 @@ export default class Dashboard extends Component {
     this.history = this.props.history
   }
 
-	getTitle(title) {
-    if (title) {
-      return ( 
-        <h1 className="dashboard-title">{title}</h1>
-      )
-    } else {
-      return
-    }
-  }
-  
   // @@TODO should return n series
   // @@TODO based on config
   getNVD3ChartData(data) {
@@ -114,7 +104,6 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div className="dashboard-container">
-          {this.getTitle(this.props.title)}
           {this.getRegions(this.props.regions)}
       </div>
     )

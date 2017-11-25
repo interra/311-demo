@@ -5,7 +5,6 @@ import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import FontAwesome from 'react-fontawesome'
 
 const history = createHistory()
 
@@ -14,8 +13,8 @@ class App extends Component {
     // subscribe to query update
     history.listen((location, action) => {
       console.log('history-update', location, action, this)
-      this.props.data.refetch(graphqlQueryVars())
       this.forceUpdate()
+      this.props.data.refetch(graphqlQueryVars())
     })
   }
 

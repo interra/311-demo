@@ -21,7 +21,6 @@ export default class BaseFilter extends Component {
       val = this.props.initVal
     } 
 
-    console.log("VAL", this.props, val) 
     return val
   }
 

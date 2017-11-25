@@ -9,6 +9,8 @@ import FontAwesome from 'react-fontawesome'
 // somewhere sensible
 const SELECTED_FILL_COLOR = "red"
 const SELECTED_FILL_OPACITY = .65
+const UNSELECTED_FILL_COLOR = "darkturquoise"
+const UNSELECTED_FILL_OPACITY = .65
 const TILE_URL = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 const TILE_ATTR = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 const MAP_CENTER = [39.9528, -75.1638]
@@ -37,6 +39,7 @@ export default class NeighborhoodFilter extends BaseFilter {
       feature.properties.selected = true
     } 
     
+    this.layer = layer
     layer.on({
       click: this.handleOnChange.bind(this)
     })
@@ -49,41 +52,58 @@ export default class NeighborhoodFilter extends BaseFilter {
     console.log("onchange-__-", e, vals, clicked, deselect)
     
     if (deselect) {
+      // update feature in dom so it gets restyled
+      e.target.feature.properties.selected = false
+      // remove feature name from url parameters
       const index = vals.indexOf(clicked)
       vals = vals.filter(val => val !== clicked)
     } else {
       vals.push(clicked)
     }
+
+    e.target.options.onEachFeature(e.target.feature, this.layer)
     
+    this.updateStyle(e.target.feature)
+
     this.doOnChange(vals.map(item => {
       return {value: item}
     }))
+
   }
 
   updateStyle(feature) {
-    if (feature.properties.selected) {
-      console.log("SELECTEDS STYEL")
+    console.log(feature)
+    if (feature.properties.selected === true) {
       return {
         fillColor: SELECTED_FILL_COLOR,
         fillOpacity: SELECTED_FILL_OPACITY
       }
+    } else {
+      return {
+        fillColor: UNSELECTED_FILL_COLOR,
+        fillOpacity: UNSELECTED_FILL_OPACITY
+      }
     }
-  }
+  } 
 	
   render(){
+    console.log('NGH RENDER', this)
+    const selected = this.props.params.neighborhood || []
     return (
     <div id="map-container">
       <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom}/>
-      <Map {...mapOpts} >
+      <Map {...mapOpts} id={selected.join('_')} >
         <TileLayer
           attribution={TILE_ATTR}
           url={TILE_URL}
         />
         <GeoJSON
           data={phillyHoodsGeoJson}
+          id={selected.join('_')}
           className="neighborhoods_path"
           onEachFeature={this.onEachFeature.bind(this)}
           style={this.updateStyle}
+          selected={selected}
         />
         <ZoomControl />
       </Map>

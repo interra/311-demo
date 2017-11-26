@@ -9,7 +9,7 @@ import FontAwesome from 'react-fontawesome'
 // somewhere sensible
 const SELECTED_FILL_COLOR = "red"
 const SELECTED_FILL_OPACITY = .65
-const UNSELECTED_FILL_COLOR = "darkturquoise"
+const UNSELECTED_FILL_COLOR = "purple"
 const UNSELECTED_FILL_OPACITY = .65
 const TILE_URL = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 const TILE_ATTR = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -73,11 +73,11 @@ export default class NeighborhoodFilter extends BaseFilter {
 //    this.updateStyle(e.target.feature)
 
     console.log('DDD', vals)
+    this.setState({selected: vals})
     this.doOnChange(vals.map(item => {
       return {value: item}
     }))
 
-    this.setState({selected: vals})
   }
 
   updateStyle(feature) {
@@ -100,6 +100,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     const geoid = this.state.selected.join('_')
     const _mapOpts = Object.assign(mapOpts, {zoom: this.state.zoomLevel || ZOOM_LEVEL, center: this.state.center || MAP_CENTER})
     console.log("GEOID", geoid)
+    console.log(_mapOpts)
     return (
     <div id="map-container">
       <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>

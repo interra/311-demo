@@ -28,16 +28,23 @@ const mapOpts = {
 }
 
 export default class NeighborhoodFilter extends BaseFilter {
-  unzoom(e) {
-    console.log('UNZOOM_', e)
+  componentWillMount() {
+    this.setState({selected: this.props.params[this.props.filterKey] || []})
+  }
+  
+  unzoom() {
+    this.setState({zoom: ZOOM_LEVEL, mapCenter: MAP_CENTER})
+    this.render()
   }
 
   onEachFeature(feature, layer) {
-    const vals = this.getFilterValue()
+    const vals = this.state.selected
     
-    if (vals && vals.indexOf(feature.properties.name) >= 0) {
+    if (vals.indexOf(feature.properties.name) >= 0) {
       feature.properties.selected = true
-    } 
+    } else {
+      feature.properties.selected = false
+    }
     
     this.layer = layer
     layer.on({
@@ -46,14 +53,14 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
 
   handleOnChange(e) {
-    let vals = this.props.params[this.props.filterKey] || []
+    let vals = this.state.selected
     const clicked = e.target.feature.properties.name
     const deselect = e.target.feature.properties.selected
-    console.log("onchange-__-", e, vals, clicked, deselect)
     
     if (deselect) {
+      console.log("DESELECT", clicked, vals, vals[clicked])
       // update feature in dom so it gets restyled
-      e.target.feature.properties.selected = false
+//      e.target.feature.properties.selected = false
       // remove feature name from url parameters
       const index = vals.indexOf(clicked)
       vals = vals.filter(val => val !== clicked)
@@ -61,18 +68,21 @@ export default class NeighborhoodFilter extends BaseFilter {
       vals.push(clicked)
     }
 
-    e.target.options.onEachFeature(e.target.feature, this.layer)
+//    e.target.options.onEachFeature(e.target.feature, this.layer)
     
-    this.updateStyle(e.target.feature)
+//    this.updateStyle(e.target.feature)
 
+    console.log('DDD', vals)
     this.doOnChange(vals.map(item => {
       return {value: item}
     }))
 
+    this.setState({selected: vals})
   }
 
   updateStyle(feature) {
-    console.log(feature)
+    console.log("UDS")
+    
     if (feature.properties.selected === true) {
       return {
         fillColor: SELECTED_FILL_COLOR,
@@ -87,23 +97,23 @@ export default class NeighborhoodFilter extends BaseFilter {
   } 
 	
   render(){
-    console.log('NGH RENDER', this)
-    const selected = this.props.params.neighborhood || []
+    const geoid = this.state.selected.join('_')
+    const _mapOpts = Object.assign(mapOpts, {zoom: this.state.zoomLevel || ZOOM_LEVEL, center: this.state.center || MAP_CENTER})
+    console.log("GEOID", geoid)
     return (
     <div id="map-container">
-      <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom}/>
-      <Map {...mapOpts} id={selected.join('_')} >
+      <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
+      <Map {..._mapOpts}>
         <TileLayer
           attribution={TILE_ATTR}
           url={TILE_URL}
         />
         <GeoJSON
           data={phillyHoodsGeoJson}
-          id={selected.join('_')}
+          key={geoid}
           className="neighborhoods_path"
           onEachFeature={this.onEachFeature.bind(this)}
           style={this.updateStyle}
-          selected={selected}
         />
         <ZoomControl />
       </Map>

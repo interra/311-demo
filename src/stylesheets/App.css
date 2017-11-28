@@ -356,9 +356,18 @@ a {
 .highlight-cols-2 {
   width: 50%; }
 
+/* typography */
 h1, h2, h3, h4, h5 {
-  padding: 1em;
-  color: #dbc0e5; }
+  padding: 0;
+  margin: .5em !important;
+  line-height: 1em;
+  color: #d4d6d8; }
+
+h1, h2, h3, h4, h5, .card-header {
+  border-bottom: 1px solid #eda9fc; }
+
+.card-header {
+  color: #d4d6d8; }
 
 html, body, #app-container, #dashbaord-container, .card {
   background-color: #242d3c;
@@ -369,16 +378,25 @@ html, body, #app-container, #dashbaord-container, .card {
   width: 100%; }
 
 #map-container {
-  width: 70%;
-  padding: 1em;
-  float: left; }
+  width: 68%;
+  margin-left: 1em;
+  margin-top: -1em;
+  float: left;
+  padding-bottom: 1em; }
+
+@media screen and (max-width: 699px) {
+  #map-container {
+    width: 96%; } }
 
 #map-container .fa-crosshairs {
+  display: none;
+  /** hack - disable **/
   position: relative;
   top: 40px;
   left: 95%;
   z-index: 1000;
-  cursor: pointer; }
+  cursor: pointer;
+  color: black; }
 
 .filter-right {
   width: 30%;

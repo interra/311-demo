@@ -10,7 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo'
 import {ApolloClient} from 'apollo-client'
 
-const API_URI = "http://localhost:3333/graphql/"
+const API_URI = "http://philly311.pjwalker.net:3333/graphql/"
 const client = new ApolloClient({
   link: new HttpLink({uri: API_URI}),
   cache: new InMemoryCache()

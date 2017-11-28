@@ -41,8 +41,8 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
     padding: 1em;
 }
 
-.filter-right label {width: 20%}
-.filter-right .Select {width: 80%}
+.filter-right label {width: 100%; margin:2px}
+.filter-right .Select {width: 100%; margin:2px}
 
 #region-1 {clear: both}
 .neighborhoods_path:hover {

@@ -404,10 +404,12 @@ html, body, #app-container, #dashbaord-container, .card {
   padding: 1em; }
 
 .filter-right label {
-  width: 20%; }
+  width: 100%;
+  margin: 2px; }
 
 .filter-right .Select {
-  width: 80%; }
+  width: 100%;
+  margin: 2px; }
 
 #region-1 {
   clear: both; }

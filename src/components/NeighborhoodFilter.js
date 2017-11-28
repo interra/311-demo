@@ -21,7 +21,7 @@ const mapOpts = {
   zoom: ZOOM_LEVEL, 
   maxZoom: 19, 
   minZoom: 11, 
-  scrollwheel: false,
+  scrollWheelZoom: false,
   legends: true,
   infoControl: false,
   attributionControl: true

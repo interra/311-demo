@@ -33,7 +33,8 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
-    "build": "npm run build-css && react-scripts build",
+    "build": "rm src/stylesheets/*.css && npm run build-css && react-scripts build",
+    "deploy": "npm run build && rsync -avh build/ root@pjwalker.net:~/tmp/philly311_latest/",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

@@ -24,7 +24,7 @@
                 {
                     "type": "Autocomplete",
                     "filterKey": "include",
-                    "label": "My Label",
+                    "label": "Request type",
                     "className": "filter-right",
                     "willFilter": ["byServiceName"],
                     "field": "service_name",
@@ -47,23 +47,12 @@
                 {
                     "type": "Autocomplete",
                     "filterKey": "limit",
-                    "label": "Start Date",
+                    "label": "Year",
                     "className": "filter-right",
                     "willFilter": ["byServiceName"],
                     "field": "date",
                     "operation": ">=",
                     "options": [{"label":10, "value":10},{"label":20, "value": 20}, {"label": 30, "value": 30}]
-                },
-                {
-                    "type": "Autocomplete",
-                    "filterKey": "end_date",
-                    "label": "End Date",
-                    "className": "filter-right",
-                    "willFilter": ["byServiceName"],
-                    "field": "date",
-                    "multi": true,
-                    "operation": "<=",
-                    "options": [{"label":"foo", "value": "foo"},{"label":"bar", "value": "bar"}, {"label": "baz", "value": "baz"}]
                 }
             ]
         },
@@ -90,8 +79,8 @@
                     ],
                     "resourceHandle": "byServiceName",
                     "background": "red",
-                    "caption": "Street Defects",
-                    "icon": "tree",
+                    "caption": "Total Requests",
+                    "icon": "globe",
                     "field": "count",
                     "where": [
                         {
@@ -122,8 +111,8 @@
                     ],
                     "resourceHandle": "byServiceName",
                     "background": "gold",
-                    "caption": "Abandoned Vehicles",
-                    "icon": "tree",
+                    "caption": "Requests per Pop.",
+                    "icon": "user-circle",
                     "field": "count",
                     "where": [
                         {
@@ -154,8 +143,8 @@
                     ],
                     "resourceHandle": "byServiceName",
                     "background": "purple",
-                    "caption": "Street Light Outage",
-                    "icon": "tree",
+                    "caption": "Resolved",
+                    "icon": "percent",
                     "field": "count",
                     "where": [
                         {
@@ -186,8 +175,8 @@
                     ],
                     "resourceHandle": "byServiceName",
                     "background": "brown",
-                    "caption": "Illegal Dumping",
-                    "icon": "tree",
+                    "caption": "Rank",
+                    "icon": "bar-chart",
                     "field": "count",
                     "where": [
                         {

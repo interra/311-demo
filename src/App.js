@@ -71,6 +71,7 @@ const getDashComponents = () => {
 // do any pre-fetch processing of component definits here
 const prefetchProcessDashComponents = (_components, params) => {
   const components = _components.map(component => {
+    
     let componentInput = {
       type: component.type,
       resourceHandle: component.resourceHandle,
@@ -78,16 +79,6 @@ const prefetchProcessDashComponents = (_components, params) => {
       dataFields: component.dataFields
     }
 
-    // add valid filter values if present
-    if (params.limit || component.limit) {
-      componentInput.limit = params.limit || component.limit
-    }
-    
-    if (params.where || component.where) {
-      componentInput.where = params.where || component.where
-    }
-
-    // @@TODO add where order limit (add'l filters) based on params
     return componentInput
   })
 
@@ -99,6 +90,7 @@ const prefetchProcessDashComponents = (_components, params) => {
 const graphqlQueryVars = () => { 
   const params = getParams()
   const filters = getDashFilters()
+  const filterValues = getFilterVals(filters, params)
   const _components = getDashComponents()
   const components = prefetchProcessDashComponents(_components, params)
   
@@ -106,7 +98,6 @@ const graphqlQueryVars = () => {
     components: components
   }
 
-  const limit = (params && params.start_date) ? parseInt(params.start_date[0]) : 4 // configure default filter values
 
   return variables
 }
@@ -114,6 +105,20 @@ const graphqlQueryVars = () => {
 const getParams = () => {
   const params = (history.location.search) ? queryString.parse(history.location.search, {arrayFormat: 'bracket'}) : {}
   return params
+}
+
+// add url paramater value to the appropriate filter and return array of filters
+const getFilterVals = (filters, params) => {
+  const fVals = Object.keys(params).map(key => {
+    const filter = filters.filter(f => f.filterKey === key)[0]
+    console.log(key, filter)
+    return Object.assign(filter, {values: params[key]})
+  })
+
+  console.log("GQV", filters, params)
+  console.log('_fV', fVals)
+
+  return fVals
 }
 
 export default graphql(query, { options : { variables : graphqlQueryVars() }})(App)

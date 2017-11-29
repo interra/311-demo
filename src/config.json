@@ -23,7 +23,7 @@
                 },
                 {
                     "type": "Autocomplete",
-                    "filterKey": "include",
+                    "filterKey": "service_name",
                     "label": "Request type",
                     "className": "filter-right",
                     "willFilter": ["byServiceName"],
@@ -43,16 +43,6 @@
 			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
 			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"}
 			]
-                },
-                {
-                    "type": "Autocomplete",
-                    "filterKey": "limit",
-                    "label": "Year",
-                    "className": "filter-right",
-                    "willFilter": ["byServiceName"],
-                    "field": "date",
-                    "operation": ">=",
-                    "options": [{"label":10, "value":10},{"label":20, "value": 20}, {"label": 30, "value": 30}]
                 }
             ]
         },
@@ -82,12 +72,6 @@
                     "caption": "Total Requests",
                     "icon": "globe",
                     "field": "count",
-                    "where": [
-                        {
-                            "attribute": "service_name",
-                            "value": "Street Defect"
-                        }
-                    ],
                     "cardProps": {
                         "cardClasses": ["col-md-3"]
                     } 

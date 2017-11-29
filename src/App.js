@@ -69,14 +69,15 @@ const getDashComponents = () => {
 }
 
 // do any pre-fetch processing of component definits here
-const prefetchProcessDashComponents = (_components, params) => {
+const prefetchProcessDashComponents = (_components,filterVals) => {
   const components = _components.map(component => {
     
     let componentInput = {
       type: component.type,
       resourceHandle: component.resourceHandle,
       componentKey: component.key,
-      dataFields: component.dataFields
+      dataFields: component.dataFields,
+      where: filterVals
     }
 
     return componentInput
@@ -90,9 +91,9 @@ const prefetchProcessDashComponents = (_components, params) => {
 const graphqlQueryVars = () => { 
   const params = getParams()
   const filters = getDashFilters()
-  const filterValues = getFilterVals(filters, params)
+  const filterVals = getWhere(filters, params)
   const _components = getDashComponents()
-  const components = prefetchProcessDashComponents(_components, params)
+  const components = prefetchProcessDashComponents(_components, filterVals)
   
   const variables = {
     components: components
@@ -107,12 +108,12 @@ const getParams = () => {
   return params
 }
 
-// add url paramater value to the appropriate filter and return array of filters
-const getFilterVals = (filters, params) => {
+const getWhere = (filters, params) => {
   const fVals = Object.keys(params).map(key => {
-    const filter = filters.filter(f => f.filterKey === key)[0]
-    console.log(key, filter)
-    return Object.assign(filter, {values: params[key]})
+    // const filter = filters.filter(f => f.filterKey === key)[0]
+    // @@TODO later we could use this filter def to add operation $gte $lt etc
+    console.log(key, params[key])
+    return {attribute: key, value: params[key]}
   })
 
   console.log("GQV", filters, params)

@@ -1,0 +1,307 @@
+{
+    "title": "Philly 311 Data Visualized",
+    "backend": "cartodb",
+    "dataResources": [
+        {
+            "resourceHandle": "byServiceName",
+            "comment": "**All imported data is assumed to be in cartodb sql api return value format",
+            "resourceType": "cartodb",
+            "url": "https://phl.carto.com/api/v2/sql",
+            "query": "?q=SELECT service_name, COUNT(cartodb_id) FROM public_cases_fc WHERE service_name NOT IN ('Information Request') GROUP BY service_name ORDER BY count DESC LIMIT 10"
+        },
+        {
+            "resourceHandle": "infoByDept",
+            "resourceType": "cartodb",
+            "url": "https://phl.carto.com/api/v2/sql",
+            "query": "?q=SELECT agency_responsible, COUNT(cartodb_id) FROM public_cases_fc WHERE service_name='Information Request' GROUP BY agency_responsible ORDER BY count DESC"
+        }
+    ],
+    "regions": [
+        {
+            "id": "filters",
+            "children": [
+                {
+                    "type": "NeighborhoodFilter",
+                    "filterKey": "neighborhood",
+                    "multi": true,
+                    "className": "map-left",
+                    "willFilter": ["byServiceName"]
+                },
+                {
+                    "type": "Autocomplete",
+                    "filterKey": "service_name",
+                    "label": "Request type",
+                    "className": "filter-right",
+                    "willFilter": ["byServiceName"],
+                    "field": "service_name",
+                    "multi": true,
+                    "operation": "IN",
+                    "options": 
+			[
+			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
+			    {"label": "Rubbish/Recyclable Material Collection", "value": "Rubbish/Recyclable Material Collection"},
+			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},
+			    {"label": "Abandoned Vehicle", "value": "Abandoned Vehicle"},
+			    {"label": "Directory Assistance", "value": "Directory Assistance"},
+			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},
+			    {"label": "Street Defect", "value": "Street Defect"},
+			    {"label": "Street Light Outage", "value": "Street Light Outage"},
+			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
+			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"}
+			]
+                }
+            ]
+        },
+        {
+            "id": "region-1",
+            "title": "Top Requests",
+            "children": [
+                {
+                    "type": "Metric",
+                    "key": "metric-a",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "resourceHandle": "byServiceName",
+                    "background": "red",
+                    "caption": "Total Requests",
+                    "icon": "globe",
+                    "field": "count",
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                },
+                {
+                    "type": "Metric",
+                    "key": "metric-b",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "resourceHandle": "byServiceName",
+                    "background": "gold",
+                    "caption": "Requests per Pop.",
+                    "icon": "user-circle",
+                    "field": "count",
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": "Abandoned Vehicle"
+                        }
+                    ],
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                },
+                {
+                    "type": "Metric",
+                    "key": "metric-c",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "resourceHandle": "byServiceName",
+                    "background": "purple",
+                    "caption": "Resolved",
+                    "icon": "percent",
+                    "field": "count",
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": "Street Light Outage"
+                        }
+                    ],
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                },
+                {
+                    "type": "Metric",
+                    "key": "metric-d",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "resourceHandle": "byServiceName",
+                    "background": "brown",
+                    "caption": "Rank",
+                    "icon": "bar-chart",
+                    "field": "count",
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": "Illegal Dumping"
+                        }
+                    ],
+                    "cardProps": {
+                        "cardClasses": ["col-md-3"]
+                    } 
+                }
+            ]
+        },
+        {
+            "id": "region-2",
+            "children": [
+                {
+                    "type": "Chart",
+                    "key": "chart-1",
+                    "dataType": "NVD3PieChartSeries",
+                    "resourceHandle": "byServiceName",
+                    "x": "service_name",
+                    "y": "count",
+                    "className": "col-md-6",
+                    "limit": 50,
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "pieChart",
+                        "labelType": "key",
+                        "labelSunbeamLayout": true,
+                        "showLegend": false,
+                        "donut": true,
+                        "donutRatio": ".65",
+                        "height": "500"
+                    },
+                    "cardProps": {
+                        "header": "Request Type",
+                        "subheader": "(excluding requests for information)",
+                        "cardClasses": ["col-md-6"],
+                        "iconClass": "fa fa-tree"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "region-3",
+            "children": [
+                {
+                    "type": "Chart",
+                    "key": "chart-3",
+                    "dataType": "NVD3ChartSeries",
+                    "resourceHandle": "byServiceName",
+                    "className": "col-md-6",
+                    "x": "service_name",
+                    "y": "count",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "byServiceName",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "discreteBarChart",
+                        "rotateLabels": 45,
+                        "height": 700,
+                        "legend": {
+                            "maxKeyLength": 1500
+                        }
+                    },
+                    "cardProps": {
+                        "header": "Request Type",
+                        "subheader": "(excluding requests for information)",
+                        "cardClasses": ["col-md-6"],
+                        "iconClass": "fa fa-tree"
+                    }
+                },
+                {
+                    "type": "Chart",
+                    "key": "chart-4",
+                    "dataType": "NVD3ChartSeries",
+                    "resourceHandle": "infoByDept",
+                    "className": "col-md-6",
+                    "x": "agency_responsible",
+                    "y": "count",
+                    "dataFields": [
+                        {
+                            "resourceHandle": "infoByDept",
+                            "field": "agency_responsible",
+                            "type": "STRING",
+                            "fieldHandle": "infoByDept"
+                        },
+                        {
+                            "resourceHandle": "infoByDept",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "discreteBarChart",
+                        "rotateLabels": 45,
+                        "height": 700,
+                        "legend": {
+                            "maxKeyLength": 1500
+                        }
+                    },
+                    "cardProps": {
+                        "header": "Request Type",
+                        "subheader": "(excluding requests for information)",
+                        "cardClasses": ["col-md-6"],
+                        "iconClass": "fa fa-tree"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   render() {
-    console.log("APP", this)
+    console.log("APP", this, config)
     const props = Object.assign(config, this.props, {params: getParams(), history: history})
     
     return (

@@ -63,7 +63,8 @@
 		      }
 		   ],
                    "field":"count",
-		   "count":"service_name"
+		   "count":"service_name",
+                   "caption": "Information Requests"
 		}, 
                 {
                     "type": "Chart",
@@ -81,6 +82,12 @@
                             "field": "service_name",
                             "type": "STRING",
                             "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
                         }
                     ],
                     "settings": {

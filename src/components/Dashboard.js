@@ -4,6 +4,7 @@ import Card from './Card.js'
 
 export default class Dashboard extends Component {
   componentWillMount() {
+    console.log("DASH", this);
     this.history = this.props.history
   }
 
@@ -34,7 +35,7 @@ export default class Dashboard extends Component {
     if (this.props.data.getComponents) {
       const cDatas = this.props.data.getComponents.filter(item => {
         if (item.componentKey) {
-          return item.componentKey === component.key
+          return item.componentKey === component.componentKey
         }
 
         return false

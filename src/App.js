@@ -19,6 +19,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("APP", this)
     const props = Object.assign(config, this.props, {params: getParams(), history: history})
     
     return (
@@ -62,6 +63,7 @@ const getDashFilters = () => {
 const getDashComponents = () => {
   const regions = config.regions.filter(region => region.id !== "filters")
 	const components = regions.reduce((acc, region) => {
+    console.log("FUCK", region.children)
 		return acc.concat(region.children)
 	}, [])
 
@@ -75,7 +77,9 @@ const prefetchProcessDashComponents = (_components,filterVals) => {
     let componentInput = {
       type: component.type,
       resourceHandle: component.resourceHandle,
-      componentKey: component.key,
+      componentKey: component.componentKey,
+      count: component.count,
+      limit: component.limit,
       dataFields: component.dataFields,
       where: filterVals
     }

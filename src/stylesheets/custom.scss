@@ -7,16 +7,8 @@ h1, h2, h3, h4, h5, .card-header {border-bottom: 1px solid #eda9fc;}
 html, body, #app-container, #dashbaord-container, .card  {background-color: #242d3c; color: #d4d6d8}
 
 .leaflet-container {
-    height:400px;
+    height: 50em;
     width:100%;
-}
-
-#map-container {
-    width:68%;
-    margin-left: 1em;
-    margin-top: -1em;
-    float: left;
-    padding-bottom: 1em;
 }
 
 @media screen and (max-width: 699px) {
@@ -35,16 +27,9 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
     color: black;
 }
 
-.filter-right {
-    width: 30%;
-    float: right;
-    padding: 1em;
-}
-
 .filter-right label {width: 100%; margin:2px}
 .filter-right .Select {width: 100%; margin:2px}
 
-#region-1 {clear: both}
 .neighborhoods_path:hover {
     fill: #bfc3c9;
 }

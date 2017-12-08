@@ -374,15 +374,8 @@ html, body, #app-container, #dashbaord-container, .card {
   color: #d4d6d8; }
 
 .leaflet-container {
-  height: 400px;
+  height: 50em;
   width: 100%; }
-
-#map-container {
-  width: 68%;
-  margin-left: 1em;
-  margin-top: -1em;
-  float: left;
-  padding-bottom: 1em; }
 
 @media screen and (max-width: 699px) {
   #map-container {
@@ -398,11 +391,6 @@ html, body, #app-container, #dashbaord-container, .card {
   cursor: pointer;
   color: black; }
 
-.filter-right {
-  width: 30%;
-  float: right;
-  padding: 1em; }
-
 .filter-right label {
   width: 100%;
   margin: 2px; }
@@ -410,9 +398,6 @@ html, body, #app-container, #dashbaord-container, .card {
 .filter-right .Select {
   width: 100%;
   margin: 2px; }
-
-#region-1 {
-  clear: both; }
 
 .neighborhoods_path:hover {
   fill: #bfc3c9; }

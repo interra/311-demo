@@ -4,23 +4,20 @@ import {GeoJSON} from 'react-leaflet'
 import { Map, Circle, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import FontAwesome from 'react-fontawesome'
-
-// @@TODO put all this stuff 
-// somewhere sensible
 const SELECTED_FILL_COLOR = "red"
 const SELECTED_FILL_OPACITY = .65
 const UNSELECTED_FILL_COLOR = "purple"
 const UNSELECTED_FILL_OPACITY = .65
 const TILE_URL = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 const TILE_ATTR = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-const MAP_CENTER = [39.9528, -75.1638]
-const ZOOM_LEVEL = 12
+const MAP_CENTER = [39.9728, -75.1638]
+const ZOOM_LEVEL = 10.7
 const mapOpts = { 
   center: MAP_CENTER,
   zoomControl: false,
   zoom: ZOOM_LEVEL, 
   maxZoom: 19, 
-  minZoom: 11, 
+  minZoom: 6, 
   scrollWheelZoom: false,
   legends: true,
   infoControl: false,
@@ -58,22 +55,14 @@ export default class NeighborhoodFilter extends BaseFilter {
     const deselect = e.target.feature.properties.selected
     
     if (deselect) {
-      console.log("DESELECT", clicked, vals, vals[clicked])
-      // update feature in dom so it gets restyled
-//      e.target.feature.properties.selected = false
-      // remove feature name from url parameters
       const index = vals.indexOf(clicked)
       vals = vals.filter(val => val !== clicked)
     } else {
       vals.push(clicked)
     }
-
-//    e.target.options.onEachFeature(e.target.feature, this.layer)
     
-//    this.updateStyle(e.target.feature)
-
-    console.log('DDD', vals)
     this.setState({selected: vals})
+    
     this.doOnChange(vals.map(item => {
       return {value: item}
     }))
@@ -81,8 +70,6 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
 
   updateStyle(feature) {
-    console.log("UDS")
-    
     if (feature.properties.selected === true) {
       return {
         fillColor: SELECTED_FILL_COLOR,
@@ -99,8 +86,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   render(){
     const geoid = this.state.selected.join('_')
     const _mapOpts = Object.assign(mapOpts, {zoom: this.state.zoomLevel || ZOOM_LEVEL, center: this.state.center || MAP_CENTER})
-    console.log("GEOID", geoid)
-    console.log(_mapOpts)
+    
     return (
     <div id="map-container">
       <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>

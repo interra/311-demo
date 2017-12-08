@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Components from './Components.js'
 import Card from './Card.js'
+import { sortBy } from 'underscore'
 
 export default class Dashboard extends Component {
   componentWillMount() {
@@ -27,7 +28,9 @@ export default class Dashboard extends Component {
   }
   
   getPieChartData(data) {
-    return data
+    console.log("PIE",data)
+    const sortKey = Object.keys(data[0])[0]
+    return sortBy(data, sortKey)
   }
   
   // given a dashboard component definition, return appropriate data from API response
@@ -43,6 +46,7 @@ export default class Dashboard extends Component {
 
       if (cDatas.length > 0) {
         const cData = JSON.parse(cDatas[0].data.JSONResponse)
+        console.log('cD', component, cData)
         switch (component.dataType) {
           case 'NVD3PieChartSeries':
             const pieData = this.getPieChartData(cData)
@@ -70,7 +74,7 @@ export default class Dashboard extends Component {
   
   getRegion(region, i) {
     return (
-      <div id={region.id} className={region.className} key={region.id} >
+      <div id={region.id} className={`dash-region ${region.className || ''}`} key={region.id} >
         {this.getRegionTitle(region)}
         {
           region.children.map((component,j) => {
@@ -79,9 +83,9 @@ export default class Dashboard extends Component {
               const componentData = this.getComponentData(component)
               const componentProps = Object.assign(component, {data: componentData, params: this.props.params})
               const cardProps = component.cardProps || {}
-              const toCard = Object.assign(cardProps, {children: [<Component {...component} history={region.history} />], key: i + '__' + j})
+              const toCard = Object.assign(cardProps, {children: [<Component {...component} key={component.componentKey || 'filter_' + 'i' + '_' + j} history={region.history} />]})
               // wrap component in Card component and return
-              return <Card {...toCard}/>
+              return <Card {...toCard} key={i + '__' + j}/>
             } else {	
               return <p>"BAD COMPONENT DEFINITION"</p>
             } 

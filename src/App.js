@@ -73,15 +73,16 @@ const getDashComponents = () => {
 // do any pre-fetch processing of component definits here
 const prefetchProcessDashComponents = (_components,filterVals) => {
   const components = _components.map(component => {
-    
-    let componentInput = {
+    const where = filterVals.concat(component.where)
+
+    const componentInput = {
       type: component.type,
       resourceHandle: component.resourceHandle,
       componentKey: component.componentKey,
       count: component.count,
       limit: component.limit,
       dataFields: component.dataFields,
-      where: filterVals
+      where: where
     }
 
     return componentInput

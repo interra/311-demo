@@ -4,7 +4,6 @@
     "dataResources": [
         {
             "resourceHandle": "philly_311",
-            "comment": "**All imported data is assumed to be in cartodb sql api return value format",
             "resourceType": "cartodb",
             "url": "https://phl.carto.com/api/v2/sql",
             "query": "?q=SELECT service_name, COUNT(cartodb_id) FROM public_cases_fc WHERE service_name NOT IN ('Information Request') GROUP BY service_name ORDER BY count DESC LIMIT 10"
@@ -13,6 +12,7 @@
     "regions": [
         {
             "id": "filters",
+            "className": "col-md-6",
             "children": [
                 {
                     "type": "NeighborhoodFilter",
@@ -48,32 +48,22 @@
         },
         {
             "id": "region-1",
-            "title": "Top Requests",
+            "className": "col-md-6",
             "children": [
-	       {  
-		   "type":"Metric",
-		   "resourceHandle":"philly_311",
-		   "componentKey":"metric-a",
-		   "dataFields":[  
-		      {  
-			 "resourceHandle":"philly_311",
-			 "field":"service_name",
-			 "type":"STRING",
-			 "fieldHandle":"serviceName"
-		      }
-		   ],
-                   "field":"count",
-		   "count":"service_name",
-                   "caption": "Information Requests"
-		}, 
                 {
                     "type": "Chart",
                     "componentKey": "chart-3",
-                    "dataType": "NVD3ChartSeries",
+                    "dataType": "NVD3PieChartSeries",
                     "resourceHandle": "philly_311",
-                    "className": "col-md-6",
                     "count": "service_name",
                     "limit": 10,
+                    "where": [
+                        {
+                            "op": "notIn",
+                            "attribute": "service_name",
+                            "value": ["Information Request"]
+                        }
+                    ],
                     "x": "service_name",
                     "y": "count",
                     "dataFields": [
@@ -91,21 +81,21 @@
                         }
                     ],
                     "settings": {
-                        "type": "discreteBarChart",
+                        "type": "pieChart",
                         "rotateLabels": 45,
                         "height": 700,
                         "legend": {
                             "maxKeyLength": 1500
                         }
-                    },
-                    "cardProps": {
-                        "header": "Request Type",
-                        "subheader": "(excluding requests for information)",
-                        "cardClasses": ["col-md-6"],
-                        "iconClass": "fa fa-tree"
                     }
                 }
-		]
+	    ]
+        },
+        {
+            "id": "region-3",
+            "lassName": "row",
+            "children": [
+            ]
         }
    ]
 }

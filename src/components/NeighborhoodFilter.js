@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import BaseFilter from './BaseFilter'
-import {GeoJSON} from 'react-leaflet'
-import { Map, Circle, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
+import { Map, Circle, Marker, Popup, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet'
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import Choropleth from 'react-leaflet-choropleth'
 import FontAwesome from 'react-fontawesome'
@@ -89,12 +88,14 @@ export default class NeighborhoodFilter extends BaseFilter {
     if (feature.properties.selected === true) {
       return {
         fillColor: SELECTED_FILL_COLOR,
-        fillOpacity: SELECTED_FILL_OPACITY
+        fillOpacity: SELECTED_FILL_OPACITY,
+        stroke: false
       }
     } else {
       return {
         fillColor: UNSELECTED_FILL_COLOR,
-        fillOpacity: UNSELECTED_FILL_OPACITY
+        fillOpacity: UNSELECTED_FILL_OPACITY,
+        stroke: false
       }
     }
   } 

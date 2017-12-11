@@ -20,29 +20,6 @@
                     "multi": true,
                     "className": "map-left",
                     "willFilter": ["philly_311"]
-                },
-                {
-                    "type": "Autocomplete",
-                    "filterKey": "service_name",
-                    "label": "Request type",
-                    "className": "filter-right",
-                    "willFilter": ["philly_311"],
-                    "field": "service_name",
-                    "multi": true,
-                    "operation": "IN",
-                    "options": 
-			[
-			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
-			    {"label": "Rubbish/Recyclable Material Collection", "value": "Rubbish/Recyclable Material Collection"},
-			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},
-			    {"label": "Abandoned Vehicle", "value": "Abandoned Vehicle"},
-			    {"label": "Directory Assistance", "value": "Directory Assistance"},
-			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},
-			    {"label": "Street Defect", "value": "Street Defect"},
-			    {"label": "Street Light Outage", "value": "Street Light Outage"},
-			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
-			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"}
-			]
                 }
             ]
         },
@@ -66,20 +43,6 @@
                     ],
                     "x": "service_name",
                     "y": "count",
-                    "dataFields": [
-                        {
-                            "resourceHandle": "philly_311",
-                            "field": "service_name",
-                            "type": "STRING",
-                            "fieldHandle": "serviceName"
-                        },
-                        {
-                            "resourceHandle": "philly_311",
-                            "field": "count",
-                            "type": "INTEGER",
-                            "fieldHandle": "count"
-                        }
-                    ],
                     "settings": {
                         "type": "pieChart",
                         "rotateLabels": 45,
@@ -93,8 +56,50 @@
         },
         {
             "id": "region-3",
-            "lassName": "row",
+            "className": "row",
             "children": [
+                {
+                    "type": "Chart",
+                    "componentKey": "chart-4",
+                    "className": "col-md-6",
+                    "header": "Status of Requests",
+                    "dataType": "NVD3PieChartSeries",
+                    "resourceHandle": "philly_311",
+                    "count": "status",
+                    "limit": 10,
+                    "x": "status",
+                    "y": "count",
+                    "settings": {
+                        "type": "pieChart",
+                        "rotateLabels": 45,
+                        "height": 300,
+                        "color": ["#e05138", "#42f477"],
+                        "legend": {
+                            "maxKeyLength": 1500
+                        }
+                    }
+                },
+                {
+                    "type": "Chart",
+                    "componentKey": "chart-4a",
+                    "dataType": "NVD3PieChartSeries",
+                    "className": "col-md-6",
+                    "header": "Status of Requests",
+                    "resourceHandle": "philly_311",
+                    "count": "status",
+                    "limit": 10,
+                    "x": "status",
+                    "y": "count",
+                    "settings": {
+                        "type": "pieChart",
+                        "rotateLabels": 45,
+                        "height": 300,
+                        "color": ["#e05138", "#42f477"],
+                        "legend": {
+                            "maxKeyLength": 1500
+                        }
+                    }
+                }
             ]
         }
    ]

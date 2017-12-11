@@ -12,14 +12,12 @@ class App extends Component {
   componentDidMount() {
     // subscribe to query update
     history.listen((location, action) => {
-      console.log('history-update', location, action, this)
       this.forceUpdate()
       this.props.data.refetch(graphqlQueryVars())
     })
   }
 
   render() {
-    console.log("APP", this, config)
     const props = Object.assign(config, this.props, {params: getParams(), history: history})
     
     return (
@@ -63,7 +61,6 @@ const getDashFilters = () => {
 const getDashComponents = () => {
   const regions = config.regions.filter(region => region.id !== "filters")
 	const components = regions.reduce((acc, region) => {
-    console.log("FUCK", region.children)
 		return acc.concat(region.children)
 	}, [])
 
@@ -118,7 +115,6 @@ const getWhere = (filters, params) => {
   const fVals = Object.keys(params).map(key => {
     // const filter = filters.filter(f => f.filterKey === key)[0]
     // @@TODO later we could use this filter def to add operation $gte $lt etc
-    console.log(key, params[key])
     return {attribute: key, value: params[key]}
   })
   

@@ -26,7 +26,7 @@ const mapOpts = {
 
 export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
-    this.setState({selected: this.props.params[this.props.filterKey] || []})
+    this.setState({selected: this.props.params[this.props.filterKey] || [], showFilter: true})
   }
   
   unzoom() {
@@ -69,6 +69,11 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   }
 
+  toggleFilter(e) {
+    console.log('hidefilter',e)
+    this.setState({showFilter: !this.state.showFilter})
+  }
+
   updateStyle(feature) {
     if (feature.properties.selected === true) {
       return {
@@ -82,19 +87,12 @@ export default class NeighborhoodFilter extends BaseFilter {
       }
     }
   } 
-	
-  render(){
-    const geoid = this.state.selected.join('_')
-    const _mapOpts = Object.assign(mapOpts, {zoom: this.state.zoomLevel || ZOOM_LEVEL, center: this.state.center || MAP_CENTER})
-    
-    return (
-    <div id="map-container">
-      <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
-      <Map {..._mapOpts}>
-        <TileLayer
-          attribution={TILE_ATTR}
-          url={TILE_URL}
-        />
+
+  getFilterLayer() {
+    console.log('GET FI', this.state.showFilter)
+    if (this.state.showFilter) {
+      const geoid = this.state.selected.join('_')
+      return ( 
         <GeoJSON
           data={phillyHoodsGeoJson}
           key={geoid}
@@ -102,6 +100,28 @@ export default class NeighborhoodFilter extends BaseFilter {
           onEachFeature={this.onEachFeature.bind(this)}
           style={this.updateStyle}
         />
+      )
+    }
+  }
+	
+  render(){
+    const _mapOpts = Object.assign(mapOpts, {zoom: this.state.zoomLevel || ZOOM_LEVEL, center: this.state.center || MAP_CENTER})
+    
+    return (
+    <div id="map-container">
+      <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
+      <form onSubmit={this.hideFilter}>
+        <label>
+          Hide Filter:
+          <input type="checkbox" value={this.state.showFilter} onChange={this.toggleFilter.bind(this)} />
+        </label>
+      </form>
+      <Map {..._mapOpts}>
+        <TileLayer
+          attribution={TILE_ATTR}
+          url={TILE_URL}
+        />
+        {this.getFilterLayer()}
         <ZoomControl />
       </Map>
     </div>

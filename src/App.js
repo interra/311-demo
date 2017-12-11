@@ -113,6 +113,7 @@ const getParams = () => {
   return params
 }
 
+// Apply filter values to query
 const getWhere = (filters, params) => {
   const fVals = Object.keys(params).map(key => {
     // const filter = filters.filter(f => f.filterKey === key)[0]
@@ -120,10 +121,7 @@ const getWhere = (filters, params) => {
     console.log(key, params[key])
     return {attribute: key, value: params[key]}
   })
-
-  console.log("GQV", filters, params)
-  console.log('_fV', fVals)
-
+  
   return fVals
 }
 

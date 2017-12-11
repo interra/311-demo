@@ -3,7 +3,9 @@ import BaseFilter from './BaseFilter'
 import {GeoJSON} from 'react-leaflet'
 import { Map, Circle, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet'
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
+import Choropleth from 'react-leaflet-choropleth'
 import FontAwesome from 'react-fontawesome'
+
 const SELECTED_FILL_COLOR = "red"
 const SELECTED_FILL_OPACITY = .65
 const UNSELECTED_FILL_COLOR = "purple"
@@ -23,6 +25,18 @@ const mapOpts = {
   infoControl: false,
   attributionControl: true
 }
+
+// CHOROPLETH SETTINGS
+const choroplethStyle = {
+    fillColor: '#F28F3B',
+    weight: 2,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.5
+}
+
+const choroplethScale = ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"]
 
 export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
@@ -88,6 +102,22 @@ export default class NeighborhoodFilter extends BaseFilter {
     }
   } 
 
+  getChoropleth() {
+	return(	
+     <Choropleth
+      data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
+      valueProperty={feature => Math.random()}
+      //visible={(feature, active) => feature.id !== active.id}
+      scale={choroplethScale}
+      steps={7}
+      mode='e'
+      style={choroplethStyle}
+      onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
+      //ref={(el) => this.choropleth = el.leafletElement}
+    />
+  )
+  }
+
   getFilterLayer() {
     console.log('GET FI', this.state.showFilter)
     if (this.state.showFilter) {
@@ -121,6 +151,7 @@ export default class NeighborhoodFilter extends BaseFilter {
           attribution={TILE_ATTR}
           url={TILE_URL}
         />
+				{this.getChoropleth()}
         {this.getFilterLayer()}
         <ZoomControl />
       </Map>

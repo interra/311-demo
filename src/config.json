@@ -17,6 +17,7 @@
                 {
                     "type": "NeighborhoodFilter",
                     "filterKey": "neighborhood",
+                    "componentKey": "neighborhood",
                     "multi": true,
                     "className": "map-left",
                     "willFilter": ["philly_311"]

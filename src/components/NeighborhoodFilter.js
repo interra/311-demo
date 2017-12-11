@@ -6,10 +6,11 @@ import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import Choropleth from 'react-leaflet-choropleth'
 import FontAwesome from 'react-fontawesome'
 
+// convert to props
 const SELECTED_FILL_COLOR = "red"
 const SELECTED_FILL_OPACITY = .65
-const UNSELECTED_FILL_COLOR = "purple"
-const UNSELECTED_FILL_OPACITY = .65
+const UNSELECTED_FILL_COLOR = "transparent"
+const UNSELECTED_FILL_OPACITY = 0
 const TILE_URL = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png'
 const TILE_ATTR = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 const MAP_CENTER = [39.9728, -75.1638]
@@ -37,6 +38,7 @@ const choroplethStyle = {
 }
 
 const choroplethScale = ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"]
+// end props
 
 export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
@@ -83,11 +85,6 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   }
 
-  toggleFilter(e) {
-    console.log('hidefilter',e)
-    this.setState({showFilter: !this.state.showFilter})
-  }
-
   updateStyle(feature) {
     if (feature.properties.selected === true) {
       return {
@@ -102,24 +99,25 @@ export default class NeighborhoodFilter extends BaseFilter {
     }
   } 
 
+  getNeighborhoodData(feature) {
+    return Math.random()
+  }
+
   getChoropleth() {
-	return(	
-     <Choropleth
-      data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
-      valueProperty={feature => Math.random()}
-      //visible={(feature, active) => feature.id !== active.id}
-      scale={choroplethScale}
-      steps={7}
-      mode='e'
-      style={choroplethStyle}
-      onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
-      //ref={(el) => this.choropleth = el.leafletElement}
-    />
-  )
+    return (	
+       <Choropleth
+        data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
+        valueProperty={this.getNeighborhoodData}
+        scale={choroplethScale}
+        steps={5}
+        mode='e'
+        style={choroplethStyle}
+        onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
+      />
+    )
   }
 
   getFilterLayer() {
-    console.log('GET FI', this.state.showFilter)
     if (this.state.showFilter) {
       const geoid = this.state.selected.join('_')
       return ( 
@@ -133,19 +131,31 @@ export default class NeighborhoodFilter extends BaseFilter {
       )
     }
   }
-	
+
+  getChoroplethLegend() {
+    const colorScale = choroplethScale.map(color => {
+    return (
+      <span class="legend-row" style={{display: "inline-block", width:"100%"}}>
+        <span style={{float: "left", display: "inline-block", width: "1.2em", height: "1.2em", backgroundColor: color}}></span>
+        <span style={{float: "left", marginLeft: "1em"}}>DATA</span>
+      </span>
+    )
+    })
+    
+    return (
+      <div class="choropleth-legend">
+        COLOR SCALE HERE
+        {colorScale}
+      </div>
+    )
+  }
+
   render(){
     const _mapOpts = Object.assign(mapOpts, {zoom: this.state.zoomLevel || ZOOM_LEVEL, center: this.state.center || MAP_CENTER})
     
     return (
     <div id="map-container">
       <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
-      <form onSubmit={this.hideFilter}>
-        <label>
-          Hide Filter:
-          <input type="checkbox" value={this.state.showFilter} onChange={this.toggleFilter.bind(this)} />
-        </label>
-      </form>
       <Map {..._mapOpts}>
         <TileLayer
           attribution={TILE_ATTR}
@@ -155,6 +165,7 @@ export default class NeighborhoodFilter extends BaseFilter {
         {this.getFilterLayer()}
         <ZoomControl />
       </Map>
+      {this.getChoroplethLegend()}
     </div>
     )
   }

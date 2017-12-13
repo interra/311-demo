@@ -34,9 +34,20 @@ export default class Dashboard extends Component {
   }
   
   // given a dashboard component definition, return appropriate data from API response
+  // @@TODO want to clean this up to allow for additional arbitrary graphql queries - as defined by parent app, which will add valid component-level data to arbitrary components
+  // @@TODO define the data api for the dashboard here
   getComponentData(component) {
     if (this.props.data.getComponents) {
-      const cDatas = this.props.data.getComponents.filter(item => {
+    const componentData = this.props.data.getComponents
+    // append data from addl queries, used for the map layer component
+    const addlData = this.props.additionalQs.reduce((acc, addl) => {
+      return acc.concat(this.props.data[addl])
+    }, [])
+
+    const allData = componentData.concat(addlData)
+    console.log('DDD', componentData, addlData, allData)
+
+      const cDatas = allData.filter(item => {
         if (item.componentKey) {
           return item.componentKey === component.componentKey
         }
@@ -45,6 +56,7 @@ export default class Dashboard extends Component {
       })
 
       if (cDatas.length > 0) {
+        console.log(component.componentKey)
         const cData = JSON.parse(cDatas[0].data.JSONResponse)
         console.log('cD', component, cData)
         switch (component.dataType) {

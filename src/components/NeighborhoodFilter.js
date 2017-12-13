@@ -105,6 +105,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
 
   getChoropleth() {
+    console.log('CHP DATA',this.props.data)
     return (	
        <Choropleth
         data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}

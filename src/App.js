@@ -18,7 +18,8 @@ class App extends Component {
   }
 
   render() {
-    const props = Object.assign(config, this.props, {params: getParams(), history: history})
+    const additionalQs = ['getServiceNumbersByNeighborhood']
+    const props = Object.assign(config, this.props, {params: getParams(), history: history, additionalQs: additionalQs})
     
     return (
       <div id="app-container">
@@ -30,10 +31,16 @@ class App extends Component {
 }
 
 const query = gql`
-  query getComponents ($components: [ComponentInput]!) {
+  query getComponents ($components: [ComponentInput]!, $serviceName: String!, $mapQueryKey: String!) {
+  getServiceNumbersByNeighborhood (serviceName: $serviceName, componentKey: $mapQueryKey){
+    data {JSONResponse}
+    componentKey
+  }
+
   getComponents(
     components: $components
   ) 
+
   
   { 
     type
@@ -47,7 +54,6 @@ const query = gql`
   }
 `
 
-// @@TODO - following should prob be class methods
 const getDashFilters = () => {
   const filterRegion = config.regions.filter(region => region.id === "filters")
   if (filterRegion.length == 1) {
@@ -59,11 +65,19 @@ const getDashFilters = () => {
 
 // A flat array of all of the dashboards components from config
 const getDashComponents = () => {
-  const regions = config.regions.filter(region => region.id !== "filters")
-	const components = regions.reduce((acc, region) => {
+	const components = config.regions.reduce((acc, region) => {
 		return acc.concat(region.children)
 	}, [])
 
+  return components
+}
+
+const getComponentsQ = () => {
+	const components = config.regions.reduce((acc, region) => {
+		return acc.concat(region.children.filter(item => item.resourceHandle))
+	}, [])
+  
+  console.log('gQ', components)
   return components
 }
 
@@ -94,13 +108,15 @@ const graphqlQueryVars = () => {
   const params = getParams()
   const filters = getDashFilters()
   const filterVals = getWhere(filters, params)
-  const _components = getDashComponents()
-  const components = prefetchProcessDashComponents(_components, filterVals)
+  const components = getDashComponents()
+  const _componentsQ = getComponentsQ()
+  const componentsQ = prefetchProcessDashComponents(_componentsQ, filterVals)
   
   const variables = {
-    components: components
+    components: componentsQ,
+    serviceName: "Abandoned Vehicle", //@@TODO,
+    mapQueryKey: "neighborhoodMap"
   }
-
 
   return variables
 }

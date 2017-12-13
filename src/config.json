@@ -16,8 +16,8 @@
             "children": [
                 {
                     "type": "NeighborhoodFilter",
-                    "filterKey": "neighborhood",
-                    "componentKey": "neighborhood",
+                    "filterKey": "neighborhoodMap",
+                    "componentKey": "neighborhoodMap",
                     "multi": true,
                     "className": "map-left",
                     "willFilter": ["philly_311"]
@@ -30,6 +30,7 @@
                     "willFilter": ["philly_311"],
                     "field": "service_name",
                     "multi": true,
+                    "noData": true,
                     "operation": "IN",
                     "options": 
 			[

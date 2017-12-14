@@ -4,6 +4,7 @@ import { Map, Circle, Marker, Popup, TileLayer, ZoomControl, GeoJSON } from 'rea
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import Choropleth from 'react-leaflet-choropleth'
 import FontAwesome from 'react-fontawesome'
+import Chroma from 'chroma-js'
 
 // convert to props
 const SELECTED_FILL_COLOR = "red"
@@ -42,6 +43,9 @@ const choroplethScale = ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"]
 export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
     this.setState({selected: this.props.params[this.props.filterKey] || [], showFilter: true})
+  }
+
+  componentWillUpdate() {
   }
   
   unzoom() {
@@ -135,18 +139,23 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
 
   getChoroplethLegend() {
-    const colorScale = choroplethScale.map(color => {
-    return (
-      <span class="legend-row" style={{display: "inline-block", width:"100%"}}>
-        <span style={{float: "left", display: "inline-block", width: "1.2em", height: "1.2em", backgroundColor: color}}></span>
-        <span style={{float: "left", marginLeft: "1em"}}>DATA</span>
-      </span>
-    )
+    const colorScale = choroplethScale.map((color,i) => {
+    const datas = this.props.data.map(d => {console.log(d); return d.count})
+    const limits = Chroma.limits(datas, 'e',  this.props.steps).map(Math.round)
+    const valLower = (limits) ? limits[i] : '--'
+    const valUpper = (limits) ? limits[i+1] - 1 : ''
+
+      return (
+        <span class="legend-row" style={{display: "inline-block", width:"100%"}}>
+          <span style={{float: "left", display: "inline-block", width: "1.2em", height: "1.2em", backgroundColor: color}}></span>
+          <span style={{float: "left", marginLeft: "1em"}}>{valLower + ' -- ' + valUpper}</span>
+        </span>
+      )
     })
     
     return (
       <div class="choropleth-legend">
-        COLOR SCALE HERE
+        {this.props.legendCaption}
         {colorScale}
       </div>
     )

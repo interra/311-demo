@@ -18,6 +18,7 @@
                     "type": "NeighborhoodFilter",
                     "filterKey": "neighborhood",
                     "componentKey": "neighborhoodMap",
+                    "legendCaption": "Requests per Neighborhood:",
                     "multi": true,
                     "className": "map-left"
                 },
@@ -112,7 +113,8 @@
                 {
                     "type": "Table",
                     "cardProps": {
-                        "header": "Information requests by Agency"
+                        "header": "Information requests by Agency",
+                        "subheader": "Click column headers to sort. Browsing controls at bottom of table."
                     },
                     "resourceHandle": "philly_311",
                     "componentKey": "table-a",

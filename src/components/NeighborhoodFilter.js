@@ -102,13 +102,10 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   getNeighborhoodData(feature) {
     const count = this.props.data.filter(n => n.neighborhood === feature.properties.name)
-    console.log(count)
     return (count.length > 0) ? count[0].count: undefined
-    return Math.random()
   }
 
   getChoropleth() {
-    console.log('CHP DATA',this.props.data)
     return (	
        <Choropleth
         data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}

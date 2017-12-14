@@ -77,7 +77,6 @@ const getComponentsQ = () => {
 		return acc.concat(region.children.filter(item => item.resourceHandle))
 	}, [])
   
-  console.log('gQ', components)
   return components
 }
 
@@ -102,6 +101,15 @@ const prefetchProcessDashComponents = (_components,filterVals) => {
   return components
 }
 
+// based on applied filters, return map field filter val
+// for 
+// @@TODO this should / could be generalized based on config
+const getFilterValue = (filters, field) => {
+  const vals = filters.filter(f => f.attribute === field)
+  // @@TODO this will vary with multi filters:
+  return (vals.length > 0) ? vals[0].value : ""
+}
+
 // generate qraphql query vars from app config and
 // user supplied filter values
 const graphqlQueryVars = () => { 
@@ -111,10 +119,11 @@ const graphqlQueryVars = () => {
   const components = getDashComponents()
   const _componentsQ = getComponentsQ()
   const componentsQ = prefetchProcessDashComponents(_componentsQ, filterVals)
-  
+  const serviceName = getFilterValue(filterVals, "service_name")
+
   const variables = {
     components: componentsQ,
-    serviceName: "Abandoned Vehicle", //@@TODO,
+    serviceName: serviceName,
     mapQueryKey: "neighborhoodMap"
   }
 

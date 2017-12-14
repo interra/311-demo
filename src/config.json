@@ -29,7 +29,7 @@
                     "className": "filter-right",
                     "willFilter": ["philly_311"],
                     "field": "service_name",
-                    "multi": true,
+                    "multi": false,
                     "noData": true,
                     "operation": "IN",
                     "options": 

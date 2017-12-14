@@ -35,7 +35,10 @@ export default class Dashboard extends Component {
   
   // given a dashboard component definition, return appropriate data from API response
   // @@TODO want to clean this up to allow for additional arbitrary graphql queries - as defined by parent app, which will add valid component-level data to arbitrary components
-  // @@TODO define the data api for the dashboard here
+  // @@TODO define the data api for the dashboard here - 
+  // @@TODO there are two levels of abstraction: 
+  //          standardized components
+  //          arbitrary app-defined graphql query data
   getComponentData(component) {
     if (this.props.data.getComponents) {
     const componentData = this.props.data.getComponents

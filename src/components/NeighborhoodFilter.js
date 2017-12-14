@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import BaseFilter from './BaseFilter'
-import { Map, Circle, Marker, Popup, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet'
+import { Map, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet'
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import Choropleth from 'react-leaflet-choropleth'
 import FontAwesome from 'react-fontawesome'
@@ -10,7 +10,7 @@ import ChoroplethLegend from './ChoroplethLegend.js'
 export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
     const newState = {
-      infoWindowPos: new Map([['x',0], ['y', 0]]),
+      infoWindowPos: {x: 0, y: 0},
       infoWindowActive: true,
       activeSubunitName: 'default',
       selected: this.props.params[this.props.filterKey] || [], 
@@ -48,7 +48,6 @@ export default class NeighborhoodFilter extends BaseFilter {
     const deselect = e.target.feature.properties.selected
     
     if (deselect) {
-      const index = vals.indexOf(clicked)
       vals = vals.filter(val => val !== clicked)
     } else {
       vals.push(clicked)

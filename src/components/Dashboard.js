@@ -5,7 +5,6 @@ import { sortBy } from 'underscore'
 
 export default class Dashboard extends Component {
   componentWillMount() {
-    console.log("DASH", this);
     this.history = this.props.history
   }
 
@@ -28,7 +27,6 @@ export default class Dashboard extends Component {
   }
   
   getPieChartData(data) {
-    console.log("PIE",data)
     const sortKey = Object.keys(data[0])[0]
     return sortBy(data, sortKey)
   }
@@ -48,8 +46,6 @@ export default class Dashboard extends Component {
     }, [])
 
     const allData = componentData.concat(addlData)
-    console.log('DDD', componentData, addlData, allData)
-
       const cDatas = allData.filter(item => {
         if (item.componentKey) {
           return item.componentKey === component.componentKey
@@ -59,9 +55,8 @@ export default class Dashboard extends Component {
       })
 
       if (cDatas.length > 0) {
-        console.log(component.componentKey)
         const cData = JSON.parse(cDatas[0].data.JSONResponse)
-        console.log('cD', component, cData)
+        
         switch (component.dataType) {
           case 'NVD3PieChartSeries':
             const pieData = this.getPieChartData(cData)
@@ -98,7 +93,7 @@ export default class Dashboard extends Component {
               const componentData = this.getComponentData(component)
               const componentProps = Object.assign(component, {data: componentData, params: this.props.params})
               const cardProps = component.cardProps || {}
-              const toCard = Object.assign(cardProps, {children: [<Component {...component} key={component.componentKey || 'filter_' + 'i' + '_' + j} history={region.history} />]})
+              const toCard = Object.assign(cardProps, {children: [<Component {...componentProps} key={component.componentKey || 'filter_' + i + '_' + j} history={region.history} />]})
               // wrap component in Card component and return
               return <Card {...toCard} key={i + '__' + j}/>
             } else {	

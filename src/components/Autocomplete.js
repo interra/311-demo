@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import BaseFilter from './BaseFilter'
 import ReactSelect from './ReactSelect'
-import { omit } from 'lodash'
 import cx from 'classnames/bind'
 
 export default class Autocomplete extends BaseFilter {
@@ -15,8 +14,8 @@ export default class Autocomplete extends BaseFilter {
 
     return (
       <div className={cx('autocomplete-filter-container', className)}>
-        <label htmlFor={this.props.key} className={labelClass}>{this.props.label}</label>
-        <ReactSelect value={val} disabled={this.isDisabled(window.location.search)} {...props} onChange={this.onChange.bind(this)} key={this.props.key} inputProps={inputProps} />
+        <label htmlFor={this.props.componentKey} className={labelClass}>{this.props.label}</label>
+        <ReactSelect value={val} disabled={this.isDisabled(window.location.search)} {...props} onChange={this.onChange.bind(this)} key={this.props.componentKey} inputProps={inputProps} />
       </div>
     )
   }

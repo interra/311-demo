@@ -1,26 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
-const HoverInfo = (props) => {
-  const hoverInfoStyle = {
-    left: props.position.x + 20,
-    top: props.position.y - 90 +20, // 90px == height of header
-    display: props.active ? 'block' : 'none',
+class HoverInfo extends Component {
+  render() {
+    const hoverInfoStyle = {
+      left: this.props.position.x + 20,
+      top: this.props.position.y - 90 +20, // 90px == height of header
+      display: this.props.active ? 'block' : 'none',
+    }
+
+    return (
+      <div className="hoverinfo" style={hoverInfoStyle}>
+        <p>{this.props.name}</p>
+        <p>{this.props.value}</p>
+      </div>
+    )
   }
-
-  return (
-    <div className="hoverinfo" style={hoverInfoStyle}>
-      <p>{props.name}</p>
-      <p>{props.value}</p>
-    </div>
-  )
-}
-
-HoverInfo.propTypes = {
-  position: PropTypes.object.isRequired,
-  active: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 export default HoverInfo

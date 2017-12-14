@@ -5,7 +5,7 @@ export default class ChoroplethLegend extends Component {
   getColorScale() {
     const {data, mode, steps, choroplethColorScale} = this.props
     const limits = Chroma.limits(data, mode, steps).map(Math.round)
-    console.log(limits.length, choroplethColorScale.length) 
+    
     // cheap validation
     if (limits.length - 1 !== choroplethColorScale.length) {
       return "---"
@@ -16,7 +16,7 @@ export default class ChoroplethLegend extends Component {
       const valUpper = (limits) ? limits[i+1] - 1 : ''
 
       return (
-        <span class="legend-row" style={{display: "inline-block", width:"100%"}}>
+        <span className="legend-row" style={{display: "inline-block", width:"100%"}} key={"chp-legend-row" + i}>
           <span style={{float: "left", display: "inline-block", width: "1.2em", height: "1.2em", backgroundColor: color}}></span>
           <span style={{float: "left", marginLeft: "1em"}}>{valLower + ' -- ' + valUpper}</span>
         </span>
@@ -26,7 +26,7 @@ export default class ChoroplethLegend extends Component {
   
   render() {
     return (
-      <div className="choropleth-legend">
+      <div className="choropleth-legend" key="chp-legend" >
         <div className="choropleth-legend-caption">
           {this.props.legendCaption}
         </div>

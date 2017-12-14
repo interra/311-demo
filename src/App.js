@@ -56,20 +56,11 @@ const query = gql`
 
 const getDashFilters = () => {
   const filterRegion = config.regions.filter(region => region.id === "filters")
-  if (filterRegion.length == 1) {
+  if (filterRegion.length === 1) {
     return filterRegion[0].children
   } else {
     return []
   }
-}
-
-// A flat array of all of the dashboards components from config
-const getDashComponents = () => {
-	const components = config.regions.reduce((acc, region) => {
-		return acc.concat(region.children)
-	}, [])
-
-  return components
 }
 
 const getComponentsQ = () => {
@@ -116,7 +107,6 @@ const graphqlQueryVars = () => {
   const params = getParams()
   const filters = getDashFilters()
   const filterVals = getWhere(filters, params)
-  const components = getDashComponents()
   const _componentsQ = getComponentsQ()
   const componentsQ = prefetchProcessDashComponents(_componentsQ, filterVals)
   const serviceName = getFilterValue(filterVals, "service_name")

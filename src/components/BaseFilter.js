@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import queryString from 'query-string'
 
 export default class BaseFilter extends Component {
@@ -31,7 +31,6 @@ export default class BaseFilter extends Component {
   
   // so we can call this manually
   doOnChange(e) {
-    console.log('onchange', e)
     const filterKey = this.props.filterKey
     let val = e.value
     const newFilter = {}
@@ -39,7 +38,6 @@ export default class BaseFilter extends Component {
     if (this.props.multi) {
       console.log('multi')
       val = e.map(item => {
-        console.log('<><>', item)
         return item.value
       })
     }
@@ -78,8 +76,6 @@ export default class BaseFilter extends Component {
    * get autocomplete options
    */
   getOptions(input){
-    let re = /\{\{(.+)\}\}/
-
     if(this.props.options) {
       return this.props.options
     } else if (this.props.data && this.props.data[0]) {

@@ -15,13 +15,12 @@ export default class NeighborhoodFilter extends BaseFilter {
   resetInfoWindow() {
     const newState = {
       infoWindowPos: {x: 0, y: 0},
-      infoWindowActive: true,
+      infoWindowActive: false,
       activeSubunitName: 'default',
       selected: this.props.params[this.props.filterKey] || []
     }
 
     this.setState(newState)
-  
   }
 
   unzoom() {

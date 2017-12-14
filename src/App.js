@@ -71,11 +71,18 @@ const getComponentsQ = () => {
   return components
 }
 
+// only apply filters that component are subscribed to
+const whereFromFilters = (component, filterVals) => {
+  const applied = filterVals.filter(f => component.filters && component.filters.includes(f.attribute))
+  return applied
+}
+
+
 // do any pre-fetch processing of component definits here
 const prefetchProcessDashComponents = (_components,filterVals) => {
   const components = _components.map(component => {
-    const where = filterVals.concat(component.where)
-
+    const applied = whereFromFilters(component, filterVals)
+    const where = component.where.concat(applied)
     const componentInput = {
       type: component.type,
       resourceHandle: component.resourceHandle,

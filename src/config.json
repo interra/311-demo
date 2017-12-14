@@ -17,6 +17,7 @@
                 {
                     "type": "NeighborhoodFilter",
                     "filterKey": "neighborhood",
+                    "filters": ["service_name"],
                     "componentKey": "neighborhoodMap",
                     "leafletSettings":
                         { 
@@ -61,7 +62,6 @@
                     "filterKey": "service_name",
                     "label": "Show map values by 311 request type",
                     "className": "filter-right",
-                    "willFilter": ["philly_311"],
                     "field": "service_name",
                     "multi": false,
                     "noData": true,
@@ -97,6 +97,7 @@
                 {
                     "type": "Chart",
                     "componentKey": "chart-3",
+                    "filters": ["neighborhood"],
                     "cardProps": {
                         "header": "Common 311 Requests by Region",
                         "subheader": "Excluding Information Requests (see table below)"
@@ -145,6 +146,7 @@
             "children": [
                 {
                     "type": "Table",
+                    "filters": ["neighborhood"],
                     "cardProps": {
                         "header": "Information requests by Agency",
                         "subheader": "Click column headers to sort. Browsing controls at bottom of table."

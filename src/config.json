@@ -18,7 +18,41 @@
                     "type": "NeighborhoodFilter",
                     "filterKey": "neighborhood",
                     "componentKey": "neighborhoodMap",
-                    "legendCaption": "Requests per Neighborhood:",
+                    "leafletSettings":
+                        { 
+                          "center": [39.9728, -75.1638],
+                          "zoomControl": false,
+                          "zoom": 10.7, 
+                          "maxZoom": 19, 
+                          "minZoom": 6, 
+                          "scrollWheelZoom": false,
+                          "legends": true,
+                          "infoControl": false,
+                          "attributionControl": true,
+                          "selectedFillColor": "red",
+                          "selectedFillOpacity": 0.65,
+                          "unselectedFillColor": "transparent",
+                          "unselectedFillOpacity": 0,
+                          "tileUrl": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+                          "tileAttr": "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"
+                        },
+                    "choroplethSettings": {
+                        "choroplethStyle": {
+                            "fillColor": "#F28F3B",
+                            "weight": 2,
+                            "opacity": 1,
+                            "color": "white",
+                            "dashArray": 3,
+                            "fillOpacity": 0.5
+                        },
+                        "choroplethColorScale": ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"],
+                        "steps": 5,
+                        "legendCaption": "Requests per Neighborhood:",
+                        "mode": "e"
+                    },
+                    "cardProps": {
+                        "subheader": "Click neighborhood to see aggregate data (One neighborhood at a time for query speed). Use select filter below to visualize requests by neighborhood."
+                    },
                     "multi": true,
                     "className": "map-left"
                 },
@@ -51,8 +85,7 @@
 			    {"label": "Building Dangerous", "value": "Building Dangerous"},                 
 			    {"label": "Smoke Detector", "value": "Smoke Detector"},   
 			    {"label": "Building Construction", "value": "Building Construction"}, 
-			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"},
-			    {"label": "Zoning Business", "value": "Zoning Business"}			
+			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"}
                         ]
                 }
             ]
@@ -66,7 +99,7 @@
                     "componentKey": "chart-3",
                     "cardProps": {
                         "header": "Common 311 Requests by Region",
-                        "subheader": "Excluding Information Requests (see below)"
+                        "subheader": "Excluding Information Requests (see table below)"
                     },
                     "dataType": "NVD3PieChartSeries",
                     "resourceHandle": "philly_311",

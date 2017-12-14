@@ -16,16 +16,15 @@
             "children": [
                 {
                     "type": "NeighborhoodFilter",
-                    "filterKey": "neighborhoodMap",
+                    "filterKey": "neighborhood",
                     "componentKey": "neighborhoodMap",
                     "multi": true,
-                    "className": "map-left",
-                    "willFilter": ["philly_311"]
+                    "className": "map-left"
                 },
                 {
                     "type": "Autocomplete",
                     "filterKey": "service_name",
-                    "label": "Request type",
+                    "label": "Show map values by 311 request type",
                     "className": "filter-right",
                     "willFilter": ["philly_311"],
                     "field": "service_name",
@@ -34,17 +33,26 @@
                     "operation": "IN",
                     "options": 
 			[
+			    {"label": "Miscellaneous", "value": "Miscellaneous"},
 			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
-			    {"label": "Rubbish/Recyclable Material Collection", "value": "Rubbish/Recyclable Material Collection"},
-			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},
-			    {"label": "Abandoned Vehicle", "value": "Abandoned Vehicle"},
-			    {"label": "Directory Assistance", "value": "Directory Assistance"},
-			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},
-			    {"label": "Street Defect", "value": "Street Defect"},
-			    {"label": "Street Light Outage", "value": "Street Light Outage"},
+			    {"label": "Rubbish/Recyclable Material Collection", "value":"Rubbish/Recyclable Material Collection"}, 
+			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},                
+			    {"label": "Abandoned Vehicle", "value":"Abandoned Vehicle"},                      
+			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},                       
+			    {"label": "Street Defect", "value": "Street Defect"},     
+			    {"label": "Street Light Outage", "value": "Street Light Outage"},                 
 			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
-			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"}
-			]
+			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"},
+			    {"label": "Salting", "value": "Salting"},                           
+			    {"label": "Sanitation / Dumpster Violation", "value": "Sanitation / Dumpster Violation"},
+			    {"label": "Traffic Signal Emergency", "value": "Traffic Signal Emergency"},
+			    {"label": "Street Trees", "value": "Street Trees"},     
+			    {"label": "Building Dangerous", "value": "Building Dangerous"},                 
+			    {"label": "Smoke Detector", "value": "Smoke Detector"},   
+			    {"label": "Building Construction", "value": "Building Construction"}, 
+			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"},
+			    {"label": "Zoning Business", "value": "Zoning Business"}			
+                        ]
                 }
             ]
         },
@@ -55,6 +63,10 @@
                 {
                     "type": "Chart",
                     "componentKey": "chart-3",
+                    "cardProps": {
+                        "header": "Common 311 Requests by Region",
+                        "subheader": "Excluding Information Requests (see below)"
+                    },
                     "dataType": "NVD3PieChartSeries",
                     "resourceHandle": "philly_311",
                     "count": "service_name",

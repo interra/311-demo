@@ -9,14 +9,19 @@ import ChoroplethLegend from './ChoroplethLegend.js'
 
 export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
+    this.resetInfoWindow()
+  }
+
+  resetInfoWindow() {
     const newState = {
       infoWindowPos: {x: 0, y: 0},
       infoWindowActive: true,
       activeSubunitName: 'default',
-      selected: this.props.params[this.props.filterKey] || [], 
-      showFilter: true}
+      selected: this.props.params[this.props.filterKey] || []
+    }
 
     this.setState(newState)
+  
   }
 
   unzoom() {
@@ -37,7 +42,8 @@ export default class NeighborhoodFilter extends BaseFilter {
     
     this.layer = layer
     layer.on({
-      click: this.handleOnChange.bind(this)
+      click: this.handleOnChange.bind(this),
+      mouseEnter: this.setActiveRegion.bind(this)
     })
   }
 
@@ -50,7 +56,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     if (deselect) {
       vals = vals.filter(val => val !== clicked)
     } else {
-      vals.push(clicked)
+      vals = [clicked]
     }
     
     this.setState({selected: vals})
@@ -59,7 +65,23 @@ export default class NeighborhoodFilter extends BaseFilter {
       return {value: item}
     }))
   }
+  
+  setActiveRegion(e) {
+    if (e.layer.feature) {
+      this.setState({
+          infoWindowActive: true,
+          infoWindowPos: {x: e.originalEvent.clientX, y: e.originalEvent.clientY}, // get from e.offset
+          activeSubunitName: e.layer.feature.properties.name,
+          activeSubunitValue: this.getNeighborhoodData(e.layer.feature) || 'No ' + ' requests'
+      })  
+    }
+  }
 
+  resetActiveRegion(e) {
+    if (e.layer.feature.properties.name === this.state.activeSubunitName) {
+      this.resetInfoWindow()
+    }
+  }
 
   updateStyle(feature) {
     const {selectedFillColor, selectedFillOpacity, unselectedFillColor, unselectedFillOpacity} = this.props.leafletSettings
@@ -89,22 +111,8 @@ export default class NeighborhoodFilter extends BaseFilter {
     return this.props.data.map(rec => rec.count)
   }
 
-  getFilterLayer() {
-    if (this.state.showFilter) {
-      const geoid = this.state.selected.join('_')
-      return ( 
-        <GeoJSON
-          data={phillyHoodsGeoJson}
-          key={geoid}
-          className="neighborhoods_path"
-          onEachFeature={this.onEachFeature.bind(this)}
-          style={this.updateStyle.bind(this)}
-        />
-      )
-    }
-  }
-
   render() {
+    const geoid = this.state.selected.join('_')
     const { infoWindowPos, infoWindowActive, activeSubunitName, activeSubunitValue} = this.state
     const { leafletSettings, choroplethSettings } = this.props
     const { tileUrl, tileAttr } = leafletSettings
@@ -125,16 +133,24 @@ export default class NeighborhoodFilter extends BaseFilter {
           steps={steps}
           mode={mode}
           style={choroplethStyle}
-        //  onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
+          //onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
       />
-        {this.getFilterLayer()}
-        <ZoomControl />
-        <HoverInfo
-          active={infoWindowActive}
-          position={infoWindowPos}
-          name={activeSubunitName}
-          value={activeSubunitValue}
-        />
+      <GeoJSON
+        data={phillyHoodsGeoJson}
+        key={geoid}
+        className="neighborhoods_path"
+        onEachFeature={this.onEachFeature.bind(this)}
+        onMouseOver={this.setActiveRegion.bind(this)}
+        onMouseOut={this.resetActiveRegion.bind(this)}
+        style={this.updateStyle.bind(this)}
+      />
+      <ZoomControl />
+      <HoverInfo
+        active={infoWindowActive}
+        position={infoWindowPos}
+        name={activeSubunitName}
+        value={activeSubunitValue}
+      />
       </Map>
       <ChoroplethLegend 
         data = {this.getLegendData()}

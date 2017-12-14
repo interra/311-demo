@@ -30,6 +30,19 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
 .filter-right label {width: 100%; margin:2px}
 .filter-right .Select {width: 100%; margin:2px}
 
+.hoverinfo {
+  position: fixed;
+  z-index: 500;
+  opacity: .94;
+  color: black;
+  padding: 20px;
+  border-radius: 5px;
+  min-height: 50px;
+  background-color: #f6e4e4;
+  box-shadow: 1px 1px 3px grey;
+}
+
 .neighborhoods_path:hover {
     fill: #bfc3c9;
+    fill-opacity:.6;
 }

@@ -36,7 +36,6 @@ export default class BaseFilter extends Component {
     const newFilter = {}
 
     if (this.props.multi) {
-      console.log('multi')
       val = e.map(item => {
         return item.value
       })

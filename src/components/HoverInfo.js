@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class HoverInfo extends Component {
+export default class HoverInfo extends Component {
   render() {
     const hoverInfoStyle = {
       left: this.props.position.x + 20,
@@ -16,5 +16,3 @@ class HoverInfo extends Component {
     )
   }
 }
-
-export default HoverInfo

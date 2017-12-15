@@ -32,7 +32,7 @@ export default class BaseFilter extends Component {
   // so we can call this manually
   doOnChange(e) {
     const filterKey = this.props.filterKey
-    let val = e.value
+    let val = (e) ? e.value : []
     const newFilter = {}
 
     if (this.props.multi) {

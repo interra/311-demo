@@ -3,8 +3,7 @@ h1, h2, h3, h4, h5 {padding:0; margin: .5em !important; line-height:1em; color: 
 h1, h2, h3, h4, h5, .card-header {border-bottom: 1px solid #eda9fc;}
 .card-header {color: #d4d6d8;}
 
-
-html, body, #app-container, #dashbaord-container, .card  {background-color: #242d3c; color: #d4d6d8}
+html, body, #app-container, #dashbaord-container, .card  {background-color: #242d3c; color: #d4d6d8; font-size:1.1em;}
 
 .leaflet-container {
     height: 50em;
@@ -45,4 +44,25 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
 .neighborhoods_path:hover {
     fill: #bfc3c9;
     fill-opacity:.6;
+}   
+
+div.react-table[style] {
+    display: none !important;
+    font-size: 1.4em !important;
+    margin: auto !important;
+    background-color: #552e2e !important;
 }
+
+#region-3 .card-content .rt-even {
+    background-color: #e9dfeb;
+}
+
+#region-3 .card-content .rt-odd {
+    background-color: #d1c6d0;
+}
+
+/* Choropleth legend component styles */
+.choropleth-legend .legend-row {display: inline-block; width:100%; height:2em}
+.choropleth-legend .legend-row .color-chip {height:1.2em; width:1.2em; display:inline-block; margin-right:1em}
+.choropleth-legend .legend-row .val-container {font-size:1.2em; margin-right:1.5em;}
+

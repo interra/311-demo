@@ -129,6 +129,9 @@ a {
   .card-header .fa {
     padding-right: 10px; }
 
+.card-subheader {
+  margin-bottom: 1em; }
+
 .card-card {
   margin: 20px 0px; }
   .card-card .card-content {
@@ -149,14 +152,6 @@ a {
 
 .Select-menu-outer {
   border-radius: 0; }
-
-.public_fixedDataTable_header,
-.public_fixedDataTable_header .public_fixedDataTableCell_main {
-  background-color: #eee;
-  background-image: none; }
-
-.fixedDataTableLayout_hasBottomBorder {
-  border: none; }
 
 .pagination > .active > a,
 .pagination > .active > a:focus,

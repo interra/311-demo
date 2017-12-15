@@ -131,10 +131,9 @@
                     ],
                     "settings": {
                         "type": "pieChart",
-                        "rotateLabels": 45,
-                        "height": 700,
+                        "height": 800,
                         "legend": {
-                            "maxKeyLength": 1500
+                            "maxKeyLength": 25
                         }
                     }
                 }

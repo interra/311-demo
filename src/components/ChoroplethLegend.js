@@ -16,17 +16,18 @@ export default class ChoroplethLegend extends Component {
       const valUpper = (limits) ? limits[i+1] - 1 : ''
 
       return (
-        <span className="legend-row" style={{display: "inline-block", width:"100%"}} key={"chp-legend-row" + i}>
-          <span style={{float: "left", display: "inline-block", width: "1.2em", height: "1.2em", backgroundColor: color}}></span>
-          <span style={{float: "left", marginLeft: "1em"}}>{valLower + ' -- ' + valUpper}</span>
+        <span className="legend-row" key={"chp-legend-row" + i}>
+          <span className="color-chip" style={{backgroundColor: color}}></span>
+          <span className="val-container">{valLower + ' -- ' + valUpper}</span>
         </span>
       )
     })
   }
   
   render() {
+    const display = (this.props.showLegend) ? 'block' : 'none'
     return (
-      <div className="choropleth-legend" key="chp-legend" >
+      <div className="choropleth-legend" key="chp-legend" style={{display: display}}>
         <div className="choropleth-legend-caption">
           {this.props.legendCaption}
         </div>

@@ -71,7 +71,7 @@ export default class NeighborhoodFilter extends BaseFilter {
           infoWindowActive: true,
           infoWindowPos: {x: e.originalEvent.clientX, y: e.originalEvent.clientY}, // get from e.offset
           activeSubunitName: e.layer.feature.properties.name,
-          activeSubunitValue: this.getNeighborhoodData(e.layer.feature) || 'No ' + ' requests'
+          activeSubunitValue: this.getNeighborhoodData(e.layer.feature) || 'No requests'
       })  
     }
   }
@@ -112,6 +112,7 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   render() {
     const geoid = this.state.selected.join('_')
+    const legendData = this.getLegendData()
     const { infoWindowPos, infoWindowActive, activeSubunitName, activeSubunitValue} = this.state
     const { leafletSettings, choroplethSettings } = this.props
     const { tileUrl, tileAttr } = leafletSettings
@@ -152,7 +153,8 @@ export default class NeighborhoodFilter extends BaseFilter {
       />
       </Map>
       <ChoroplethLegend 
-        data = {this.getLegendData()}
+        data = {legendData}
+        showLegend = {legendData.length}
         mode = {mode}
         steps = {steps}
         choroplethColorScale = {choroplethColorScale}

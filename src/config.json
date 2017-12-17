@@ -15,6 +15,40 @@
             "className": "col-md-6",
             "children": [
                 {
+                    "type": "Autocomplete",
+                    "filterKey": "service_name",
+                    "label": "Show map values by 311 request type",
+                    "className": "filter-right",
+                    "cardProps": {
+                        "subheader": "Click neighborhood to see aggregate data (One neighborhood at a time for query speed). Use select filter below to visualize requests by neighborhood."
+                    },
+                    "field": "service_name",
+                    "multi": false,
+                    "noData": true,
+                    "operation": "IN",
+                    "options": 
+			[
+			    {"label": "Miscellaneous", "value": "Miscellaneous"},
+			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
+			    {"label": "Rubbish/Recyclable Material Collection", "value":"Rubbish/Recyclable Material Collection"}, 
+			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},                
+			    {"label": "Abandoned Vehicle", "value":"Abandoned Vehicle"},                      
+			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},                       
+			    {"label": "Street Defect", "value": "Street Defect"},     
+			    {"label": "Street Light Outage", "value": "Street Light Outage"},                 
+			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
+			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"},
+			    {"label": "Salting", "value": "Salting"},                           
+			    {"label": "Sanitation / Dumpster Violation", "value": "Sanitation / Dumpster Violation"},
+			    {"label": "Traffic Signal Emergency", "value": "Traffic Signal Emergency"},
+			    {"label": "Street Trees", "value": "Street Trees"},     
+			    {"label": "Building Dangerous", "value": "Building Dangerous"},                 
+			    {"label": "Smoke Detector", "value": "Smoke Detector"},   
+			    {"label": "Building Construction", "value": "Building Construction"}, 
+			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"}
+                        ]
+                },
+                {
                     "type": "NeighborhoodFilter",
                     "filterKey": "neighborhood",
                     "filters": ["service_name"],
@@ -51,42 +85,8 @@
                         "legendCaption": "Requests per Neighborhood:",
                         "mode": "e"
                     },
-                    "cardProps": {
-                        "subheader": "Click neighborhood to see aggregate data (One neighborhood at a time for query speed). Use select filter below to visualize requests by neighborhood."
-                    },
                     "multi": true,
                     "className": "map-left"
-                },
-                {
-                    "type": "Autocomplete",
-                    "filterKey": "service_name",
-                    "label": "Show map values by 311 request type",
-                    "className": "filter-right",
-                    "field": "service_name",
-                    "multi": false,
-                    "noData": true,
-                    "operation": "IN",
-                    "options": 
-			[
-			    {"label": "Miscellaneous", "value": "Miscellaneous"},
-			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
-			    {"label": "Rubbish/Recyclable Material Collection", "value":"Rubbish/Recyclable Material Collection"}, 
-			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},                
-			    {"label": "Abandoned Vehicle", "value":"Abandoned Vehicle"},                      
-			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},                       
-			    {"label": "Street Defect", "value": "Street Defect"},     
-			    {"label": "Street Light Outage", "value": "Street Light Outage"},                 
-			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
-			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"},
-			    {"label": "Salting", "value": "Salting"},                           
-			    {"label": "Sanitation / Dumpster Violation", "value": "Sanitation / Dumpster Violation"},
-			    {"label": "Traffic Signal Emergency", "value": "Traffic Signal Emergency"},
-			    {"label": "Street Trees", "value": "Street Trees"},     
-			    {"label": "Building Dangerous", "value": "Building Dangerous"},                 
-			    {"label": "Smoke Detector", "value": "Smoke Detector"},   
-			    {"label": "Building Construction", "value": "Building Construction"}, 
-			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"}
-                        ]
                 }
             ]
         },
@@ -145,7 +145,6 @@
             "children": [
                 {
                     "type": "Table",
-                    "filters": ["neighborhood"],
                     "cardProps": {
                         "header": "Information requests by Agency",
                         "subheader": "Click column headers to sort. Browsing controls at bottom of table."

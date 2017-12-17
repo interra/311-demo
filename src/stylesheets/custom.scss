@@ -3,11 +3,53 @@ h1, h2, h3, h4, h5 {padding:0; margin: .5em !important; line-height:1em; color: 
 h1, h2, h3, h4, h5, .card-header {border-bottom: 1px solid #eda9fc;}
 .card-header {color: #d4d6d8;}
 
-html, body, #app-container, #dashbaord-container, .card  {background-color: #242d3c; color: #d4d6d8; font-size:1.1em;}
+h1 {margin-right:0}
 
+html, body, #app-container, #dashbaord-container, .card  {background-color: #242d3c; color: #d4d6d8; font-size:1.1em;}
+/** App Skin**/
+.social-logos {
+  text-align:right;
+}
+
+.social-logos a {
+  margin-top:2em;
+  color: #c6b4b4;
+}
+
+.title-info {
+    float:right;
+    color: #c6b4b4;
+}
+
+.interra-icon-white {
+    height: 1em;
+    margin-left: 1em;
+    margin-bottom: .5em;
+}
+
+.doHover {
+    cursor: pointer;
+}
+
+
+/** MAPS **/
 .leaflet-container {
     height: 50em;
     width:100%;
+}
+.info-window-open #map-container {
+    display: none;
+}
+
+.info-window-inner {
+    margin: 1em;
+    overflow: auto;
+    font-size: 1.5em;
+}
+
+.close-modal {
+    font-weight: 800;
+    color: red;
 }
 
 @media screen and (max-width: 699px) {
@@ -26,7 +68,9 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
     color: black;
 }
 
-.filter-right label {width: 100%; margin:2px}
+/* Autocomplete filter for request type */
+.filter-right {z-index:500}
+.filter-right label {width: 100%; margin:2px;}
 .filter-right .Select {width: 100%; margin:2px}
 
 .hoverinfo {
@@ -66,3 +110,5 @@ div.react-table[style] {
 .choropleth-legend .legend-row .color-chip {height:1.2em; width:1.2em; display:inline-block; margin-right:1em}
 .choropleth-legend .legend-row .val-container {font-size:1.2em; margin-right:1.5em;}
 
+/* React Table */
+div.ReactTable {background-color:white; color:black; font-size:1.2em}

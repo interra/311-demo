@@ -5,10 +5,18 @@ import createHistory from 'history/createBrowserHistory'
 import queryString from 'query-string'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import FontAwesome from 'react-fontawesome'
+import interraLogoWhite from './images/interra-logo-white.png'
+import Modal from 'react-modal'
 
 const history = createHistory()
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {info : false}
+  }	
+  
   componentDidMount() {
     // subscribe to query update
     history.listen((location, action) => {
@@ -17,14 +25,54 @@ class App extends Component {
     })
   }
 
+  toggleInfoWindow() {
+    this.setState({info : !this.state.info})
+  }
+
+
   render() {
     const additionalQs = ['getServiceNumbersByNeighborhood']
+    const infoWindow = this.state.info
+    const infoWindowClass = (this.state.info) ? 'info-window-open' : 'info-window-closed'
     const props = Object.assign(config, this.props, {params: getParams(), history: history, additionalQs: additionalQs})
     
     return (
-      <div id="app-container">
-        <h1>{props.title}</h1>
-        <Dashboard {...props} />
+      <div id="app-container" className={infoWindowClass}>
+        <div className="row">
+          <div className="col-md-6 311-app-title">
+            <h1>
+              {props.title}
+                <FontAwesome name="info-circle" size="1x" className="title-info doHover" onClick={this.toggleInfoWindow.bind(this)} />
+            </h1>
+          </div>
+          <div className="col-md-6 social-logos">
+            <a href="https://github.com/interra/311-demo">
+              <FontAwesome name="github" className="doHover" size="2x" target="_blank" />
+            </a>
+            <a href="http://interra.io" target="_blank">
+              <img className="interra-icon-white" src={interraLogoWhite} />
+            </a>
+          </div>
+
+        </div>
+        <Dashboard {...props} display={!infoWindow}/>
+				<Modal isOpen={infoWindow}>
+        <div className="info-window-content">
+					<h1>Welcome to the 311 Dash Demo</h1>
+				  <p class="close-modal doHover" onClick={this.toggleInfoWindow.bind(this)}>X</p>
+          <div class="info-window-content-inner">
+					<p>Welcome to the Philly 311 dashboard demo! Click around and feel free to leave feedback at our website: `https://interra.io`!</p>
+          <p>We are using sample data from the Philly 311 API, which leverages the Open311 standard (link). This means that we can easily implement this dashboard for ANY city or municipality that leverages this standard.</p>
+          <p>If you are interested in Open311, or open data generally,  have a look at these references:</p>
+          <ul class="info-list">
+            <li><a href="http://interria.io">Interra Open Data Catalog</a></li>
+            <li><a href="http://wiki.open311.org/" target="_blank">Open 311 WIKI</a></li>
+            <li><a href="https://www.opendataphilly.org/" target="_blank">Open Data Philly</a></li>
+          </ul>
+          <p>If you have questions or comments, or if you are interested in implementing an open data project, <a href="mailto:info@interra.io" target="_top">Contact Us</a>.</p>
+          </div>
+        </div>
+				</Modal>
       </div>
     )
   }

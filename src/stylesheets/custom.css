@@ -44,6 +44,10 @@ html, body, #app-container, #dashbaord-container, .card {
   height: 50em;
   width: 100%; }
 
+/* Info Modal */
+.ReactModal__Overlay {
+  z-index: 1000; }
+
 .info-window-open #map-container {
   display: none; }
 
@@ -54,7 +58,9 @@ html, body, #app-container, #dashbaord-container, .card {
 
 .close-modal {
   font-weight: 800;
-  color: red; }
+  color: red;
+  position: absolute;
+  top: 10px; }
 
 @media screen and (max-width: 699px) {
   #map-container {

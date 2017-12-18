@@ -7,7 +7,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import FontAwesome from 'react-fontawesome'
 import interraLogoWhite from './images/interra-logo-white.png'
-import Modal from 'react-modal'
+import InfoModal from './InfoModal.js'
 
 const history = createHistory()
 
@@ -56,23 +56,7 @@ class App extends Component {
 
         </div>
         <Dashboard {...props} display={!infoWindow}/>
-				<Modal isOpen={infoWindow}>
-        <div className="info-window-content">
-					<h1>Welcome to the 311 Dash Demo</h1>
-				  <p class="close-modal doHover" onClick={this.toggleInfoWindow.bind(this)}>X</p>
-          <div class="info-window-content-inner">
-					<p>Welcome to the Philly 311 dashboard demo! Click around and feel free to leave feedback at our website: `https://interra.io`!</p>
-          <p>We are using sample data from the Philly 311 API, which leverages the Open311 standard (link). This means that we can easily implement this dashboard for ANY city or municipality that leverages this standard.</p>
-          <p>If you are interested in Open311, or open data generally,  have a look at these references:</p>
-          <ul class="info-list">
-            <li><a href="http://interria.io">Interra Open Data Catalog</a></li>
-            <li><a href="http://wiki.open311.org/" target="_blank">Open 311 WIKI</a></li>
-            <li><a href="https://www.opendataphilly.org/" target="_blank">Open Data Philly</a></li>
-          </ul>
-          <p>If you have questions or comments, or if you are interested in implementing an open data project, <a href="mailto:info@interra.io" target="_top">Contact Us</a>.</p>
-          </div>
-        </div>
-				</Modal>
+        <InfoModal infoWindowOpen={this.state.infowWindow} toggleInfoWindow={this.toggleInfoWindow.bind(this)} infoWindowClass={infoWindowClass} />
       </div>
     )
   }

@@ -14,7 +14,7 @@ const history = createHistory()
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {info : false}
+    this.state = {infoWindowOpen : false}
   }	
   
   componentDidMount() {
@@ -26,14 +26,13 @@ class App extends Component {
   }
 
   toggleInfoWindow() {
-    this.setState({info : !this.state.info})
+    this.setState({infoWindowOpen : !this.state.infoWindowOpen})
   }
 
 
   render() {
     const additionalQs = ['getServiceNumbersByNeighborhood']
-    const infoWindow = this.state.info
-    const infoWindowClass = (this.state.info) ? 'info-window-open' : 'info-window-closed'
+    const infoWindowClass = (this.state.infoWindowOpen) ? 'info-window-open' : 'info-window-closed'
     const props = Object.assign(config, this.props, {params: getParams(), history: history, additionalQs: additionalQs})
     
     return (
@@ -55,8 +54,8 @@ class App extends Component {
           </div>
 
         </div>
-        <Dashboard {...props} display={!infoWindow}/>
-        <InfoModal infoWindowOpen={this.state.infowWindow} toggleInfoWindow={this.toggleInfoWindow.bind(this)} infoWindowClass={infoWindowClass} />
+        <Dashboard {...props} display={!this.state.infoWindowOpen}/>
+        <InfoModal infoWindowOpen={this.state.infoWindowOpen} toggleInfoWindow={this.toggleInfoWindow.bind(this)} infoWindowClass={infoWindowClass} />
       </div>
     )
   }

@@ -17,7 +17,6 @@
                 {
                     "type": "Autocomplete",
                     "filterKey": "service_name",
-                    "label": "Show map values by 311 request type",
                     "className": "filter-right",
                     "cardProps": {
                         "subheader": "Click neighborhood to see aggregate data (One neighborhood at a time for query speed). Use select filter below to visualize requests by neighborhood."
@@ -99,8 +98,8 @@
                     "componentKey": "chart-3",
                     "filters": ["neighborhood"],
                     "cardProps": {
-                        "header": "Common 311 Requests by Region",
-                        "subheader": "Excluding Information Requests (see table below)"
+                        "header": "Common 311 Requests",
+                        "subheader": "(Excluding Information Requests -- see table below)"
                     },
                     "dataType": "NVD3PieChartSeries",
                     "resourceHandle": "philly_311",
@@ -132,6 +131,9 @@
                     "settings": {
                         "type": "pieChart",
                         "height": 800,
+                        "donut": true,
+                        "labelType": "percent",
+                        "legendPosition": "bottom",
                         "legend": {
                             "maxKeyLength": 25
                         }

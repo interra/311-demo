@@ -76,6 +76,9 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
     color: black;
 }
 
+.leaflet-bottom {z-index: 400}
+.leaflet-top{z-index: 400}
+
 /* Autocomplete filter for request type */
 .filter-right {z-index:500}
 .filter-right label {width: 100%; margin:2px;}
@@ -120,3 +123,9 @@ div.react-table[style] {
 
 /* React Table */
 div.ReactTable {background-color:white; color:black; font-size:1.2em}
+
+/* Pie chart Labels */
+#region-1 .nv-legend text {fill:white !important;}
+.nvtooltip {color:white; font-size:2em; z-index:600; padding: 1em;}
+.nvtooltip table  {background-color:white; color:blue; font-weight:900; opacity:.65; margin-right:2em;z-index:501}
+.nvtooltip table td {padding:1em}

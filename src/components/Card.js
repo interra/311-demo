@@ -28,8 +28,12 @@ export default class Card extends Component {
     return (
       <div className={'card card-' + props.cardStyle + ' ' + classNames} style={style}>
         <div className="card-top">
-          {regions.header}
-          {regions.subheader}
+          <div className="bd-title">
+            {regions.header}
+          </div>
+          <div className="bd-lead">
+            {regions.subheader}
+          </div>
           {regions.topmatter}
           {regions.subheader2}
           {regions.topmatter2}

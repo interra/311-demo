@@ -502,7 +502,7 @@ div.ReactTable {
   color: black;
   font-size: 1.2em; }
 
-/* Pie chart Labels */
+/* Pie chart */
 #region-1 .nv-legend text {
   fill: white !important; }
 
@@ -522,6 +522,9 @@ div.ReactTable {
 
 .nvtooltip table td {
   padding: 1em; }
+
+g.nv-pieWrap {
+  transform: translate(20px, -100px); }
 
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)

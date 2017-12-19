@@ -19,11 +19,12 @@
                     "filterKey": "service_name",
                     "className": "filter-right",
                     "cardProps": {
-                        "subheader": "Click neighborhood to see aggregate data (One neighborhood at a time for query speed). Use select filter below to visualize requests by neighborhood."
+                        "footerHeader": "Click Map to see neighborhood-level data"
                     },
                     "field": "service_name",
                     "multi": false,
                     "noData": true,
+                    "placeholder": "SELECT A REQUEST TYPE",
                     "operation": "IN",
                     "options": 
 			[
@@ -132,11 +133,7 @@
                         "type": "pieChart",
                         "height": 800,
                         "donut": true,
-                        "labelType": "percent",
-                        "legendPosition": "bottom",
-                        "legend": {
-                            "maxKeyLength": 25
-                        }
+                        "labelType": "percent"
                     }
                 }
 	    ]

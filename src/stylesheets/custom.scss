@@ -141,8 +141,10 @@ div.react-table[style] {
 /* React Table */
 div.ReactTable {background-color:white; color:black; font-size:1.2em}
 
-/* Pie chart Labels */
+/* Pie chart */
 #region-1 .nv-legend text {fill:white !important;}
 .nvtooltip {color:white; font-size:2em; z-index:600; padding: 1em;}
 .nvtooltip table  {background-color:white; color:blue; font-weight:900; opacity:.65; margin-right:2em;z-index:501}
 .nvtooltip table td {padding:1em}
+g.nv-pieWrap {transform: translate(20px,-80px)}
+

@@ -41,10 +41,27 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
 /* Info Modal */
 .ReactModal__Overlay {
     z-index: 1000;
+    text-align:center;
 }
 
 .info-window-open #map-container {
     display: none;
+}
+.info-window-content h1,h2,h3,h4 {
+    border-bottom: none;
+}
+
+.info-window-content .lead {
+    padding: 1em 0;
+}
+
+.info-row {margin-bottom:3em}
+.info-row img {height:10em; margin-top:2em}
+.info-row .indent {margin-left:4.5em}
+
+.bd-pageheader {
+    background-color: black;
+    color: white;
 }
 
 .info-window-inner {
@@ -57,7 +74,7 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
     font-weight: 800;
     color: red;
     position: absolute;
-    top: 10px;
+    left: 10px;
 }
 
 @media screen and (max-width: 699px) {

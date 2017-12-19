@@ -9,8 +9,9 @@ import postGISLogo from './images/logos/postgis-logo.png'
 export default class InfoModal extends Component {
   render() {
     const toggleInfoWindow = this.props.toggleInfoWindow
+    const props = Object.assign({isOpen: this.props.infoWindowOpen}, this.props)
     return (
-    <Modal isOpen={this.props.infoWindowOpen}>
+    <Modal {...props}>
       <section className="fdb-block">
         <span className="close-modal doHover" onClick={toggleInfoWindow}>X</span>
         <div className="container">

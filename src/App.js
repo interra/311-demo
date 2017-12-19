@@ -29,33 +29,32 @@ class App extends Component {
     this.setState({infoWindowOpen : !this.state.infoWindowOpen})
   }
 
-
   render() {
     const additionalQs = ['getServiceNumbersByNeighborhood']
     const infoWindowClass = (this.state.infoWindowOpen) ? 'info-window-open' : 'info-window-closed'
     const props = Object.assign(config, this.props, {params: getParams(), history: history, additionalQs: additionalQs})
+    const doClose = this.toggleInfoWindow.bind(this)
     
     return (
       <div id="app-container" className={infoWindowClass}>
         <div className="row">
-          <div className="col-md-6 311-app-title">
+          <div className="col-md-12 311-app-title">
             <h1>
               {props.title}
                 <FontAwesome name="info-circle" size="1x" className="title-info doHover" onClick={this.toggleInfoWindow.bind(this)} />
             </h1>
+            <div className="social-logos">
+              <a href="https://github.com/interra/311-demo">
+                <FontAwesome name="github" className="doHover" size="2x" target="_blank" />
+              </a>
+              <a href="http://interra.io" target="_blank">
+                <img className="interra-icon-white" size="2x" src={interraLogoWhite} />
+              </a>
+            </div>
           </div>
-          <div className="col-md-6 social-logos">
-            <a href="https://github.com/interra/311-demo">
-              <FontAwesome name="github" className="doHover" size="2x" target="_blank" />
-            </a>
-            <a href="http://interra.io" target="_blank">
-              <img className="interra-icon-white" src={interraLogoWhite} />
-            </a>
-          </div>
-
         </div>
         <Dashboard {...props} display={!this.state.infoWindowOpen}/>
-        <InfoModal infoWindowOpen={this.state.infoWindowOpen} toggleInfoWindow={this.toggleInfoWindow.bind(this)} infoWindowClass={infoWindowClass} />
+        <InfoModal infoWindowOpen={this.state.infoWindowOpen} toggleInfoWindow={doClose} infoWindowClass={infoWindowClass} onRequestClose={doClose} />
       </div>
     )
   }

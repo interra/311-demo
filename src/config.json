@@ -19,6 +19,8 @@
                     "filterKey": "service_name",
                     "className": "filter-right",
                     "cardProps": {
+                        "header": "Requests by neighborhood",
+                        "info": "This choropleth map shows the number of requests by neighborhood for a given request type. Use the select filter below to change the request type.",
                         "footerHeader": "Click Map to see neighborhood-level data"
                     },
                     "field": "service_name",
@@ -57,7 +59,7 @@
                         { 
                           "center": [39.9728, -75.1638],
                           "zoomControl": false,
-                          "zoom": 10.7, 
+                          "zoom": 12, 
                           "maxZoom": 19, 
                           "minZoom": 6, 
                           "scrollWheelZoom": false,
@@ -100,6 +102,7 @@
                     "filters": ["neighborhood"],
                     "cardProps": {
                         "header": "Common 311 Requests",
+                        "info": "This chart shows the most common 311 requests for the selected neighborhood. If no neighborhood is selected then it shows values for the whole city. Click on the map to the right to select a neighborhood.",
                         "subheader": "(Excluding Information Requests -- see table below)"
                     },
                     "dataType": "NVD3PieChartSeries",

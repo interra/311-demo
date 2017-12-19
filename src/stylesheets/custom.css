@@ -6,13 +6,11 @@ h1, h2, h3, h4, h5 {
   color: #d4d6d8; }
 
 h1, h2, h3, h4, h5, .card-header {
-  border-bottom: 1px solid #eda9fc; }
+  border-bottom: 1px solid #eda9fc;
+  text-align: center; }
 
 .card-header {
   color: #d4d6d8; }
-
-h1 {
-  margin-right: 0; }
 
 html, body, #app-container, #dashbaord-container, .card {
   background-color: #242d3c;
@@ -143,6 +141,18 @@ div.react-table[style] {
   background-color: #d1c6d0; }
 
 /* Choropleth legend component styles */
+.choropleth-legend {
+  font-size: .4em;
+  background-color: white;
+  opacity: .9;
+  color: black;
+  padding: 1em;
+  width: 12em;
+  position: absolute;
+  z-index: 440;
+  top: 28em;
+  left: 4em; }
+
 .choropleth-legend .legend-row {
   display: inline-block;
   width: 100%;

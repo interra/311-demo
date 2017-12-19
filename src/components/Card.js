@@ -13,6 +13,7 @@ export default class Card extends Component {
     let style = props.style || {};
     let regions = {};
     let classNames = (props.cardClasses || []).join(' ') || '';
+    let info = this.props.info
 
     CARD_REGIONS.forEach(region => {
       if (props[region]) {
@@ -31,6 +32,7 @@ export default class Card extends Component {
           <div className="bd-title">
             {regions.header}
           </div>
+            {}
           <div className="bd-lead">
             {regions.subheader}
           </div>

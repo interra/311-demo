@@ -15,6 +15,12 @@
             "className": "col-md-6",
             "children": [
                 {
+                    "type": "DateFilter",
+                    "filterKey": "startDate",
+                    "field": "created_at",
+                    "noData" : true
+                },
+                {
                     "type": "Autocomplete",
                     "filterKey": "service_name",
                     "className": "filter-right",

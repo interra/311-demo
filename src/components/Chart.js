@@ -41,6 +41,7 @@ export default class Chart extends Component{
 
   render() {
     const settings = Object.assign({datum: this.props.data || [], key: this.props.componentKey, x: this.props.x, y: this.props.y}, this.getFormattedSettings());
+    console.log(this, settings)
 
     return (
         <NVD3Chart {...settings} />

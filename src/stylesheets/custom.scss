@@ -1,9 +1,10 @@
 /* typography */
-h1, h2, h3, h4, h5 {padding:0; margin: .5em !important; line-height:1em; color: #d4d6d8;}
-h1, h2, h3, h4, h5, .card-header {border-bottom: 1px solid #eda9fc; text-align:center;}
+h1, h2, h3, h4, h5 {margin: .5em !important; line-height:1em; color: #d4d6d8;}
+h1, h2, h3, h4, h5, .region-title h2, .card-header {border-bottom: 1px solid #eda9fc; text-align:center;}
 .card-header {color: #d4d6d8;}
 
 html, body, #app-container, #dashbaord-container, .card  {background-color: #242d3c; color: #d4d6d8; font-size:1.1em;}
+
 /** App Skin**/
 .social-logos {
   text-align:right;
@@ -32,7 +33,7 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
 
 /** MAPS **/
 .leaflet-container {
-    height: 50em;
+    height: 80em;
     width:100%;
 }
 
@@ -45,7 +46,7 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
 .info-window-open #map-container {
     display: none;
 }
-.info-window-content h1,h2,h3,h4 {
+.info-window-content {
     border-bottom: none;
 }
 
@@ -145,5 +146,5 @@ div.ReactTable {background-color:white; color:black; font-size:1.2em}
 .nvtooltip {color:white; font-size:2em; z-index:600; padding: 1em;}
 .nvtooltip table  {background-color:white; color:blue; font-weight:900; opacity:.65; margin-right:2em;z-index:501}
 .nvtooltip table td {padding:1em}
-g.nv-pieWrap {transform: translate(20px,-80px)}
+/* g.nv-pieWrap {transform: translate(20px,-80px)} */
 

@@ -1,11 +1,18 @@
 import React from 'react'
 import BaseFilter from './BaseFilter'
-import { Map, TileLayer, ZoomControl, GeoJSON } from 'react-leaflet'
+import { Map, TileLayer, Marker, ZoomControl, GeoJSON } from 'react-leaflet'
+import Leaflet from 'leaflet'
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import Choropleth from 'react-leaflet-choropleth'
 import FontAwesome from 'react-fontawesome'
 import HoverInfo from './HoverInfo.js'
 import ChoroplethLegend from './ChoroplethLegend.js'
+import mapMarkerUrl from '../images/map-marker-icon.png'
+
+const mapMarker = new Leaflet.Icon({
+  iconUrl: mapMarkerUrl,
+  iconSize: [50,50]
+})
 
 export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
@@ -117,6 +124,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     const { leafletSettings, choroplethSettings } = this.props
     const { tileUrl, tileAttr } = leafletSettings
     const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = choroplethSettings
+
     
     return (
     <div id="map-container">
@@ -126,6 +134,17 @@ export default class NeighborhoodFilter extends BaseFilter {
           attribution={tileAttr}
           url={tileUrl}
         />
+        
+        <Marker position={[39.966482366, -75.201098885]} icon={mapMarker} />
+
+        <Marker position={[40.004743944, -75.157964196]} icon={mapMarker} />
+        <Marker position={[39.971034755, -75.157964196]} icon={mapMarker} />
+        <Marker position={[39.961802244, -75.140734345]} icon={mapMarker} />
+        <Marker position={[39.971034755, -75.162882251]} icon={mapMarker} />
+        <Marker position={[39.981375404, -75.182010041]} icon={mapMarker} />
+        <Marker position={[40.01498582, -75.172041644]} icon={mapMarker} />
+        <Marker position={[39.987040503, -75.167127163]} icon={mapMarker} />
+        
         <Choropleth
           data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
           valueProperty={this.getNeighborhoodData.bind(this)}

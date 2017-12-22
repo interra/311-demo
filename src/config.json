@@ -1,5 +1,5 @@
 {
-    "title": "Philly 311 Data Visualized",
+    "title": "Best and Worst of Philly - 2017",
     "backend": "cartodb",
     "dataResources": [
         {
@@ -11,21 +11,25 @@
     ],
     "regions": [
         {
+            "id": "topmatter",
+            "className": "row",
+            "children": [
+                {
+                    "type": "Markup",
+                    "content": "<p className='topmatter col-md-12 lead'>We present to you the best and worst of Phialdelphia, the city we love and love to hate. For each of a handfull of 311 request categories, we present (by area) the best and worst neighborhoods by number of complaints, the City's response time to problems, and outstanding problems.</p>"
+                }
+            ]
+        },
+        {
             "id": "filters",
             "className": "col-md-6",
             "children": [
-                {
-                    "type": "DateFilter",
-                    "filterKey": "startDate",
-                    "field": "created_at",
-                    "noData" : true
-                },
                 {
                     "type": "Autocomplete",
                     "filterKey": "service_name",
                     "className": "filter-right",
                     "cardProps": {
-                        "header": "Requests by neighborhood",
+                        "header": "Longest unfixed Street Defects",
                         "info": "This choropleth map shows the number of requests by neighborhood for a given request type. Use the select filter below to change the request type.",
                         "footerHeader": "Click Map to see neighborhood-level data"
                     },
@@ -58,11 +62,11 @@
                 },
                 {
                     "type": "NeighborhoodFilter",
+                    "className": "map-left",
                     "filterKey": "neighborhood",
                     "filters": ["service_name"],
                     "componentKey": "neighborhoodMap",
-                    "leafletSettings":
-                        { 
+                    "leafletSettings": { 
                           "center": [39.9728, -75.1638],
                           "zoomControl": false,
                           "zoom": 12, 
@@ -78,7 +82,7 @@
                           "unselectedFillOpacity": 0,
                           "tileUrl": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
                           "tileAttr": "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"
-                        },
+                    },
                     "choroplethSettings": {
                         "choroplethStyle": {
                             "fillColor": "#F28F3B",
@@ -93,21 +97,157 @@
                         "legendCaption": "Requests per Neighborhood:",
                         "mode": "e"
                     },
-                    "multi": true,
-                    "className": "map-left"
+                    "multi": true
+                }
+            ]
+        },
+        {
+            "id": "region-00",
+            "title": "Detail by Neighborhood",
+            "className": "col-md-6",
+            "children": [
+                {
+                    "type": "Metric",
+                    "background": "blue",
+                    "icon": "phone",
+                    "caption": "Potholes Reported in 2017",
+                    "value": 12999
+                },
+                {
+                    "type": "Chart",
+                    "componentKey": "discrete-1",
+                    "cardProps": {
+                        "header": "Neighborhood with most potholes (by area)"
+                    },
+                    "dataType": "NVD3ChartSeries",
+                    "resourceHandle": "philly_311",
+                    "count": "service_name",
+                    "limit": 3,
+                    "where": [
+                        {
+                            "op": "notIn",
+                            "attribute": "service_name",
+                            "value": ["Information Request"]
+                        }
+                    ],
+                    "dataFields": [
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "discreteBarChart",
+                        "x": "service_name",
+                        "y": "count",
+                        "height": 300
+                    }
+                },
+                {
+                    "type": "Metric",
+                    "background": "purple",
+                    "icon": "clock-o",
+                    "caption": "Average Response Time",
+                    "value": "3 weeks"
+                },
+                {
+                    "type": "Chart",
+                    "componentKey": "discrete-1",
+                    "cardProps": {
+                        "header": "Neighborhoods with slowest response time"
+                    },
+                    "dataType": "NVD3ChartSeries",
+                    "resourceHandle": "philly_311",
+                    "count": "service_name",
+                    "limit": 3,
+                    "where": [
+                        {
+                            "op": "notIn",
+                            "attribute": "service_name",
+                            "value": ["Information Request"]
+                        }
+                    ],
+                    "dataFields": [
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "discreteBarChart",
+                        "x": "service_name",
+                        "y": "count",
+                        "height": 300
+                    }
+                },
+                {
+                    "type": "Chart",
+                    "componentKey": "discrete-2",
+                    "cardProps": {
+                        "header": "Neighborhoods with fastest response time",
+                        "icon-class": "clock-o"
+                    },
+                    "dataType": "NVD3ChartSeries",
+                    "resourceHandle": "philly_311",
+                    "count": "service_name",
+                    "limit": 3,
+                    "where": [
+                        {
+                            "op": "notIn",
+                            "attribute": "service_name",
+                            "value": ["Information Request"]
+                        }
+                    ],
+                    "dataFields": [
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "service_name",
+                            "type": "STRING",
+                            "fieldHandle": "serviceName"
+                        },
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "count",
+                            "type": "INTEGER",
+                            "fieldHandle": "count"
+                        }
+                    ],
+                    "settings": {
+                        "type": "discreteBarChart",
+                        "x": "service_name",
+                        "y": "count",
+                        "height": 300
+                    }
                 }
             ]
         },
         {
             "id": "region-1",
-            "className": "col-md-6",
+            "className": "row",
             "children": [
                 {
                     "type": "Chart",
+                    "className": "col-md-12",
                     "componentKey": "chart-3",
                     "filters": ["neighborhood"],
                     "cardProps": {
-                        "header": "Common 311 Requests",
+                        "header": "Other Common 311 Requests",
                         "info": "This chart shows the most common 311 requests for the selected neighborhood. If no neighborhood is selected then it shows values for the whole city. Click on the map to the right to select a neighborhood.",
                         "subheader": "(Excluding Information Requests -- see table below)"
                     },
@@ -154,7 +294,7 @@
                 {
                     "type": "Table",
                     "cardProps": {
-                        "header": "Information requests by Agency",
+                        "header": "311 Calls Requesting Information (by Agency Responsible)",
                         "subheader": "Click column headers to sort. Browsing controls at bottom of table."
                     },
                     "resourceHandle": "philly_311",

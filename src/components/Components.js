@@ -4,7 +4,7 @@ import Table from './Table.js'
 import Autocomplete from './Autocomplete.js'
 import NeighborhoodFilter from './NeighborhoodFilter.js'
 import DateFilter from './DateFilter.js'
-import moment from 'moment'
+import Markup from './Markup.js'
 
 export default {
   Chart : Chart,
@@ -12,5 +12,6 @@ export default {
   Table: Table,
   Autocomplete: Autocomplete,
   DateFilter: DateFilter,
-  NeighborhoodFilter: NeighborhoodFilter
+  NeighborhoodFilter: NeighborhoodFilter,
+  Markup: Markup
 }

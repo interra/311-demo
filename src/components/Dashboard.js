@@ -11,6 +11,12 @@ export default class Dashboard extends Component {
   // @@TODO should return n series
   // @@TODO based on config
   getNVD3ChartData(data) {
+    console.log("CHART DATA", data)
+    return [{
+      key: "A",
+      values: data
+    }]
+    
     const series1 = {
       key: 'Key1',
       color: 'blue',
@@ -39,13 +45,13 @@ export default class Dashboard extends Component {
   //          arbitrary app-defined graphql query data
   getComponentData(component) {
     if (this.props.data.getComponents) {
-    const componentData = this.props.data.getComponents
-    // append data from addl queries, used for the map layer component
-    const addlData = this.props.additionalQs.reduce((acc, addl) => {
-      return acc.concat(this.props.data[addl])
-    }, [])
+      const componentData = this.props.data.getComponents
+      // append data from addl queries, used for the map layer component
+      const addlData = this.props.additionalQs.reduce((acc, addl) => {
+        return acc.concat(this.props.data[addl])
+      }, [])
 
-    const allData = componentData.concat(addlData)
+      const allData = componentData.concat(addlData)
       const cDatas = allData.filter(item => {
         if (item.componentKey) {
           return item.componentKey === component.componentKey
@@ -62,6 +68,7 @@ export default class Dashboard extends Component {
             const pieData = this.getPieChartData(cData)
             return pieData
           case 'NVD3ChartSeries':
+            console.log("NVD3CH", this)
             return this.getNVD3ChartData(cData)
           default:
             return cData
@@ -76,7 +83,7 @@ export default class Dashboard extends Component {
   
   getRegionTitle(region) {
     if (region.title) { 
-      return <h2>{region.title} </h2>
+      return <h2 className="region-title">{region.title} </h2>
     } else {
       return ""
     }

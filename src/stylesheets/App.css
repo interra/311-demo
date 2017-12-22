@@ -338,12 +338,11 @@ a {
 
 /* typography */
 h1, h2, h3, h4, h5 {
-  padding: 0;
   margin: .5em !important;
   line-height: 1em;
   color: #d4d6d8; }
 
-h1, h2, h3, h4, h5, .card-header {
+h1, h2, h3, h4, h5, .region-title h2, .card-header {
   border-bottom: 1px solid #eda9fc;
   text-align: center; }
 
@@ -377,7 +376,7 @@ html, body, #app-container, #dashbaord-container, .card {
 
 /** MAPS **/
 .leaflet-container {
-  height: 50em;
+  height: 80em;
   width: 100%; }
 
 /* Info Modal */
@@ -388,7 +387,7 @@ html, body, #app-container, #dashbaord-container, .card {
 .info-window-open #map-container {
   display: none; }
 
-.info-window-content h1, h2, h3, h4 {
+.info-window-content {
   border-bottom: none; }
 
 .info-window-content .lead {
@@ -533,9 +532,7 @@ div.ReactTable {
 .nvtooltip table td {
   padding: 1em; }
 
-g.nv-pieWrap {
-  transform: translate(20px, -80px); }
-
+/* g.nv-pieWrap {transform: translate(20px,-80px)} */
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2017 Twitter, Inc.

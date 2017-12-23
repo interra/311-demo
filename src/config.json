@@ -134,7 +134,7 @@
                     "where": [
                         {
                             "attribute": "service_name",
-                            "value": "Street Defect"
+                            "value": {"filterVal": "service_name"}
                         }
                     ],
                     "dataFields": [
@@ -155,7 +155,9 @@
                         "type": "discreteBarChart",
                         "x": "neighborhood",
                         "y": "count",
-                        "height": 300
+                        "height": 450,
+                        "margin": 100,
+                        "rotateLabels": 45
                     }
                 },
                 {
@@ -174,7 +176,7 @@
                     "where": [
                         {
                             "attribute": "service_name",
-                            "value": "Street Defect"
+                            "value": {"filterVal": "service_name"}
                         }
                     ],
                     "dataFields": [
@@ -195,7 +197,9 @@
                         "type": "discreteBarChart",
                         "x": "neighborhood",
                         "y": "count",
-                        "height": 300
+                        "height": 350,
+                        "margin": 101,
+                        "rotateLabels": 45
                     }
                 },
                 {
@@ -223,6 +227,10 @@
                     "dataType": "NVD3PieChartSeries",
                     "resourceHandle": "philly_311",
                     "count": "service_name",
+                    "order": {
+                        "attribute": "count",
+                        "order": "DESC"
+                    },
                     "limit": 10,
                     "where": [
                         {

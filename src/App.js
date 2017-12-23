@@ -107,12 +107,32 @@ const whereFromFilters = (component, filterVals) => {
   return applied
 }
 
+// If component.where definition includes value.filter, apply filter value to where clause 
+const applyFilteredWhere = (where, filterVals) => {
+  return where.map(wh => {
+    if (wh.value && wh.value.filterVal) {
+      const _vals = getFilterValue(filterVals, wh.value.filterVal)
+      const vals = (Array.isArray(_vals)) ? _vals : [_vals]
+      console.log("<><><>", wh.value.filterVal, _vals, vals)
+      if (vals) {
+        const newWh = {attribute: wh.attribute, value: vals}
+        console.log("...", vals, newWh)
+        return newWh
+      } else {
+        return wh
+      }
+    }
+    
+    return wh
+  })
+}
 
 // do any pre-fetch processing of component definits here
 const prefetchProcessDashComponents = (_components,filterVals) => {
   const components = _components.map(component => {
     const applied = whereFromFilters(component, filterVals)
-    const where = component.where.concat(applied)
+    const filteredWhere = applyFilteredWhere(component.where, filterVals)
+    const where = filteredWhere.concat(applied)
     const componentInput = {
       type: component.type,
       resourceHandle: component.resourceHandle,

@@ -479,7 +479,7 @@ div.react-table[style] {
 
 /* Choropleth legend component styles */
 .choropleth-legend {
-  font-size: .4em;
+  font-size: 1em;
   background-color: white;
   opacity: .9;
   color: black;
@@ -487,8 +487,8 @@ div.react-table[style] {
   width: 12em;
   position: absolute;
   z-index: 440;
-  top: 28em;
-  left: 4em; }
+  top: 12%;
+  left: 5%; }
 
 .choropleth-legend .legend-row {
   display: inline-block;

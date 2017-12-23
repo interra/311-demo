@@ -163,7 +163,7 @@ export default class NeighborhoodFilter extends BaseFilter {
         onMouseOut={this.resetActiveRegion.bind(this)}
         style={this.updateStyle.bind(this)}
       />
-      <ZoomControl />
+      <ZoomControl position="topright" />
       <HoverInfo
         active={infoWindowActive}
         position={infoWindowPos}

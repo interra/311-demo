@@ -70,6 +70,9 @@ export default class Dashboard extends Component {
           case 'NVD3ChartSeries':
             console.log("NVD3CH", this)
             return this.getNVD3ChartData(cData)
+          case 'Scalar':
+            console.log("SCALAR", this, cData)
+            return [cData[0].count] // assumes a count value - better to just return a scalar from the api
           default:
             return cData
         }

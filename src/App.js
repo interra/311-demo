@@ -120,6 +120,7 @@ const prefetchProcessDashComponents = (_components,filterVals) => {
       count: component.count,
       limit: component.limit,
       dataFields: component.dataFields,
+      order: component.order,
       where: where
     }
 

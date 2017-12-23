@@ -8,6 +8,28 @@ const CARD_REGIONS = [
 ];
 
 export default class Card extends Component {
+  getCardRegionStr(cardRegionContent, params) {
+    let regionStr, filterVal, replacement
+
+    // if we're using dash parameters:
+    if (cardRegionContent.template) {
+      filterVal = params[cardRegionContent.filterVal]
+
+      if (filterVal) {
+        replacement = (Array.isArray(filterVal)) ? filterVal.join(cardRegionContent.joiner) : filterVal
+        regionStr = cardRegionContent.template.replace('%%var%%', replacement)
+      } else {
+        regionStr = cardRegionContent.default
+      }
+
+    } else { // if it's a literal string return it
+      regionStr =  cardRegionContent
+    }
+
+    console.log(regionStr)
+    return regionStr
+  }
+  
   render() {
     let props = this.props;
     let style = props.style || {};
@@ -16,11 +38,15 @@ export default class Card extends Component {
     let info = this.props.info
 
     CARD_REGIONS.forEach(region => {
-      if (props[region]) {
-        let icon = region === 'header' && props.iconClass ? <span className={`fa ${props.iconClass}`}></span> : false;
+      const cardRegion = props[region]
+      
+      if (cardRegion) {
+        const icon = region === 'header' && props.iconClass ? <span className={`fa ${props.iconClass}`}></span> : false
+        const str = this.getCardRegionStr(cardRegion, this.props.params)
+
         regions[region] = (
           <div className={"card-" + region}>
-            <div className={"card-" + region + "-inner"}>{icon}{props[region]}</div>
+            <div className={"card-" + region + "-inner"}>{icon}{str}</div>
           </div>
         )
       }

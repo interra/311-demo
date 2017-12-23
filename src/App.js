@@ -113,10 +113,8 @@ const applyFilteredWhere = (where, filterVals) => {
     if (wh.value && wh.value.filterVal) {
       const _vals = getFilterValue(filterVals, wh.value.filterVal)
       const vals = (Array.isArray(_vals)) ? _vals : [_vals]
-      console.log("<><><>", wh.value.filterVal, _vals, vals)
       if (vals) {
         const newWh = {attribute: wh.attribute, value: vals}
-        console.log("...", vals, newWh)
         return newWh
       } else {
         return wh

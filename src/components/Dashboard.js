@@ -11,7 +11,6 @@ export default class Dashboard extends Component {
   // @@TODO should return n series
   // @@TODO based on config
   getNVD3ChartData(data) {
-    console.log("CHART DATA", data)
     return [{
       key: "A",
       values: data
@@ -68,10 +67,8 @@ export default class Dashboard extends Component {
             const pieData = this.getPieChartData(cData)
             return pieData
           case 'NVD3ChartSeries':
-            console.log("NVD3CH", this)
             return this.getNVD3ChartData(cData)
           case 'Scalar':
-            console.log("SCALAR", this, cData)
             return [cData[0].count] // assumes a count value - better to just return a scalar from the api
           default:
             return cData
@@ -105,7 +102,7 @@ export default class Dashboard extends Component {
               const cardProps = component.cardProps || {}
               const toCard = Object.assign(cardProps, {children: [<Component {...componentProps} key={component.componentKey || 'filter_' + i + '_' + j} history={region.history} />]})
               // wrap component in Card component and return
-              return <Card {...toCard} key={i + '__' + j}/>
+              return <Card {...toCard} key={i + '__' + j} params={this.props.params} />
             } else {	
               return <p>"BAD COMPONENT DEFINITION"</p>
             } 
@@ -127,6 +124,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
+    console.log('DASH', this)
     return (
       <div className="dashboard-container">
           {this.getRegions(this.props.regions)}

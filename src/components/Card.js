@@ -26,7 +26,6 @@ export default class Card extends Component {
       regionStr =  cardRegionContent
     }
 
-    console.log(regionStr)
     return regionStr
   }
   

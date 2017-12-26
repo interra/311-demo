@@ -10,6 +10,7 @@ import interraLogoWhite from './images/interra-logo-white.png'
 import InfoModal from './InfoModal.js'
 
 const history = createHistory()
+const OUTSTANDING_REQUEST_LIMIT = 10
 
 class App extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class App extends Component {
   }
 
   render() {
-    const additionalQs = ['getServiceNumbersByNeighborhood']
+    const additionalQs = ['getServiceNumbersByNeighborhood', 'getOutstandingRequests']
     const infoWindowClass = (this.state.infoWindowOpen) ? 'info-window-open' : 'info-window-closed'
     const props = Object.assign(config, this.props, {params: getParams(), history: history, additionalQs: additionalQs})
     const doClose = this.toggleInfoWindow.bind(this)
@@ -61,11 +62,17 @@ class App extends Component {
 }
 
 const query = gql`
-  query getComponents ($components: [ComponentInput]!, $serviceName: String!, $mapQueryKey: String!) {
+  query getComponents ($components: [ComponentInput]!, $serviceName: String!, $mapQueryKey: String!, $limit:Int!) {
   getServiceNumbersByNeighborhood (serviceName: $serviceName, componentKey: $mapQueryKey){
     data {JSONResponse}
     componentKey
   }
+  
+  getOutstandingRequests (serviceName: $serviceName, componentKey: $mapQueryKey, limit: $limit){
+    data {JSONResponse}
+    componentKey
+  }
+
 
   getComponents(
     components: $components
@@ -166,10 +173,12 @@ const graphqlQueryVars = () => {
   const _componentsQ = getComponentsQ()
   const componentsQ = prefetchProcessDashComponents(_componentsQ, filterVals)
   const serviceName = getFilterValue(filterVals, "service_name")
+  const limit = OUTSTANDING_REQUEST_LIMIT
 
   const variables = {
     components: componentsQ,
     serviceName: serviceName,
+    limit: limit,
     mapQueryKey: "neighborhoodMap"
   }
 

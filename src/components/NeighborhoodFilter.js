@@ -1,6 +1,6 @@
 import React from 'react'
 import BaseFilter from './BaseFilter'
-import { Map, TileLayer, Marker, ZoomControl, GeoJSON } from 'react-leaflet'
+import { Map, TileLayer, Marker, Popup, ZoomControl, GeoJSON } from 'react-leaflet'
 import Leaflet from 'leaflet'
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import Choropleth from 'react-leaflet-choropleth'
@@ -117,6 +117,16 @@ export default class NeighborhoodFilter extends BaseFilter {
     return this.props.data.map(rec => rec.count)
   }
 
+  getMarkers() {
+    console.log(this)
+    if (this.props.data.getOutstandingRequests) {
+      const rows = JSON.parse(this.props.data.getOutstandingRequests.data.JSONReponse)
+      console.log(rows)
+    }
+    
+    return ""
+  }
+
   render() {
     const geoid = this.state.selected.join('_')
     const legendData = this.getLegendData()
@@ -135,15 +145,32 @@ export default class NeighborhoodFilter extends BaseFilter {
           url={tileUrl}
         />
         
-        <Marker position={[39.966482366, -75.201098885]} icon={mapMarker} />
+        {this.getMarkers()}
+        <Marker position={[39.966482366, -75.201098885]} icon={mapMarker}>
+          <Popup>
+              <p>FOOOOBBRRRR popup content</p>
+          </Popup>
+        </Marker>
 
-        <Marker position={[40.004743944, -75.157964196]} icon={mapMarker} />
-        <Marker position={[39.971034755, -75.157964196]} icon={mapMarker} />
-        <Marker position={[39.961802244, -75.140734345]} icon={mapMarker} />
-        <Marker position={[39.971034755, -75.162882251]} icon={mapMarker} />
-        <Marker position={[39.981375404, -75.182010041]} icon={mapMarker} />
-        <Marker position={[40.01498582, -75.172041644]} icon={mapMarker} />
-        <Marker position={[39.987040503, -75.167127163]} icon={mapMarker} />
+        <Marker position={[40.004743944, -75.157964196]} icon={mapMarker}>
+        </Marker>
+
+        <Marker position={[39.971034755, -75.157964196]} icon={mapMarker}>
+        </Marker>
+
+        <Marker position={[39.961802244, -75.140734345]} icon={mapMarker}>
+        </Marker>
+        <Marker position={[39.971034755, -75.162882251]} icon={mapMarker}>
+        </Marker>
+
+        <Marker position={[39.981375404, -75.182010041]} icon={mapMarker}>
+        </Marker>
+
+        <Marker position={[40.01498582, -75.172041644]} icon={mapMarker}>
+        </Marker>
+
+        <Marker position={[39.987040503, -75.167127163]} icon={mapMarker}>
+        </Marker>
         
         <Choropleth
           data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}

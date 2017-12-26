@@ -32,14 +32,13 @@
                     "componentKey": "neighborhoodMap",
                     "cardProps": {
                         "header": {
-                            "template": "Longest unfixed %%var%%s",
+                            "template": "Unanswered  \"%%var%%\" Requests",
                             "filterVal": "service_name",
-                            "default": "Default statement here!!",
+                            "default": "No data shown - select Request type!!",
                             "joiner": ","
 
                         },
-                        "info": "This choropleth map shows the number of requests by neighborhood for a given request type. Use the select filter below to change the request type.",
-                        "subheader": "Click Map to see neighborhood-level data"
+                        "info": "This choropleth map shows the number of requests by neighborhood for a given request type. Use the select filter below to change the request type."
                     },
                     "leafletSettings": { 
                           "center": [39.9728, -75.1638],
@@ -128,7 +127,13 @@
                     "type": "Chart",
                     "componentKey": "discrete-1",
                     "cardProps": {
-                        "header": "Neighborhoods with most reported potholes (by area)"
+                        "header": {
+                            "template": "Longest unanswered  \"%%var%%\" Requests",
+                            "default": "No request type selected",
+                            "filterVal": "service_name",
+                            "joiner": ","
+
+                        }
                     },
                     "dataType": "NVD3ChartSeries",
                     "resourceHandle": "neighb_counts",
@@ -170,7 +175,7 @@
                     "type": "Chart",
                     "componentKey": "discrete-2",
                     "cardProps": {
-                        "header": "Neighborhood with least reported potholes (by area)"
+                        "header": "Neighborhood with least reported requests (by area)"
                     },
                     "dataType": "NVD3ChartSeries",
                     "resourceHandle": "neighb_counts",

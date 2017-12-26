@@ -118,13 +118,38 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
 
   getMarkers() {
-    console.log(this)
-    if (this.props.data.getOutstandingRequests) {
-      const rows = JSON.parse(this.props.data.getOutstandingRequests.data.JSONReponse)
-      console.log(rows)
-    }
-    
-    return ""
+    const rows = this.props.addlData.getOutstandingRequests || []
+    return rows.map( (row, i) => {
+      const image = (row.media_url) ? <img src={row.media_url} alt="image accompanying 311 request" width="100%" /> : ""
+      console.log('ROW', row)
+      return (
+      <Marker position={[row.lat, row.lon]} icon={mapMarker} key={"marker_" + i}>
+        <Popup key={"POPup"+i}>
+          <div class="popup-container">
+          <ul className="outstanding-popup">
+            <li>
+              <span className="left">Address</span>
+              <span className="right">{row.address}</span>
+            </li>
+            <li>
+              <span className="left">Registered</span>
+              <span className="right">{row.created_at}</span>
+            </li>
+            <li>
+              <span className="left">Expected resolution</span>
+              <span className="right">{row.expected_datetime}</span>
+            </li>
+            <li>
+              <span className="left">Agency responsible</span>
+              <span className="right">{row.agency_responsible}</span>
+            </li>
+          </ul>
+          {image}
+          </div>
+        </Popup>
+      </Marker>
+      )
+    })
   }
 
   render() {
@@ -144,34 +169,15 @@ export default class NeighborhoodFilter extends BaseFilter {
           attribution={tileAttr}
           url={tileUrl}
         />
-        
         {this.getMarkers()}
+
+        /*
         <Marker position={[39.966482366, -75.201098885]} icon={mapMarker}>
           <Popup>
               <p>FOOOOBBRRRR popup content</p>
           </Popup>
         </Marker>
-
-        <Marker position={[40.004743944, -75.157964196]} icon={mapMarker}>
-        </Marker>
-
-        <Marker position={[39.971034755, -75.157964196]} icon={mapMarker}>
-        </Marker>
-
-        <Marker position={[39.961802244, -75.140734345]} icon={mapMarker}>
-        </Marker>
-        <Marker position={[39.971034755, -75.162882251]} icon={mapMarker}>
-        </Marker>
-
-        <Marker position={[39.981375404, -75.182010041]} icon={mapMarker}>
-        </Marker>
-
-        <Marker position={[40.01498582, -75.172041644]} icon={mapMarker}>
-        </Marker>
-
-        <Marker position={[39.987040503, -75.167127163]} icon={mapMarker}>
-        </Marker>
-        
+        */
         <Choropleth
           data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
           valueProperty={this.getNeighborhoodData.bind(this)}

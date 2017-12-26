@@ -1,6 +1,10 @@
 {
     "title": "Best and Worst of Philly - 2017",
     "backend": "cartodb",
+    "addlQs": [
+        "getServiceNumbersByNeighborhood",
+        "getOutstandingRequests"
+    ],
     "dataResources": [
         {
             "resourceHandle": "philly_311",

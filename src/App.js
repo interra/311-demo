@@ -31,7 +31,7 @@ class App extends Component {
   }
 
   render() {
-    const additionalQs = ['getServiceNumbersByNeighborhood', 'getOutstandingRequests']
+    const additionalQs = config.addlQs;
     const infoWindowClass = (this.state.infoWindowOpen) ? 'info-window-open' : 'info-window-closed'
     const props = Object.assign(config, this.props, {params: getParams(), history: history, additionalQs: additionalQs})
     const doClose = this.toggleInfoWindow.bind(this)
@@ -66,11 +66,13 @@ const query = gql`
   getServiceNumbersByNeighborhood (serviceName: $serviceName, componentKey: $mapQueryKey){
     data {JSONResponse}
     componentKey
+    responseType
   }
   
   getOutstandingRequests (serviceName: $serviceName, componentKey: $mapQueryKey, limit: $limit){
     data {JSONResponse}
     componentKey
+    responseType
   }
 
 

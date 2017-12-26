@@ -15,20 +15,6 @@ export default class Dashboard extends Component {
       key: "A",
       values: data
     }]
-    
-    const series1 = {
-      key: 'Key1',
-      color: 'blue',
-      values: data.slice(0,5)
-    }
-    
-    const series2 = {
-      key: 'Key2',
-      color: 'red',
-      values: data.slice(5, 10)
-    }
-
-    return [series1, series2]
   }
   
   getPieChartData(data) {
@@ -46,12 +32,7 @@ export default class Dashboard extends Component {
     if (this.props.data.getComponents) {
       const componentData = this.props.data.getComponents
       // append data from addl queries, used for the map layer component
-      const addlData = this.props.additionalQs.reduce((acc, addl) => {
-        return acc.concat(this.props.data[addl])
-      }, [])
-
-      const allData = componentData.concat(addlData)
-      const cDatas = allData.filter(item => {
+      const cDatas = componentData.filter(item => {
         if (item.componentKey) {
           return item.componentKey === component.componentKey
         }
@@ -81,6 +62,23 @@ export default class Dashboard extends Component {
     return []
   }
   
+  /**
+   * Allow us to define arbitrary graphQL queries and use their
+   * data in custom components
+   **/
+  getAddlData (qs) {
+      return this.props.additionalQs.reduce( (acc, addl) => {
+          const _data = this.props.data[addl]
+          if (_data && _data.responseType === "JSONResponse") {
+            acc[addl] = JSON.parse(_data.data.JSONResponse)
+          } else {
+            acc[addl] = _data
+          }
+
+          return acc
+      }, {})
+  }
+  
   getRegionTitle(region) {
     if (region.title) { 
       return <h2 className="region-title">{region.title} </h2>
@@ -90,6 +88,8 @@ export default class Dashboard extends Component {
   }
   
   getRegion(region, i) {
+    const addlData = this.getAddlData(this.props.addlQs)
+    
     return (
       <div id={region.id} className={`dash-region ${region.className || ''}`} key={region.id} >
         {this.getRegionTitle(region)}
@@ -98,7 +98,7 @@ export default class Dashboard extends Component {
             if (Components.hasOwnProperty(component.type)) {
               const Component = Components[component.type]
               const componentData = this.getComponentData(component)
-              const componentProps = Object.assign(component, {data: componentData, params: this.props.params})
+              const componentProps = Object.assign(component, {data: componentData, params: this.props.params, addlData: addlData})
               const cardProps = component.cardProps || {}
               const toCard = Object.assign(cardProps, {children: [<Component {...componentProps} key={component.componentKey || 'filter_' + i + '_' + j} history={region.history} />]})
               // wrap component in Card component and return

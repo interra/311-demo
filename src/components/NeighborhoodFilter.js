@@ -108,20 +108,23 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   // get a single value from data per feature for choropleth
   getNeighborhoodData(feature) {
-    const count = this.props.data.filter(n => n.neighborhood === feature.properties.name)
+    console.log(feature, this.props.addlData)
+    const data = this.props.addlData.getServiceNumbersByNeighborhood || []
+    const count = data.filter(n => n.neighborhood === feature.properties.name)
     return (count.length > 0) ? count[0].count: undefined
   }
   
   // get whole data series as array of integers for legend scale
   getLegendData() {
-    return this.props.data.map(rec => rec.count)
+    const data = this.props.addlData.getServiceNumbersByNeighborhood || []
+    return data.map(rec => rec.count)
   }
 
   getMarkers() {
     const rows = this.props.addlData.getOutstandingRequests || []
     return rows.map( (row, i) => {
       const image = (row.media_url) ? <img src={row.media_url} alt="image accompanying 311 request" width="100%" /> : ""
-      console.log('ROW', row)
+      
       return (
       <Marker position={[row.lat, row.lon]} icon={mapMarker} key={"marker_" + i}>
         <Popup key={"POPup"+i}>

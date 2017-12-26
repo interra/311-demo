@@ -379,6 +379,9 @@ html, body, #app-container, #dashbaord-container, .card {
   height: 80em;
   width: 100%; }
 
+div.leaflet-popup, div.leaflet-popup-content {
+  z-index: 900; }
+
 /* Info Modal */
 .ReactModal__Overlay {
   z-index: 1000;
@@ -533,7 +536,7 @@ div.ReactTable {
   padding: 1em; }
 
 /* g.nv-pieWrap {transform: translate(20px,-80px)} */
-.topmatter {
+#topmatter {
   font-size: 1.25em;
   padding: 1.5em; }
 

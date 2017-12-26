@@ -37,6 +37,10 @@ html, body, #app-container, #dashbaord-container, .card  {background-color: #242
     width:100%;
 }
 
+div.leaflet-popup, div.leaflet-popup-content {
+    z-index:900;
+}
+
 /* Info Modal */
 .ReactModal__Overlay {
     z-index: 1000;
@@ -148,5 +152,5 @@ div.ReactTable {background-color:white; color:black; font-size:1.2em}
 .nvtooltip table td {padding:1em}
 /* g.nv-pieWrap {transform: translate(20px,-80px)} */
 
-.topmatter {font-size:1.25em; padding: 1.5em}
+#topmatter {font-size:1.25em; padding: 1.5em}
 

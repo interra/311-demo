@@ -108,7 +108,6 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   // get a single value from data per feature for choropleth
   getNeighborhoodData(feature) {
-    console.log(feature, this.props.addlData)
     const data = this.props.addlData.getServiceNumbersByNeighborhood || []
     const count = data.filter(n => n.neighborhood === feature.properties.name)
     return (count.length > 0) ? count[0].count: undefined
@@ -119,6 +118,26 @@ export default class NeighborhoodFilter extends BaseFilter {
     const data = this.props.addlData.getServiceNumbersByNeighborhood || []
     return data.map(rec => rec.count)
   }
+  
+  /**
+   * Sadly we need to hide the legend when the popup is selected
+   * because of the ways of leaflet 
+   * https://stackoverflow.com/questions/42227664/leaflet-map-with-popup-above-legend/42234061
+   */
+  togglePopupOnClick(e) {
+    let popupOpen
+
+    if (!this.state.popupPos || JSON.stringify(e.latlng) !== this.state.popupPos) {
+      popupOpen = true
+    } else {
+      popupOpen = false
+    }
+    
+    this.setState({
+      popupOpen: popupOpen,
+      popupPos: JSON.stringify(e.latlng)
+    })
+  }
 
   getMarkers() {
     const rows = this.props.addlData.getOutstandingRequests || []
@@ -126,7 +145,7 @@ export default class NeighborhoodFilter extends BaseFilter {
       const image = (row.media_url) ? <img src={row.media_url} alt="image accompanying 311 request" width="100%" /> : ""
       
       return (
-      <Marker position={[row.lat, row.lon]} icon={mapMarker} key={"marker_" + i}>
+      <Marker position={[row.lat, row.lon]} icon={mapMarker} key={"marker_" + i} onClick={this.togglePopupOnClick.bind(this)}>
         <Popup key={"POPup"+i}>
           <div class="popup-container">
           <ul className="outstanding-popup">
@@ -162,7 +181,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     const { leafletSettings, choroplethSettings } = this.props
     const { tileUrl, tileAttr } = leafletSettings
     const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = choroplethSettings
-
+    const legendOpen = (this.state.popupOpen) ? false : legendData.length
     
     return (
     <div id="map-container">
@@ -172,15 +191,9 @@ export default class NeighborhoodFilter extends BaseFilter {
           attribution={tileAttr}
           url={tileUrl}
         />
-        {this.getMarkers()}
-
-        /*
-        <Marker position={[39.966482366, -75.201098885]} icon={mapMarker}>
-          <Popup>
-              <p>FOOOOBBRRRR popup content</p>
-          </Popup>
-        </Marker>
-        */
+        <div class="leaflet-marker-layer">
+          {this.getMarkers()}
+        </div>
         <Choropleth
           data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
           valueProperty={this.getNeighborhoodData.bind(this)}
@@ -209,7 +222,7 @@ export default class NeighborhoodFilter extends BaseFilter {
       </Map>
       <ChoroplethLegend 
         data = {legendData}
-        showLegend = {legendData.length}
+        showLegend = {legendOpen}
         mode = {mode}
         steps = {steps}
         choroplethColorScale = {choroplethColorScale}

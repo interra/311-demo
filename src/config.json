@@ -72,7 +72,7 @@
                         },
                         "choroplethColorScale": ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"],
                         "steps": 5,
-                        "legendCaption": "Neighborhood Totals",
+                        "legendCaption": "Requests by Neighborhood",
                         "mode": "e"
                     },
                     "multi": true
@@ -112,7 +112,7 @@
         },
         {
             "id": "region-00",
-            "title": "Detail by Neighborhood",
+            "title": "Neighborhood Impact",
             "className": "col-md-6",
             "children": [
                 {
@@ -120,9 +120,9 @@
                     "componentKey": "metric-total",
                     "resourceHandle": "philly_311",
                     "filters": ["service_name"],
-                    "background": "blue",
+                    "background": "rgba(192,66,90,.8)",
                     "icon": "phone",
-                    "caption": "Reported in 2017",
+                    "caption": "311 Reports in 2017",
                     "dataType": "Scalar",
                     "where": [],
                     "count": "service_name"
@@ -132,16 +132,16 @@
                     "componentKey": "discrete-1",
                     "cardProps": {
                         "header": {
-                            "template": "Longest unanswered  \"%%var%%\" Requests",
+                            "template": "Most \"%%var%%\" Requests",
                             "default": "No request type selected",
                             "filterVal": "service_name",
                             "joiner": ","
-
-                        }
+                        },
+                        "cardClasses": ["discrete-1", "discrete"]
                     },
-                    "dataType": "NVD3ChartSeries",
+                    "dataType": "ChartJS",
                     "resourceHandle": "neighb_counts",
-                    "limit": 5,
+                    "limit": 10,
                     "order": {
                         "attribute": "count",
                         "order": "DESC"
@@ -166,24 +166,58 @@
                             "fieldHandle": "count"
                         }
                     ],
-                    "settings": {
-                        "type": "discreteBarChart",
-                        "x": "neighborhood",
-                        "y": "count",
-                        "height": 450,
-                        "margin": 100,
-                        "rotateLabels": 45
-                    }
+                    "chartOptions": {
+                        "scales": {
+                            "xAxes": [
+                                {
+                                    "stacked": false,
+                                    "beginAtZero": true,
+                                    "ticks": {
+                                        "stepSize": 1,
+                                        "fontColor": "yellow",
+                                        "min": 0,
+                                        "autoSkip": false
+                                    }
+                                }
+                            ],
+                            "yAxes": [
+                              {
+                                "beginAtZero": true,
+                                "ticks": {
+                                  "fontColor": "white",
+                                  "min": 0
+                                }
+                              }
+                            ]
+                        }
+                    },
+                    "series": [
+                        {
+                            "label": "Number of requests",
+                            "x": "neighborhood",
+                            "y": "count",
+                            "bg": "rgba(255,99,132,0.6)",
+                            "border": "rgba(255,99,132,1)",
+                            "bgHover": "rgba(255,99,132,0.8)",
+                            "borderHover": "rgba(255,99,132,1)"
+                        }
+                    ]
                 },
                 {
                     "type": "Chart",
                     "componentKey": "discrete-2",
                     "cardProps": {
-                        "header": "Neighborhood with least reported requests (by area)"
+                        "header": {
+                            "template": "Least \"%%var%%\" Requests",
+                            "default": "No request type selected",
+                            "filterVal": "service_name",
+                            "joiner": ","
+                        },
+                        "cardClasses":["discrete-2", "discrete"]
                     },
-                    "dataType": "NVD3ChartSeries",
+                    "dataType": "ChartJS",
                     "resourceHandle": "neighb_counts",
-                    "limit": 5,
+                    "limit": 20,
                     "order": {
                         "attribute": "count",
                         "order": "ASC"
@@ -208,36 +242,55 @@
                             "fieldHandle": "count"
                         }
                     ],
-                    "settings": {
-                        "type": "discreteBarChart",
-                        "x": "neighborhood",
-                        "y": "count",
-                        "height": 350,
-                        "margin": 101,
-                        "rotateLabels": 45
+                    "series": [
+                        {
+                            "label": "Least requests",
+                            "x": "neighborhood",
+                            "y": "count",
+                            "bg": "rgba(255,99,132,0.6)",
+                            "border": "rgba(255,99,132,1)",
+                            "bgHover": "rgba(255,99,132,0.8)",
+                            "borderHover": "rgba(255,99,132,1)"
+                        }
+                    ],
+                    "chartOptions": {
+                        "scales": {
+                            "xAxes": [
+                                {
+                                    "stacked": false,
+                                    "ticks": {
+                                        "fontColor": "yellow",
+                                        "autoSkip": false
+                                    }
+                                }
+                            ],
+                            "yAxes": [
+                              {
+                                "beginAtZero": true,
+                                "ticks": {
+                                  "fontColor": "white",
+                                  "min": 0,
+                                  "stepSize": 1
+                                }
+                              }
+                            ]
+                        }
+                    
                     }
-                },
-                {
-                    "type": "Metric",
-                    "background": "purple",
-                    "icon": "clock-o",
-                    "caption": "Average Response Time",
-                    "value": "3 weeks"
                 }
             ]
         },
         {
             "id": "region-1",
-            "className": "row",
+            "className": "col-md-12",
             "children": [
                 {
-                    "type": "Chart",
-                    "className": "col-md-12",
+                    "type": "ChartNVD3",
                     "componentKey": "chart-3",
                     "cardProps": {
+                        "cardClasses": ["pie-chart", "other-311-requests"],
                         "header": "Other Common 311 Requests",
-                        "info": "This chart shows the most common 311 requests for the selected neighborhood. If no neighborhood is selected then it shows values for the whole city. Click on the map to the right to select a neighborhood.",
-                        "subheader": "(Excluding Information Requests -- see table below)"
+                        "info": "This chart shows the most common 311 requests for the selected neighborhood. If no neighborhood is selected then it shows values for the whole city. Click on the map to the right to select a neighborhood."
                     },
                     "dataType": "NVD3PieChartSeries",
                     "resourceHandle": "philly_311",
@@ -272,34 +325,6 @@
                     }
                 }
 	    ]
-        },
-        {
-            "id": "region-3",
-            "className": "col-md-12",
-            "children": [
-                {
-                    "type": "Table",
-                    "cardProps": {
-                        "header": "311 Calls Requesting Information (by Agency Responsible)",
-                        "subheader": "Click column headers to sort. Browsing controls at bottom of table."
-                    },
-                    "resourceHandle": "philly_311",
-                    "componentKey": "table-a",
-                    "count": "agency_responsible",
-                    "settings": {
-                        "columns": [
-                            {"Header": "Agency Responsible", "accessor": "agency_responsible"},
-                            {"Header": "Total Requests", "accessor": "count"}
-                        ]
-                    },
-                    "where": [
-                        {
-                            "attribute": "service_name",
-                            "value": "Information Request"
-                        }
-                    ]
-                }
-            ]
         }
    ]
 }

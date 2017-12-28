@@ -9,8 +9,10 @@ import FontAwesome from 'react-fontawesome'
 import interraLogoWhite from './images/interra-logo-white.png'
 import InfoModal from './InfoModal.js'
 
+document.title = "Philly 311 Demo"
+
 const history = createHistory()
-const OUTSTANDING_REQUEST_LIMIT = 10
+const OUTSTANDING_REQUEST_LIMIT = 30
 
 class App extends Component {
   constructor(props) {

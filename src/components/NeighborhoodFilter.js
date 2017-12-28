@@ -8,10 +8,16 @@ import FontAwesome from 'react-fontawesome'
 import HoverInfo from './HoverInfo.js'
 import ChoroplethLegend from './ChoroplethLegend.js'
 import mapMarkerUrl from '../images/map-marker-icon.png'
+import blueMapMarkerUrl from '../images/map-marker-icon-blue.png'
 
 const mapMarker = new Leaflet.Icon({
   iconUrl: mapMarkerUrl,
   iconSize: [50,50]
+})
+
+const blueMapMarker = new Leaflet.Icon({
+  iconUrl: blueMapMarkerUrl,
+  iconSize: [60,50]
 })
 
 export default class NeighborhoodFilter extends BaseFilter {
@@ -74,6 +80,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   
   setActiveRegion(e) {
     if (e.layer.feature) {
+      console.log(e.layer.feature)
       this.setState({
           infoWindowActive: true,
           infoWindowPos: {x: e.originalEvent.clientX, y: e.originalEvent.clientY}, // get from e.offset
@@ -142,28 +149,30 @@ export default class NeighborhoodFilter extends BaseFilter {
   getMarkers() {
     const rows = this.props.addlData.getOutstandingRequests || []
     return rows.map( (row, i) => {
+      if (row.lat && row.lon) {
       const image = (row.media_url) ? <img src={row.media_url} alt="image accompanying 311 request" width="100%" /> : ""
-      
+      const marker = (image) ? blueMapMarker : mapMarker 
+       
       return (
-      <Marker position={[row.lat, row.lon]} icon={mapMarker} key={"marker_" + i} onClick={this.togglePopupOnClick.bind(this)}>
+      <Marker position={[row.lat, row.lon]} icon={marker} key={"marker_" + i} onClick={this.togglePopupOnClick.bind(this)}>
         <Popup key={"POPup"+i}>
           <div class="popup-container">
           <ul className="outstanding-popup">
             <li>
-              <span className="left">Address</span>
-              <span className="right">{row.address}</span>
+              <p className="left">Address</p>
+              <p className="right">{row.address}</p>
             </li>
             <li>
-              <span className="left">Registered</span>
-              <span className="right">{row.created_at}</span>
+              <p className="left">Registered</p>
+              <p className="right">{row.created_at}</p>
             </li>
             <li>
-              <span className="left">Expected resolution</span>
-              <span className="right">{row.expected_datetime}</span>
+              <p className="left">Expected resolution</p>
+              <p className="right">{row.expected_datetime}</p>
             </li>
             <li>
-              <span className="left">Agency responsible</span>
-              <span className="right">{row.agency_responsible}</span>
+              <p className="left">Agency</p>
+              <p className="right">{row.agency_responsible}</p>
             </li>
           </ul>
           {image}
@@ -171,6 +180,9 @@ export default class NeighborhoodFilter extends BaseFilter {
         </Popup>
       </Marker>
       )
+    } else {
+      console.log("NO LATLON", row)
+    }
     })
   }
 

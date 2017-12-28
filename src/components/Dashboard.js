@@ -21,8 +21,32 @@ export default class Dashboard extends Component {
     const sortKey = Object.keys(data[0])[0]
     return sortBy(data, sortKey)
   }
-  
-  // given a dashboard component definition, return appropriate data from API response
+
+  getChartJSData(data, settings) {
+    console.log(settings)
+    const xField = settings.series[0].x // use the same labels for all series
+    const labels = data.map(row => row[xField])
+    console.log("lavel", labels)
+    const datasets = settings.series.map(ser => {
+      const _data = data.map(row => row[ser.y])
+      return {
+        label: ser.label,
+        backgroundColor: ser.bg,
+        borderColor: ser.border,
+        borderWidth: ser.borderWidth,
+        hoverBackgroundColor: ser.bgHover,
+        hoverBorderColor: ser.borderHover,
+        data: _data
+      }
+    })
+
+    return  {
+      labels: labels,
+      datasets: datasets
+    }
+  }
+
+  // given a dashboard nt definition, return appropriate data from API response
   // @@TODO want to clean this up to allow for additional arbitrary graphql queries - as defined by parent app, which will add valid component-level data to arbitrary components
   // @@TODO define the data api for the dashboard here - 
   // @@TODO there are two levels of abstraction: 
@@ -49,6 +73,8 @@ export default class Dashboard extends Component {
             return pieData
           case 'NVD3ChartSeries':
             return this.getNVD3ChartData(cData)
+          case 'ChartJS':
+            return this.getChartJSData(cData, component)
           case 'Scalar':
             return [cData[0].count] // assumes a count value - better to just return a scalar from the api
           default:

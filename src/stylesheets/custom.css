@@ -130,17 +130,50 @@ div.leaflet-popup, div.leaflet-popup-content {
   fill: #bfc3c9;
   fill-opacity: .6; }
 
+.neighborhoods_path[fill="red"]:hover {
+  fill: #bc1105; }
+
 div.react-table[style] {
   display: none !important;
   font-size: 1.4em !important;
   margin: auto !important;
   background-color: #552e2e !important; }
 
+.other-311-requests {
+  text-align: center;
+  margin-top: 2em; }
+
+#region-00 .region-title {
+  margin-top: 1.7em !important; }
+
 #region-3 .card-content .rt-even {
   background-color: #e9dfeb; }
 
 #region-3 .card-content .rt-odd {
   background-color: #d1c6d0; }
+
+/* outstanding requests popups */
+ul.outstanding-popup {
+  list-style: none;
+  padding: 0;
+  width: 100%; }
+
+ul.outstanding-popup p {
+  vertical-align: top; }
+
+div.leaflet-popup-content-wrapper, .leaflet-popup-tip-container .leaflet-popup-tip {
+  background: rgba(63, 74, 91, 0.8); }
+
+div.leaflet-popup-content-wrapper p {
+  color: #d0ddf2;
+  margin: 0;
+  font-size: 1.2em; }
+
+div.leaflet-popup-content-wrapper p:first-child {
+  font-weight: 800; }
+
+div.leaflet-popup-content-wrapper ul li {
+  margin-bottom: 1em; }
 
 /* Choropleth legend component styles */
 .choropleth-legend {
@@ -198,6 +231,10 @@ div.ReactTable {
   padding: 1em; }
 
 /* g.nv-pieWrap {transform: translate(20px,-80px)} */
+/* Discrete bar charts */
 #topmatter {
   font-size: 1.25em;
   padding: 1.5em; }
+
+.discrete canvas {
+  margin-left: -40px; }

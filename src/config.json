@@ -15,35 +15,55 @@
     ],
     "regions": [
         {
-            "id": "topmatter",
-            "className": "row",
-            "children": [
-                {
-                    "type": "Markup",
-                    "content": "<p className='topmatter col-md-12 lead'>We present to you the best and worst of Phialdelphia, the city we love and love to hate. For each of a handfull of 311 request categories, we present (by area) the best and worst neighborhoods by number of complaints, the City's response time to problems, and outstanding problems.</p>"
-                }
-            ]
-        },
-        {
             "id": "filters",
             "className": "col-md-6",
             "children": [
+                {
+                    "type": "Autocomplete",
+                    "filterKey": "service_name",
+                    "className": "filter-right",
+                    "cardProps": {
+                        "header": {
+                            "template": "Pending Requests -- \"%%var%%\"",
+                            "filterVal": "service_name",
+                            "default": "No data shown - select Request type!!",
+                            "joiner": ","
+
+                        }
+                    },
+                    "field": "service_name",
+                    "multi": false,
+                    "noData": true,
+                    "placeholder": "SELECT A REQUEST TYPE",
+                    "operation": "IN",
+                    "options": 
+			[
+			    {"label": "Miscellaneous", "value": "Miscellaneous"},
+			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
+			    {"label": "Rubbish/Recyclable Material Collection", "value":"Rubbish/Recyclable Material Collection"}, 
+			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},                
+			    {"label": "Abandoned Vehicle", "value":"Abandoned Vehicle"},                      
+			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},                       
+			    {"label": "Street Defect", "value": "Street Defect"},     
+			    {"label": "Street Light Outage", "value": "Street Light Outage"},                 
+			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
+			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"},
+			    {"label": "Salting", "value": "Salting"},                           
+			    {"label": "Sanitation / Dumpster Violation", "value": "Sanitation / Dumpster Violation"},
+			    {"label": "Traffic Signal Emergency", "value": "Traffic Signal Emergency"},
+			    {"label": "Street Trees", "value": "Street Trees"},     
+			    {"label": "Building Dangerous", "value": "Building Dangerous"},                 
+			    {"label": "Smoke Detector", "value": "Smoke Detector"},   
+			    {"label": "Building Construction", "value": "Building Construction"}, 
+			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"}
+                        ]
+                },
                 {
                     "type": "NeighborhoodFilter",
                     "className": "map-left",
                     "filterKey": "neighborhood",
                     "filters": ["service_name"],
                     "componentKey": "neighborhoodMap",
-                    "cardProps": {
-                        "header": {
-                            "template": "Unanswered  \"%%var%%\" Requests",
-                            "filterVal": "service_name",
-                            "default": "No data shown - select Request type!!",
-                            "joiner": ","
-
-                        },
-                        "info": "This choropleth map shows the number of requests by neighborhood for a given request type. Use the select filter below to change the request type."
-                    },
                     "leafletSettings": { 
                           "center": [39.9728, -75.1638],
                           "zoomControl": false,
@@ -76,63 +96,19 @@
                         "mode": "e"
                     },
                     "multi": true
-                },
-                {
-                    "type": "Autocomplete",
-                    "filterKey": "service_name",
-                    "className": "filter-right",
-                    "field": "service_name",
-                    "multi": false,
-                    "noData": true,
-                    "placeholder": "SELECT A REQUEST TYPE",
-                    "operation": "IN",
-                    "options": 
-			[
-			    {"label": "Miscellaneous", "value": "Miscellaneous"},
-			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
-			    {"label": "Rubbish/Recyclable Material Collection", "value":"Rubbish/Recyclable Material Collection"}, 
-			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},                
-			    {"label": "Abandoned Vehicle", "value":"Abandoned Vehicle"},                      
-			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},                       
-			    {"label": "Street Defect", "value": "Street Defect"},     
-			    {"label": "Street Light Outage", "value": "Street Light Outage"},                 
-			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
-			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"},
-			    {"label": "Salting", "value": "Salting"},                           
-			    {"label": "Sanitation / Dumpster Violation", "value": "Sanitation / Dumpster Violation"},
-			    {"label": "Traffic Signal Emergency", "value": "Traffic Signal Emergency"},
-			    {"label": "Street Trees", "value": "Street Trees"},     
-			    {"label": "Building Dangerous", "value": "Building Dangerous"},                 
-			    {"label": "Smoke Detector", "value": "Smoke Detector"},   
-			    {"label": "Building Construction", "value": "Building Construction"}, 
-			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"}
-                        ]
                 }
             ]
         },
         {
             "id": "region-00",
-            "title": "Neighborhood Impact",
             "className": "col-md-6",
             "children": [
-                {
-                    "type": "Metric",
-                    "componentKey": "metric-total",
-                    "resourceHandle": "philly_311",
-                    "filters": ["service_name"],
-                    "background": "rgba(192,66,90,.8)",
-                    "icon": "phone",
-                    "caption": "311 Reports in 2017",
-                    "dataType": "Scalar",
-                    "where": [],
-                    "count": "service_name"
-                },
                 {
                     "type": "Chart",
                     "componentKey": "discrete-1",
                     "cardProps": {
                         "header": {
-                            "template": "Most \"%%var%%\" Requests",
+                            "template": "Most \"%%var%%\" Requests by Neighborhood",
                             "default": "No request type selected",
                             "filterVal": "service_name",
                             "joiner": ","
@@ -208,7 +184,7 @@
                     "componentKey": "discrete-2",
                     "cardProps": {
                         "header": {
-                            "template": "Least \"%%var%%\" Requests",
+                            "template": "Least \"%%var%%\" Requests by Neighborhood",
                             "default": "No request type selected",
                             "filterVal": "service_name",
                             "joiner": ","
@@ -277,54 +253,20 @@
                         }
                     
                     }
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "filters": ["service_name"],
+                    "background": "rgba(192,66,90,.8)",
+                    "icon": "phone",
+                    "caption": "Total Reported in 2017",
+                    "dataType": "Scalar",
+                    "where": [],
+                    "count": "service_name"
                 }
             ]
-        },
-        {
-            "id": "region-1",
-            "className": "col-md-12",
-            "children": [
-                {
-                    "type": "ChartNVD3",
-                    "componentKey": "chart-3",
-                    "cardProps": {
-                        "cardClasses": ["pie-chart", "other-311-requests"],
-                        "header": "Other Common 311 Requests",
-                        "info": "This chart shows the most common 311 requests for the selected neighborhood. If no neighborhood is selected then it shows values for the whole city. Click on the map to the right to select a neighborhood."
-                    },
-                    "dataType": "NVD3PieChartSeries",
-                    "resourceHandle": "philly_311",
-                    "count": "service_name",
-                    "order": {
-                        "attribute": "count",
-                        "order": "DESC"
-                    },
-                    "limit": 10,
-                    "where": [
-                        {
-                            "op": "notIn",
-                            "attribute": "service_name",
-                            "value": ["Information Request"]
-                        }
-                    ],
-                    "x": "service_name",
-                    "y": "count",
-                    "dataFields": [
-                        {
-                            "resourceHandle": "philly_311",
-                            "field": "service_name",
-                            "type": "STRING",
-                            "fieldHandle": "serviceName"
-                        }
-                    ],
-                    "settings": {
-                        "type": "pieChart",
-                        "height": 800,
-                        "donut": true,
-                        "labelType": "percent"
-                    }
-                }
-	    ]
         }
    ]
 }

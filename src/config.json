@@ -116,9 +116,10 @@
                         "cardClasses": ["discrete-1", "discrete"]
                     },
                     "dataType": "ChartJS",
-                    "resourceHandle": "neighb_counts",
+                    "resourceHandle": "philly_311",
                     "limit": 10,
-                    "group": "neighborhood",
+                    "group": "neighborhood_name",
+                    "count": "neighborhood_name",
                     "order": {
                         "attribute": "count",
                         "order": "DESC"
@@ -131,16 +132,10 @@
                     ],
                     "dataFields": [
                         {
-                            "resourceHandle": "neighb_counts",
-                            "field": "neighborhood",
+                            "resourceHandle": "philly_311",
+                            "field": "neighborhood_name",
                             "type": "STRING",
-                            "fieldHandle": "neighborhood"
-                        },
-                        {
-                            "resourceHandle": "neighb_counts",
-                            "field": "count",
-                            "type": "INTEGER",
-                            "fieldHandle": "count"
+                            "fieldHandle": "neighborhood_name"
                         }
                     ],
                     "chartOptions": {
@@ -171,7 +166,7 @@
                     "series": [
                         {
                             "label": "Number of requests",
-                            "x": "neighborhood",
+                            "x": "neighborhood_name",
                             "y": "count",
                             "bg": "rgba(255,99,132,0.6)",
                             "border": "rgba(255,99,132,1)",
@@ -193,7 +188,7 @@
                         "cardClasses":["discrete-2", "discrete"]
                     },
                     "dataType": "ChartJS",
-                    "resourceHandle": "neighb_counts",
+                    "resourceHandle": "philly_311",
                     "limit": 20,
                     "group": "neighborhood",
                     "order": {
@@ -206,24 +201,19 @@
                             "value": {"filterVal": "service_name"}
                         }
                     ],
+                    "count": "neighborhood_name",
                     "dataFields": [
                         {
-                            "resourceHandle": "neighb_counts",
-                            "field": "neighborhood",
+                            "resourceHandle": "philly_311",
+                            "field": "neighborhood_name",
                             "type": "STRING",
-                            "fieldHandle": "neighborhood"
-                        },
-                        {
-                            "resourceHandle": "neighb_counts",
-                            "field": "count",
-                            "type": "INTEGER",
-                            "fieldHandle": "count"
+                            "fieldHandle": "neighborhood_name"
                         }
                     ],
                     "series": [
                         {
                             "label": "Least requests",
-                            "x": "neighborhood",
+                            "x": "neighborhood_name",
                             "y": "count",
                             "bg": "rgba(255,99,132,0.6)",
                             "border": "rgba(255,99,132,1)",
@@ -255,6 +245,82 @@
                         }
                     
                     }
+                },
+                {
+                    "type": "Chart",
+                    "componentKey": "discrete-3",
+                    "cardProps": {
+                        "header": {
+                            "template": "Most Open \"%%var%%\" Requests",
+                            "default": "No request type selected",
+                            "filterVal": "service_name",
+                            "joiner": ","
+                        },
+                        "cardClasses": ["discrete-1", "discrete"]
+                    },
+                    "dataType": "ChartJS",
+                    "resourceHandle": "philly_311",
+                    "limit": 10,
+                    "group": "neighborhood_name",
+                    "count": "neighborhood_name",
+                    "order": {
+                        "attribute": "count",
+                        "order": "DESC"
+                    },
+                    "where": [
+                        {
+                            "attribute": "service_name",
+                            "value": {"filterVal": "service_name"}
+                        },
+                        {
+                            "attribute": "status",
+                            "value": "Closed"
+                        }
+                    ],
+                    "dataFields": [
+                        {
+                            "resourceHandle": "philly_311",
+                            "field": "neighborhood_name",
+                            "type": "STRING",
+                            "fieldHandle": "neighborhood_name"
+                        }
+                    ],
+                    "chartOptions": {
+                        "scales": {
+                            "xAxes": [
+                                {
+                                    "stacked": false,
+                                    "beginAtZero": true,
+                                    "ticks": {
+                                        "stepSize": 1,
+                                        "fontColor": "yellow",
+                                        "min": 0,
+                                        "autoSkip": false
+                                    }
+                                }
+                            ],
+                            "yAxes": [
+                              {
+                                "beginAtZero": true,
+                                "ticks": {
+                                  "fontColor": "white",
+                                  "min": 0
+                                }
+                              }
+                            ]
+                        }
+                    },
+                    "series": [
+                        {
+                            "label": "Number of requests",
+                            "x": "neighborhood_name",
+                            "y": "count",
+                            "bg": "rgba(255,99,132,0.6)",
+                            "border": "rgba(255,99,132,1)",
+                            "bgHover": "rgba(255,99,132,0.8)",
+                            "borderHover": "rgba(255,99,132,1)"
+                        }
+                    ]
                 },
                 {
                     "type": "Metric",

@@ -43,8 +43,8 @@
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build": "rm src/stylesheets/*.css && npm run build-css && react-scripts build",
+    "start": "REACT_APP_API_URL=\"$REACT_APP_API_URL_DEV\"  npm-run-all -p watch-css start-js",
+    "build": "REACT_APP_API_URL=\"$REACT_APP_API_URL_PROD\" rm src/stylesheets/*.css && npm run build-css && react-scripts build --env.production=true",
     "deploy": "npm run build && rsync -avh build/ root@pjwalker.net:~/tmp/philly311_latest/",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

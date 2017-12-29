@@ -118,6 +118,7 @@
                     "dataType": "ChartJS",
                     "resourceHandle": "neighb_counts",
                     "limit": 10,
+                    "group": "neighborhood",
                     "order": {
                         "attribute": "count",
                         "order": "DESC"
@@ -194,6 +195,7 @@
                     "dataType": "ChartJS",
                     "resourceHandle": "neighb_counts",
                     "limit": 20,
+                    "group": "neighborhood",
                     "order": {
                         "attribute": "count",
                         "order": "ASC"

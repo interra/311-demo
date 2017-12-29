@@ -18,7 +18,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-console.log('Interra 311 Demo', API_URL, process.env)
+console.log('Interra 311 Demo', process.env.NODE_ENV, API_URL, process.env)
 
 ReactDOM.render((
   <ApolloProvider client={client}>

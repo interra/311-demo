@@ -9,6 +9,8 @@ import HoverInfo from './HoverInfo.js'
 import ChoroplethLegend from './ChoroplethLegend.js'
 import mapMarkerUrl from '../images/map-marker-icon.png'
 import blueMapMarkerUrl from '../images/map-marker-icon-blue.png'
+import MarkerClusterGroup from 'react-leaflet-markercluster'
+import '../../node_modules/react-leaflet-markercluster/dist/styles.min.css'
 
 const mapMarker = new Leaflet.Icon({
   iconUrl: mapMarkerUrl,
@@ -146,12 +148,49 @@ export default class NeighborhoodFilter extends BaseFilter {
     })
   }
 
+  getMarker(row, i) {
+    const image = (row.media_url) ? <img src={row.media_url} alt="image accompanying 311 request" width="100%" /> : ""
+    const marker = (image) ? blueMapMarker : mapMarker
+    
+    return (
+      <Marker position={[row.lat, row.lon]} icon={marker} key={"marker_" + i} onClick={this.togglePopupOnClick.bind(this)}>
+        <Popup key={"POPup"+i}>
+          <div class="popup-container">
+          <ul className="outstanding-popup">
+            <li>
+              <p className="left">Address</p>
+              <p className="right">{row.address}</p>
+            </li>
+            <li>
+              <p className="left">Registered</p>
+              <p className="right">{row.created_at}</p>
+            </li>
+            <li>
+              <p className="left">Expected resolution</p>
+              <p className="right">{row.expected_datetime}</p>
+            </li>
+            <li>
+              <p className="left">Agency</p>
+              <p className="right">{row.agency_responsible}</p>
+            </li>
+          </ul>
+          {image}
+          </div>
+        </Popup>
+      </Marker>
+    )
+  }
+
   getMarkers() {
     const rows = this.props.addlData.getOutstandingRequests || []
-    return rows.map( (row, i) => {
-      if (row.lat && row.lon) {
-      const image = (row.media_url) ? <img src={row.media_url} alt="image accompanying 311 request" width="100%" /> : ""
-      const marker = (image) ? blueMapMarker : mapMarker 
+    const markers = rows.filter(row => (row.lat && row.lon)).map(this.getMarker.bind(this))
+    console.log('MMM', rows, markers)
+
+    return <MarkerClusterGroup>
+            {markers}
+           </MarkerClusterGroup>
+
+        /*
        
       return (
       <Marker position={[row.lat, row.lon]} icon={marker} key={"marker_" + i} onClick={this.togglePopupOnClick.bind(this)}>
@@ -183,7 +222,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     } else {
       console.log("NO LATLON", row)
     }
-    })
+    })*/
   }
 
   render() {
@@ -203,9 +242,7 @@ export default class NeighborhoodFilter extends BaseFilter {
           attribution={tileAttr}
           url={tileUrl}
         />
-        <div class="leaflet-marker-layer">
-          {this.getMarkers()}
-        </div>
+        {this.getMarkers()}
         <Choropleth
           data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
           valueProperty={this.getNeighborhoodData.bind(this)}

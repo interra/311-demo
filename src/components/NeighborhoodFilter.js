@@ -189,50 +189,66 @@ export default class NeighborhoodFilter extends BaseFilter {
     return <MarkerClusterGroup>
             {markers}
            </MarkerClusterGroup>
-
-        /*
-       
-      return (
-      <Marker position={[row.lat, row.lon]} icon={marker} key={"marker_" + i} onClick={this.togglePopupOnClick.bind(this)}>
-        <Popup key={"POPup"+i}>
-          <div class="popup-container">
-          <ul className="outstanding-popup">
-            <li>
-              <p className="left">Address</p>
-              <p className="right">{row.address}</p>
-            </li>
-            <li>
-              <p className="left">Registered</p>
-              <p className="right">{row.created_at}</p>
-            </li>
-            <li>
-              <p className="left">Expected resolution</p>
-              <p className="right">{row.expected_datetime}</p>
-            </li>
-            <li>
-              <p className="left">Agency</p>
-              <p className="right">{row.agency_responsible}</p>
-            </li>
-          </ul>
-          {image}
-          </div>
-        </Popup>
-      </Marker>
-      )
-    } else {
-      console.log("NO LATLON", row)
-    }
-    })*/
   }
 
-  render() {
+  getChoropleth() {
     const geoid = this.state.selected.join('_')
-    const legendData = this.getLegendData()
     const { infoWindowPos, infoWindowActive, activeSubunitName, activeSubunitValue} = this.state
-    const { leafletSettings, choroplethSettings } = this.props
-    const { tileUrl, tileAttr } = leafletSettings
-    const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = choroplethSettings
+    const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
+    if (this.state.showChoropleth) {
+      return (
+        <div id="choropleth-container">
+          <Choropleth
+              data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
+              valueProperty={this.getNeighborhoodData.bind(this)}
+              scale={choroplethColorScale}
+              steps={steps}
+              mode={mode}
+              style={choroplethStyle}
+              //onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
+          />
+          <GeoJSON
+            data={phillyHoodsGeoJson}
+            key={geoid}
+            className="neighborhoods_path"
+            onEachFeature={this.onEachFeature.bind(this)}
+            onMouseOver={this.setActiveRegion.bind(this)}
+            onMouseOut={this.resetActiveRegion.bind(this)}
+            style={this.updateStyle.bind(this)}
+          />
+          <HoverInfo
+            active={infoWindowActive}
+            position={infoWindowPos}
+            name={activeSubunitName}
+            value={activeSubunitValue}
+          />
+        </div>
+      )
+    }
+  }
+  
+  getChoroplethLegend() {
+    const legendData = this.getLegendData()
     const legendOpen = (this.state.popupOpen) ? false : legendData.length
+    const { choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
+    
+    if (this.state.showChoropleth) {
+      return ( 
+        <ChoroplethLegend 
+          data = {legendData}
+          showLegend = {legendOpen}
+          mode = {mode}
+          steps = {steps}
+          choroplethColorScale = {choroplethColorScale}
+          legendCaption = {legendCaption}
+        />
+      )
+    }
+  }
+  
+  render() {
+    const  leafletSettings = this.props.leafletSettings
+    const { tileUrl, tileAttr } = leafletSettings
     
     return (
     <div id="map-container">
@@ -242,41 +258,11 @@ export default class NeighborhoodFilter extends BaseFilter {
           attribution={tileAttr}
           url={tileUrl}
         />
+        <ZoomControl position="topright" />
         {this.getMarkers()}
-        <Choropleth
-          data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
-          valueProperty={this.getNeighborhoodData.bind(this)}
-          scale={choroplethColorScale}
-          steps={steps}
-          mode={mode}
-          style={choroplethStyle}
-          //onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
-      />
-      <GeoJSON
-        data={phillyHoodsGeoJson}
-        key={geoid}
-        className="neighborhoods_path"
-        onEachFeature={this.onEachFeature.bind(this)}
-        onMouseOver={this.setActiveRegion.bind(this)}
-        onMouseOut={this.resetActiveRegion.bind(this)}
-        style={this.updateStyle.bind(this)}
-      />
-      <ZoomControl position="topright" />
-      <HoverInfo
-        active={infoWindowActive}
-        position={infoWindowPos}
-        name={activeSubunitName}
-        value={activeSubunitValue}
-      />
+        {this.getChoropleth()}
       </Map>
-      <ChoroplethLegend 
-        data = {legendData}
-        showLegend = {legendOpen}
-        mode = {mode}
-        steps = {steps}
-        choroplethColorScale = {choroplethColorScale}
-        legendCaption = {legendCaption}
-      />
+      {this.getChoroplethLegend()}
     </div>
     )
   }

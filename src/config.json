@@ -1,5 +1,5 @@
 {
-    "title": "Best and Worst of Philly - 2017",
+    "title": "Philly 311 Data - 2017",
     "backend": "cartodb",
     "addlQs": [
         "getServiceNumbersByNeighborhood",
@@ -16,7 +16,7 @@
     "regions": [
         {
             "id": "filters",
-            "className": "col-md-6",
+            "className": "col-md-8",
             "children": [
                 {
                     "type": "Autocomplete",
@@ -101,7 +101,7 @@
         },
         {
             "id": "region-00",
-            "className": "col-md-6",
+            "className": "col-md-4",
             "children": [
                 {
                     "type": "Chart",

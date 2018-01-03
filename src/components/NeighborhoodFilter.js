@@ -9,6 +9,7 @@ import HoverInfo from './HoverInfo.js'
 import ChoroplethLegend from './ChoroplethLegend.js'
 import mapMarkerUrl from '../images/map-marker-icon.png'
 import blueMapMarkerUrl from '../images/map-marker-icon-blue.png'
+import choroplethIcon from '../images/choropleth_icon.png'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import '../../node_modules/react-leaflet-markercluster/dist/styles.min.css'
 
@@ -191,6 +192,22 @@ export default class NeighborhoodFilter extends BaseFilter {
            </MarkerClusterGroup>
   }
 
+  getGeoJSON() {
+    const geoid = this.state.selected.join('_')
+    return (
+        <GeoJSON
+            data={phillyHoodsGeoJson}
+            key={geoid}
+            className="neighborhoods_path"
+            onEachFeature={this.onEachFeature.bind(this)}
+            onMouseOver={this.setActiveRegion.bind(this)}
+            onMouseOut={this.resetActiveRegion.bind(this)}
+            style={this.updateStyle.bind(this)}
+          />
+      )
+  
+  }
+
   getChoropleth() {
     const geoid = this.state.selected.join('_')
     const { infoWindowPos, infoWindowActive, activeSubunitName, activeSubunitValue} = this.state
@@ -224,6 +241,27 @@ export default class NeighborhoodFilter extends BaseFilter {
           />
         </div>
       )
+    } else {
+      console.log("SHOW NIEHGBORHO")
+      return (
+        <div class="geojson-no-choropleth">
+          <GeoJSON
+            data={phillyHoodsGeoJson}
+            key={geoid}
+            className="neighborhoods_path"
+            onEachFeature={this.onEachFeature.bind(this)}
+            onMouseOver={this.setActiveRegion.bind(this)}
+            onMouseOut={this.resetActiveRegion.bind(this)}
+            style={ {stroke: "white", strokeWidth: "2", "stroke-dasharray": "20,10,5,5,5,10", fillColor: "transparent", fillOpacity: "0" }}
+          />
+          <HoverInfo
+            active={infoWindowActive}
+            position={infoWindowPos}
+            name={activeSubunitName}
+            value={activeSubunitValue}
+          />
+        </div>
+      ) 
     }
   }
   
@@ -245,6 +283,22 @@ export default class NeighborhoodFilter extends BaseFilter {
       )
     }
   }
+
+  toggleChoropleth() {
+    this.setState({
+      showChoropleth: !this.state.showChoropleth
+    })
+  }
+
+  getToolbar() {
+    const choroplethEnabledClass = (this.state.showChoropleth) ? 'choropleth-enabled' : ''
+    return (
+      <div class="toolbar row" style = {{ height: '60px' }}>
+        <div class={`col-sm-3 doHover ${choroplethEnabledClass}`} title="Toggle choropleth" id="toolbar-choropleth" style={ {height: 'inherit', backgroundImage: `url(${choroplethIcon})`, backgroundSize:  '40px', backgroundRepeat: 'no-repeat'} } onClick={this.toggleChoropleth.bind(this)}/>
+        <div class="col-sm-3" id="toolbar-calendar"/>  
+      </div>
+    )
+  }
   
   render() {
     const  leafletSettings = this.props.leafletSettings
@@ -253,6 +307,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     return (
     <div id="map-container">
       <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
+      {this.getToolbar()}
       <Map {...leafletSettings}>
         <TileLayer
           attribution={tileAttr}

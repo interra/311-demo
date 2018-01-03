@@ -107,13 +107,10 @@ div.leaflet-popup, div.leaflet-popup-content {
 .filter-right {
   z-index: 500; }
 
-.filter-right label {
-  width: 100%;
-  margin: 2px; }
-
-.filter-right .Select {
-  width: 100%;
-  margin: 2px; }
+.filter-right {
+  width: 80%;
+  float: right;
+  margin-top: .5em; }
 
 .hoverinfo {
   position: fixed;
@@ -174,6 +171,17 @@ div.leaflet-popup-content-wrapper p:first-child {
 
 div.leaflet-popup-content-wrapper ul li {
   margin-bottom: 1em; }
+
+/* Map controls */
+#toolbar-choropleth {
+  width: 50px;
+  height: 40px;
+  background-position: 5px;
+  margin-left: 1em;
+  margin-bottom: 3px; }
+
+.choropleth-enabled {
+  border: 1px yellow dotted; }
 
 /* Choropleth legend component styles */
 .choropleth-legend {

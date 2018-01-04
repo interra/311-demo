@@ -1,5 +1,5 @@
 {
-    "title": "Philly 311 Data - 2017",
+    "title": "Philly Open311",
     "backend": "cartodb",
     "addlQs": [
         "getServiceNumbersByNeighborhood",
@@ -25,7 +25,7 @@
                         "header": {
                             "template": "Pending Requests -- \"%%var%%\"",
                             "filterVal": "service_name",
-                            "default": "No data shown - select Request type!!",
+                            "default": "311 Requests in Philadelphia",
                             "joiner": ","
 
                         }
@@ -339,7 +339,7 @@
         {
             "id": "region-00-no-service-name",
             "className": "col-md-4",
-            "title": "Common 311 Requests",
+            "title": "Common Request Types",
             "needsNoParam": "service_name",
             "children": [
                 {
@@ -351,7 +351,7 @@
                     "caption": "Total 311 Requests Made",
                     "dataType": "Scalar",
                     "where": [],
-                    "count": "service_name"
+                    "count": "created_at"
                 },
                 {
                     "type": "Metric",
@@ -362,8 +362,8 @@
                     "caption": "Total Requests For Information",
                     "dataType": "Scalar",
                     "where": [{
-                        "attribute": "service_name",
-                        "value": "Information Request"
+                         "attribute": "service_name",
+                         "value": "Information Request"
                     }],
                     "count": "created_at"
                 },
@@ -425,7 +425,6 @@
                     }],
                     "count": "service_name"
                 }
-            
             ]
         }
    ]

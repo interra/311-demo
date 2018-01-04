@@ -116,13 +116,6 @@ div.leaflet-popup, div.leaflet-popup-content {
     border: 1px dashed;
 }
 
-.neighborhoods_path:hover {
-    fill: #bfc3c9;
-    fill-opacity:.6;
-}   
-
-.neighborhoods_path[fill="red"]:hover {fill:#bc1105}
-
 div.react-table[style] {
     display: none !important;
     font-size: 1.4em !important;
@@ -153,7 +146,8 @@ div.leaflet-popup-content-wrapper ul li {margin-bottom:1em;}
 /* Toolbar */
 .toolbar-icon {width: 50px; height:40px; background-position: 5px; margin-left:1em; margin-bottom:3px}
 .toolbar-icon--enabled {border: 1px yellow dotted}
-#filters .autocomplete-filter-container{width:55%; float:right; margin-top:1em; z-index:500}
+#filters .autocomplete-filter-container{width:55%; float:right; margin-top:1em;}
+#filters .autocomplete-filter-container div.Select {z-index:500}
 #toolbar-calendar {margin-top:1em}
 #toolbar-search {margin-top:1em}
 

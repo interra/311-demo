@@ -56,6 +56,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   
   // description
   onEachFeature(feature, layer) {
+    console.log('FL', feature,layer)
     layer.on({
       click: this.setActiveRegion.bind(this),
     })
@@ -65,6 +66,8 @@ export default class NeighborhoodFilter extends BaseFilter {
     } else {
       feature.properties.selected = false
     }
+
+    return feature
   }
 
   setActiveRegion(e) {
@@ -94,7 +97,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
 
   updateStyle(feature) {
-    const neighborhoodEnabledStyle = {stroke: "white", strokeWidth: "2", "stroke-dasharray": "20,10,5,5,5,10", fillColor: "transparent", fillOpacity: "0" }
+    const neighborhoodEnabledStyle = {"stroke": "black", "stroke-width": 2, "stroke-dasharray": "20,10,5,5,5,10", fillColor: "transparent", fillOpacity: "0" }
     const {selectedFillColor, selectedFillOpacity, unselectedFillColor, unselectedFillOpacity} = this.props.leafletSettings
     
     const styles = (feature.properties.selected) 
@@ -111,7 +114,7 @@ export default class NeighborhoodFilter extends BaseFilter {
       }
     
     if (this.state.neighborhoodEnabled) {
-      return Object.assign(neighborhoodEnabledStyle, styles)
+      return neighborhoodEnabledStyle
     } else {
       return styles
     }
@@ -199,6 +202,7 @@ export default class NeighborhoodFilter extends BaseFilter {
           key={geoid}
           className="neighborhoods_path"
           onEachFeature={this.onEachFeature.bind(this)}
+          style={this.updateStyle.bind(this)}
         />
         <HoverInfo
           active={infoWindowActive}

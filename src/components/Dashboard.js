@@ -113,9 +113,26 @@ export default class Dashboard extends Component {
     }
   }
   
+  regionShouldRender(region, params) {
+    const qs = Object.keys(params) || []
+    if (region.needsParam) {
+      return qs.includes(region.needsParam)
+    }
+
+    if (region.needsNoParam) {
+      return !qs.includes(region.needsNoParam)
+    }
+
+    return true;
+  }
+  
   getRegion(region, i) {
     const addlData = this.getAddlData(this.props.addlQs)
     
+    console.log("RR", region, this.props.params)
+    
+    // do conditional rendering based on present filters
+    if (this.regionShouldRender(region, this.props.params)) {
     return (
       <div id={region.id} className={`dash-region ${region.className || ''}`} key={region.id} >
         {this.getRegionTitle(region)}
@@ -136,6 +153,7 @@ export default class Dashboard extends Component {
         }
       </div>
     )
+    }
   }
   
   getRegions(regions) {

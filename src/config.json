@@ -101,6 +101,7 @@
         {
             "id": "region-00",
             "className": "col-md-4",
+            "needsParam": "service_name",
             "children": [
                 {
                     "type": "Chart",
@@ -333,6 +334,98 @@
                     "where": [],
                     "count": "service_name"
                 }
+            ]
+        },
+        {
+            "id": "region-00-no-service-name",
+            "className": "col-md-4",
+            "title": "Common 311 Requests",
+            "needsNoParam": "service_name",
+            "children": [
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "background": "rgba(192,66,90,.8)",
+                    "icon": "phone",
+                    "caption": "Total 311 Requests Made",
+                    "dataType": "Scalar",
+                    "where": [],
+                    "count": "service_name"
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "background": "rgba(244, 200, 66, .8)",
+                    "icon": "institution",
+                    "caption": "Total Requests For Information",
+                    "dataType": "Scalar",
+                    "where": [{
+                        "attribute": "service_name",
+                        "value": "Information Request"
+                    }],
+                    "count": "created_at"
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "background": "rgba(77, 132, 209, .8)",
+                    "icon": "road",
+                    "caption": "Street Defect Requests",
+                    "dataType": "Scalar",
+                    "where": [{
+                        "attribute": "service_name",
+                        "value": "Street Defect"
+                    }],
+                    "count": "service_name"
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "filters": ["service_name"],
+                    "background": "rgba(137, 42, 121, .8)",
+                    "icon": "trash",
+                    "caption": "Illegal Dumping Requests",
+                    "dataType": "Scalar",
+                    "where": [{
+                        "attribute": "service_name",
+                        "value": "Illegal Dumping"
+                    }],
+                    "count": "service_name"
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "background": "rgba(192,66,90,.8)",
+                    "icon": "wrench",
+                    "caption": "Maintenance Requests",
+                    "dataType": "Scalar",
+                    "where": [{
+                        "attribute": "service_name",
+                        "value": "Maintenance Residential or Commercial"
+                    }],
+                    "count": "service_name"
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "filters": ["service_name"],
+                    "background": "rgba(244, 200, 66, .8)",
+                    "icon": "eyedropper",
+                    "caption": "Graffiti Removal Requests",
+                    "dataType": "Scalar",
+                    "where": [{
+                        "attribute": "service_name",
+                        "value": "Graffiti Removal"
+                    }],
+                    "count": "service_name"
+                }
+            
             ]
         }
    ]

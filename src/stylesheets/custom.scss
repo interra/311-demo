@@ -87,7 +87,6 @@ div.leaflet-popup, div.leaflet-popup-content {
 }
 
 #map-container .fa-crosshairs {
-    display: none; /** hack - disable **/
     position: relative;
     top: 40px;
     left: 95%;
@@ -99,10 +98,6 @@ div.leaflet-popup, div.leaflet-popup-content {
 .leaflet-bottom {z-index: 400}
 .leaflet-top{z-index: 400}
 
-/* Autocomplete filter for request type */
-.filter-right {z-index:500}
-.filter-right {width: 80%;  float:right; margin-top:.5em}
-
 .hoverinfo {
   position: fixed;
   z-index: 500;
@@ -113,6 +108,12 @@ div.leaflet-popup, div.leaflet-popup-content {
   min-height: 50px;
   background-color: #f6e4e4;
   box-shadow: 1px 1px 3px grey;
+}
+
+.warning {
+    background: #fda921;
+    padding: 1em;
+    border: 1px dashed;
 }
 
 .neighborhoods_path:hover {
@@ -149,9 +150,12 @@ div.leaflet-popup-content-wrapper p {color:#d0ddf2; margin:0;font-size:1.2em;}
 div.leaflet-popup-content-wrapper p:first-child {font-weight:800;}
 div.leaflet-popup-content-wrapper ul li {margin-bottom:1em;}
 
-/* Map controls */
-#toolbar-choropleth {width: 50px; height:40px; background-position: 5px; margin-left:1em; margin-bottom:3px}
-.choropleth-enabled {border: 1px yellow dotted}
+/* Toolbar */
+.toolbar-icon {width: 50px; height:40px; background-position: 5px; margin-left:1em; margin-bottom:3px}
+.toolbar-icon--enabled {border: 1px yellow dotted}
+#filters .autocomplete-filter-container{width:55%; float:right; margin-top:1em; z-index:500}
+#toolbar-calendar {margin-top:1em}
+#toolbar-search {margin-top:1em}
 
 /* Choropleth legend component styles */
 .choropleth-legend {font-size: 1em; background-color:white; opacity:.9; color: black; padding:1em; width:12em; position: absolute; z-index:440; top:12%; left:5%}

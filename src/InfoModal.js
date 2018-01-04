@@ -19,7 +19,8 @@ export default class InfoModal extends Component {
             <div className="col-12 text-center">
               <h1>Open Data Visualization</h1>
               <p class="text-h3">
-                Welcome to the future - data is everywhere, the digital divide recedes before our very eyes, and we stand on the brink of.... confusion? Given the power of accessible open source technologies, we think that we can do better! We've wired this demo to give just a taste of what can be done with open data and open source technologies on the web.</p>
+                Welcome! This is a demo of our 311 visualization tool. We are using 2017 data from Philadelphia's Open311 API. The project is currently under construction but we want to make it publicly accessible to help generate interest in open data, open 311, and other open standards. If you would like more info on what we are doing visit <a href="http://interra.io">Our website</a>!
+              </p>
             </div>
           </div>
 

@@ -2,6 +2,7 @@ import React from 'react'
 import BaseFilter from './BaseFilter'
 import { Map, TileLayer, Marker, Popup, ZoomControl, GeoJSON } from 'react-leaflet'
 import Leaflet from 'leaflet'
+import Control from 'react-leaflet-control'
 import phillyHoodsGeoJson from '../lib/Neighborhoods_Philadelphia.json'
 import Choropleth from 'react-leaflet-choropleth'
 import FontAwesome from 'react-fontawesome'
@@ -10,6 +11,7 @@ import ChoroplethLegend from './ChoroplethLegend.js'
 import mapMarkerUrl from '../images/map-marker-icon.png'
 import blueMapMarkerUrl from '../images/map-marker-icon-blue.png'
 import choroplethIcon from '../images/choropleth_icon.png'
+import neighbIcon from '../images/choropleth_icon_empty.png'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import '../../node_modules/react-leaflet-markercluster/dist/styles.min.css'
 
@@ -24,6 +26,13 @@ const blueMapMarker = new Leaflet.Icon({
 })
 
 export default class NeighborhoodFilter extends BaseFilter {
+  constructor(props) {
+    super(props)
+    this.state = {
+      neighborhoodEnabled: true
+    }
+  }
+  
   componentWillMount() {
     this.resetInfoWindow()
   }
@@ -47,72 +56,64 @@ export default class NeighborhoodFilter extends BaseFilter {
   
   // description
   onEachFeature(feature, layer) {
-    const vals = this.state.selected
+    layer.on({
+      click: this.setActiveRegion.bind(this),
+    })
     
-    if (vals.indexOf(feature.properties.name) >= 0) {
+    if (this.state.selected.includes(feature.properties.name)) {
       feature.properties.selected = true
     } else {
       feature.properties.selected = false
     }
-    
-    this.layer = layer
-    layer.on({
-      click: this.handleOnChange.bind(this),
-      mouseEnter: this.setActiveRegion.bind(this)
-    })
   }
 
-  // description
-  handleOnChange(e) {
-    let vals = this.state.selected
-    const clicked = e.target.feature.properties.name
-    const deselect = e.target.feature.properties.selected
-    
-    if (deselect) {
-      vals = vals.filter(val => val !== clicked)
-    } else {
-      vals = [clicked]
-    }
-    
-    this.setState({selected: vals})
-    
-    this.doOnChange(vals.map(item => {
-      return {value: item}
-    }))
-  }
-  
   setActiveRegion(e) {
-    if (e.layer.feature) {
-      console.log(e.layer.feature)
-      this.setState({
-          infoWindowActive: true,
-          infoWindowPos: {x: e.originalEvent.clientX, y: e.originalEvent.clientY}, // get from e.offset
-          activeSubunitName: e.layer.feature.properties.name,
-          activeSubunitValue: this.getNeighborhoodData(e.layer.feature) || 'No requests'
-      })  
-    }
-  }
+    const feature = (e.layer) ? e.layer.feature : e.target.feature
+    let newState
 
-  resetActiveRegion(e) {
-    if (e.layer.feature.properties.name === this.state.activeSubunitName) {
-      this.resetInfoWindow()
-    }
+    if (feature) {
+      if (this.state.activeSubunitName === feature.properties.name) {
+        // feature is already selected
+        newState = {
+          infoWindowActive: false,
+          activeSubunitName: null,
+          activeSubunitValue: null,
+          selected: []
+        }
+      } else {
+        newState = {
+          infoWindowActive: true,
+          infoWindowPos: {x: e.originalEvent.clientX, y: e.originalEvent.clientY},
+          activeSubunitName: feature.properties.name,
+          activeSubunitValue: this.getNeighborhoodData(feature) || 'No requests',
+          selected: [feature.properties.name]
+        }  
+      }
+      this.setState(newState)  
+      this.render()}
   }
 
   updateStyle(feature) {
+    const neighborhoodEnabledStyle = {stroke: "white", strokeWidth: "2", "stroke-dasharray": "20,10,5,5,5,10", fillColor: "transparent", fillOpacity: "0" }
     const {selectedFillColor, selectedFillOpacity, unselectedFillColor, unselectedFillOpacity} = this.props.leafletSettings
-    if (feature.properties.selected === true) {
-      return {
-        fillColor: selectedFillColor,
+    
+    const styles = (feature.properties.selected) 
+    ? 
+      { fillColor: selectedFillColor,
         fillOpacity: selectedFillOpacity,
         stroke: false
-      }
-    } else {
-      return {
+      } 
+    : 
+      {
         fillColor: unselectedFillColor,
         fillOpacity: unselectedFillOpacity,
         stroke: false
       }
+    
+    if (this.state.neighborhoodEnabled) {
+      return Object.assign(neighborhoodEnabledStyle, styles)
+    } else {
+      return styles
     }
   } 
 
@@ -163,10 +164,6 @@ export default class NeighborhoodFilter extends BaseFilter {
               <p className="right">{row.address}</p>
             </li>
             <li>
-              <p className="left">Registered</p>
-              <p className="right">{row.created_at}</p>
-            </li>
-            <li>
               <p className="left">Expected resolution</p>
               <p className="right">{row.expected_datetime}</p>
             </li>
@@ -185,34 +182,37 @@ export default class NeighborhoodFilter extends BaseFilter {
   getMarkers() {
     const rows = this.props.addlData.getOutstandingRequests || []
     const markers = rows.filter(row => (row.lat && row.lon)).map(this.getMarker.bind(this))
-    console.log('MMM', rows, markers)
 
     return <MarkerClusterGroup>
             {markers}
            </MarkerClusterGroup>
   }
 
-  getGeoJSON() {
+  getNeighborhoodLayer() {
     const geoid = this.state.selected.join('_')
+    const {infoWindowPos, infoWindowActive,activeSubunitName, activeSubunitValue } = this.state
+
     return (
-        <GeoJSON
-            data={phillyHoodsGeoJson}
-            key={geoid}
-            className="neighborhoods_path"
-            onEachFeature={this.onEachFeature.bind(this)}
-            onMouseOver={this.setActiveRegion.bind(this)}
-            onMouseOut={this.resetActiveRegion.bind(this)}
-            style={this.updateStyle.bind(this)}
-          />
-      )
-  
+    <div className="neighborhood-layer">
+      <GeoJSON
+          data={phillyHoodsGeoJson}
+          key={geoid}
+          className="neighborhoods_path"
+          onEachFeature={this.onEachFeature.bind(this)}
+        />
+        <HoverInfo
+          active={infoWindowActive}
+          position={infoWindowPos}
+          name={activeSubunitName}
+          value={activeSubunitValue}
+        />
+    </div>
+    )
   }
 
   getChoropleth() {
-    const geoid = this.state.selected.join('_')
-    const { infoWindowPos, infoWindowActive, activeSubunitName, activeSubunitValue} = this.state
     const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
-    if (this.state.showChoropleth) {
+    if (this.state.choroplethEnabled) {
       return (
         <div id="choropleth-container">
           <Choropleth
@@ -222,44 +222,14 @@ export default class NeighborhoodFilter extends BaseFilter {
               steps={steps}
               mode={mode}
               style={choroplethStyle}
-              //onEachFeature={(feature, layer) => layer.bindPopup(feature.properties.label)}
           />
-          <GeoJSON
-            data={phillyHoodsGeoJson}
-            key={geoid}
-            className="neighborhoods_path"
-            onEachFeature={this.onEachFeature.bind(this)}
-            onMouseOver={this.setActiveRegion.bind(this)}
-            onMouseOut={this.resetActiveRegion.bind(this)}
-            style={this.updateStyle.bind(this)}
-          />
-          <HoverInfo
-            active={infoWindowActive}
-            position={infoWindowPos}
-            name={activeSubunitName}
-            value={activeSubunitValue}
-          />
+          { this.getNeighborhoodLayer() }
         </div>
       )
-    } else {
-      console.log("SHOW NIEHGBORHO")
+    } else if (this.state.neighborhoodEnabled) {
       return (
         <div class="geojson-no-choropleth">
-          <GeoJSON
-            data={phillyHoodsGeoJson}
-            key={geoid}
-            className="neighborhoods_path"
-            onEachFeature={this.onEachFeature.bind(this)}
-            onMouseOver={this.setActiveRegion.bind(this)}
-            onMouseOut={this.resetActiveRegion.bind(this)}
-            style={ {stroke: "white", strokeWidth: "2", "stroke-dasharray": "20,10,5,5,5,10", fillColor: "transparent", fillOpacity: "0" }}
-          />
-          <HoverInfo
-            active={infoWindowActive}
-            position={infoWindowPos}
-            name={activeSubunitName}
-            value={activeSubunitValue}
-          />
+          { this.getNeighborhoodLayer() }
         </div>
       ) 
     }
@@ -270,7 +240,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     const legendOpen = (this.state.popupOpen) ? false : legendData.length
     const { choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
     
-    if (this.state.showChoropleth) {
+    if (this.state.choroplethEnabled) {
       return ( 
         <ChoroplethLegend 
           data = {legendData}
@@ -284,29 +254,49 @@ export default class NeighborhoodFilter extends BaseFilter {
     }
   }
 
-  toggleChoropleth() {
-    this.setState({
-      showChoropleth: !this.state.showChoropleth
-    })
+  toggleParam(param) {
+    let newState = {}
+    newState[param] = !this.state[param]
+    this.setState(Object.assign(this.state, newState))
+  }
+
+  getCalendars() {
+  
+  }
+
+  getSearch() {
+    
   }
 
   getToolbar() {
-    const choroplethEnabledClass = (this.state.showChoropleth) ? 'choropleth-enabled' : ''
+    const choroplethEnabledClass = (this.state.choroplethEnabled) ? 'toolbar-icon-enabled' : ''
+    const neighBoundEnabledClass = (this.state.neighborhoodEnabled) ? 'toolbar-icon-enabled' : ''
     return (
-      <div class="toolbar row" style = {{ height: '60px' }}>
-        <div class={`col-sm-3 doHover ${choroplethEnabledClass}`} title="Toggle choropleth" id="toolbar-choropleth" style={ {height: 'inherit', backgroundImage: `url(${choroplethIcon})`, backgroundSize:  '40px', backgroundRepeat: 'no-repeat'} } onClick={this.toggleChoropleth.bind(this)}/>
-        <div class="col-sm-3" id="toolbar-calendar"/>  
+      <div className="toolbar row" style = {{ height: '60px' }}>
+        <div className={`col-sm-1 doHover toolbar-icon ${choroplethEnabledClass}`} title="Toggle choropleth" id="toolbar-choropleth" style={ {height: 'inherit', backgroundImage: `url(${choroplethIcon})`, backgroundSize:  '40px', backgroundRepeat: 'no-repeat'} } onClick={this.toggleParam.bind(this, 'choroplethEnabled')}/>
+        <div className={`col-sm-1 doHover toolbar-icon ${neighBoundEnabledClass}`} title="Toggle neighborhood boundaries" id="toolbar-neighborhood" style={ {height: 'inherit', backgroundImage: `url(${neighbIcon})`, backgroundSize:  '40px', backgroundRepeat: 'no-repeat'} } onClick={this.toggleParam.bind(this, 'neighborhoodEnabled')}/>
+        <div className="col-sm-1 toolbar-icon doHover" id="toolbar-calendar">
+			    <FontAwesome name="calendar" title="Select date range" size="2x" onClick={this.getCalendars.bind(this)}/>
+        </div>
+        <div className="col-sm-1 toolbar-icon doHover" id="toolbar-search">
+			    <FontAwesome name="search" size="2x" title="Search 311 database" onClick={this.getSearch.bind(this)}/>
+        </div>
       </div>
     )
   }
   
   render() {
-    const  leafletSettings = this.props.leafletSettings
+    // get overrides from state
+    let leafletOverrides = {}
+    const {zoom, center} = this.state
+    if (zoom) leafletOverrides.zoom = zoom
+    if (center) leafletOverrides.center = center
+
+    const  leafletSettings = Object.assign(this.props.leafletSettings, leafletOverrides)
     const { tileUrl, tileAttr } = leafletSettings
     
     return (
     <div id="map-container">
-      <FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
       {this.getToolbar()}
       <Map {...leafletSettings}>
         <TileLayer
@@ -314,10 +304,19 @@ export default class NeighborhoodFilter extends BaseFilter {
           url={tileUrl}
         />
         <ZoomControl position="topright" />
+        <Control>
+        <button 
+          onClick={ () => this.setState({zoom: zoom, center: center}) }
+        >
+          Reset View
+        </button>
+        </Control>
         {this.getMarkers()}
         {this.getChoropleth()}
       </Map>
       {this.getChoroplethLegend()}
+      // @@experimental: unzoom currently doesn't update leaflet state
+			//<FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
     </div>
     )
   }

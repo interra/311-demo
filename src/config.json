@@ -21,7 +21,6 @@
                 {
                     "type": "Autocomplete",
                     "filterKey": "service_name",
-                    "className": "filter-right",
                     "cardProps": {
                         "header": {
                             "template": "Pending Requests -- \"%%var%%\"",

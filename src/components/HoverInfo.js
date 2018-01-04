@@ -12,6 +12,7 @@ export default class HoverInfo extends Component {
       <div className="hoverinfo" style={hoverInfoStyle}>
         <p>{this.props.name}</p>
         <p>{this.props.value}</p>
+        <span className="warning">This neighborhood panel is under construction!</span>
       </div>
     )
   }

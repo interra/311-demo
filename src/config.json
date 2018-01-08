@@ -16,7 +16,7 @@
     "regions": [
         {
             "id": "filters",
-            "className": "col-md-8",
+            "className": "col-md-7",
             "children": [
                 {
                     "type": "Autocomplete",
@@ -65,7 +65,6 @@
                     "componentKey": "neighborhoodMap",
                     "leafletSettings": { 
                           "center": [39.9728, -75.1638],
-                          "zoomControl": false,
                           "zoom": 12, 
                           "maxZoom": 19, 
                           "minZoom": 6, 
@@ -73,8 +72,8 @@
                           "legends": true,
                           "infoControl": false,
                           "attributionControl": true,
-                          "selectedFillColor": "red",
-                          "selectedFillOpacity": 0.65,
+                          "selectedFillColor": "transparent",
+                          "selectedFillOpacity": 0,
                           "unselectedFillColor": "transparent",
                           "unselectedFillOpacity": 0,
                           "tileUrl": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -100,7 +99,7 @@
         },
         {
             "id": "region-00",
-            "className": "col-md-4",
+            "className": "col-md-5",
             "needsParam": "service_name",
             "children": [
                 {
@@ -339,23 +338,16 @@
         {
             "id": "region-00-no-service-name",
             "className": "col-md-4",
-            "title": "Common Request Types",
+            "title": "Choose a Request Type",
             "needsNoParam": "service_name",
             "children": [
                 {
                     "type": "Metric",
-                    "componentKey": "metric-total",
-                    "resourceHandle": "philly_311",
-                    "background": "rgba(192,66,90,.8)",
-                    "icon": "phone",
-                    "caption": "Total 311 Requests Made",
-                    "dataType": "Scalar",
-                    "where": [],
-                    "count": "created_at"
-                },
-                {
-                    "type": "Metric",
-                    "componentKey": "metric-total",
+                    "componentKey": "m-a-2",
+                    "format": ",",
+                    "cardProps": {
+                        "cardClasses": ["doHover"]
+                    },
                     "resourceHandle": "philly_311",
                     "background": "rgba(244, 200, 66, .8)",
                     "icon": "institution",
@@ -365,11 +357,16 @@
                          "attribute": "service_name",
                          "value": "Information Request"
                     }],
-                    "count": "created_at"
+                    "count": "service_name"
                 },
                 {
                     "type": "Metric",
+                    "componentKey": "m-a-3",
+                    "format": ",",
                     "componentKey": "metric-total",
+                    "cardProps": {
+                        "cardClasses": ["doHover"]
+                    },
                     "resourceHandle": "philly_311",
                     "background": "rgba(77, 132, 209, .8)",
                     "icon": "road",
@@ -383,7 +380,11 @@
                 },
                 {
                     "type": "Metric",
-                    "componentKey": "metric-total",
+                    "componentKey": "m-a-4",
+                    "format": ",",
+                    "cardProps": {
+                        "cardClasses": ["doHover"]
+                    },
                     "resourceHandle": "philly_311",
                     "filters": ["service_name"],
                     "background": "rgba(137, 42, 121, .8)",
@@ -398,7 +399,11 @@
                 },
                 {
                     "type": "Metric",
-                    "componentKey": "metric-total",
+                    "componentKey": "m-a-5",
+                    "format": ",",
+                    "cardProps": {
+                        "cardClasses": ["doHover"]
+                    },
                     "resourceHandle": "philly_311",
                     "background": "rgba(192,66,90,.8)",
                     "icon": "wrench",
@@ -412,7 +417,11 @@
                 },
                 {
                     "type": "Metric",
-                    "componentKey": "metric-total",
+                    "componentKey": "m-a-6",
+                    "format": ",",
+                    "cardProps": {
+                        "cardClasses": ["doHover"]
+                    },
                     "resourceHandle": "philly_311",
                     "filters": ["service_name"],
                     "background": "rgba(244, 200, 66, .8)",

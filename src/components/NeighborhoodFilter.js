@@ -292,25 +292,27 @@ export default class NeighborhoodFilter extends BaseFilter {
   render() {
     // get overrides from state
     let leafletOverrides = {}
-    const {zoom, center} = this.state
-    if (zoom) leafletOverrides.zoom = zoom
-    if (center) leafletOverrides.center = center
-
     const  leafletSettings = Object.assign(this.props.leafletSettings, leafletOverrides)
     const { tileUrl, tileAttr } = leafletSettings
+    console.log("LESFLET", leafletSettings)
     
     return (
     <div id="map-container">
       {this.getToolbar()}
-      <Map {...leafletSettings}>
+      <Map ref="map" {...leafletSettings}>
         <TileLayer
           attribution={tileAttr}
           url={tileUrl}
         />
-        <ZoomControl position="topright" />
         <Control>
         <button 
-          onClick={ () => this.setState({zoom: zoom, center: center}) }
+          onClick={ () => {
+            this.setState({zoom:12})
+            console.log(this)
+            this.refs.map.leafletElement.setView(this.props.leafletSettings.center, this.props.leafletSettings.zoom)
+            this.render()
+          }
+          }
         >
           Reset View
         </button>

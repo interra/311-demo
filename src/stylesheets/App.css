@@ -379,6 +379,9 @@ html, body, #app-container, #dashbaord-container, .card {
   height: 80em;
   width: 100%; }
 
+.leaflet-control button {
+  color: black; }
+
 div.leaflet-popup, div.leaflet-popup-content {
   z-index: 900; }
 

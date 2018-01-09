@@ -103,6 +103,19 @@
             "needsParam": "service_name",
             "children": [
                 {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "philly_311",
+                    "filters": ["service_name"],
+                    "background": "rgba(192,66,90,.8)",
+                    "icon": "phone",
+                    "format": ",",
+                    "caption": "Total Reported in 2017",
+                    "dataType": "Scalar",
+                    "where": [],
+                    "count": "service_name"
+                },
+                {
                     "type": "Chart",
                     "componentKey": "discrete-1",
                     "cardProps": {
@@ -320,18 +333,6 @@
                             "borderHover": "rgba(255,99,132,1)"
                         }
                     ]
-                },
-                {
-                    "type": "Metric",
-                    "componentKey": "metric-total",
-                    "resourceHandle": "philly_311",
-                    "filters": ["service_name"],
-                    "background": "rgba(192,66,90,.8)",
-                    "icon": "phone",
-                    "caption": "Total Reported in 2017",
-                    "dataType": "Scalar",
-                    "where": [],
-                    "count": "service_name"
                 }
             ]
         },
@@ -343,29 +344,13 @@
             "children": [
                 {
                     "type": "Metric",
-                    "componentKey": "m-a-2",
-                    "format": ",",
-                    "cardProps": {
-                        "cardClasses": ["doHover"]
-                    },
-                    "resourceHandle": "philly_311",
-                    "background": "rgba(244, 200, 66, .8)",
-                    "icon": "institution",
-                    "caption": "Total Requests For Information",
-                    "dataType": "Scalar",
-                    "where": [{
-                         "attribute": "service_name",
-                         "value": "Information Request"
-                    }],
-                    "count": "service_name"
-                },
-                {
-                    "type": "Metric",
                     "componentKey": "m-a-3",
                     "format": ",",
                     "componentKey": "metric-total",
                     "cardProps": {
-                        "cardClasses": ["doHover"]
+                        "cardClasses": ["doHover"],
+                        "link": true,
+                        "href": "/?service_name=Street%20Defect"
                     },
                     "resourceHandle": "philly_311",
                     "background": "rgba(77, 132, 209, .8)",
@@ -383,7 +368,9 @@
                     "componentKey": "m-a-4",
                     "format": ",",
                     "cardProps": {
-                        "cardClasses": ["doHover"]
+                        "cardClasses": ["doHover"],
+                        "link": true,
+                        "href": "/?service_name=Illegal%20Dumping"
                     },
                     "resourceHandle": "philly_311",
                     "filters": ["service_name"],
@@ -402,7 +389,9 @@
                     "componentKey": "m-a-5",
                     "format": ",",
                     "cardProps": {
-                        "cardClasses": ["doHover"]
+                        "cardClasses": ["doHover"],
+                        "link": true,
+                        "href": "/?service_name=Maintenance%20Residential%20or%20Commercial"
                     },
                     "resourceHandle": "philly_311",
                     "background": "rgba(192,66,90,.8)",
@@ -420,7 +409,9 @@
                     "componentKey": "m-a-6",
                     "format": ",",
                     "cardProps": {
-                        "cardClasses": ["doHover"]
+                        "cardClasses": ["doHover"],
+                        "link": true,
+                        "href": "/?service_name=Graffiti%20Removal"
                     },
                     "resourceHandle": "philly_311",
                     "filters": ["service_name"],
@@ -431,6 +422,26 @@
                     "where": [{
                         "attribute": "service_name",
                         "value": "Graffiti Removal"
+                    }],
+                    "count": "service_name"
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "m-a-2",
+                    "format": ",",
+                    "cardProps": {
+                        "cardClasses": ["doHover"],
+                        "link": true,
+                        "href": "/?service_name=Information%20Request"
+                    },
+                    "resourceHandle": "philly_311",
+                    "background": "rgba(244, 200, 66, .8)",
+                    "icon": "institution",
+                    "caption": "Total Requests For Information",
+                    "dataType": "Scalar",
+                    "where": [{
+                         "attribute": "service_name",
+                         "value": "Information Request"
                     }],
                     "count": "service_name"
                 }

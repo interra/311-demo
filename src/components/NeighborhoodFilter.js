@@ -321,8 +321,6 @@ export default class NeighborhoodFilter extends BaseFilter {
         {this.getChoropleth()}
       </Map>
       {this.getChoroplethLegend()}
-      // @@experimental: unzoom currently doesn't update leaflet state
-			//<FontAwesome name="crosshairs" size="2x" onClick={this.unzoom.bind(this)}/>
     </div>
     )
   }

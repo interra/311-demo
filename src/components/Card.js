@@ -51,7 +51,8 @@ export default class Card extends Component {
       }
     });
 
-    return (
+    const card =
+      (
       <div className={'card card-' + props.cardStyle + ' ' + classNames} style={style}>
         <div className="card-top">
           <div className="bd-title">
@@ -77,5 +78,15 @@ export default class Card extends Component {
         </div>
       </div>
     )
+
+    if (this.props.link) {
+      return (
+        <a href={this.props.href}>
+          {card}
+        </a>
+      )
+    }
+
+    return card
   }
 }

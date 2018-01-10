@@ -279,12 +279,6 @@ export default class NeighborhoodFilter extends BaseFilter {
       <div className="toolbar row" style = {{ height: '60px' }}>
         <div className={`col-sm-1 doHover toolbar-icon ${choroplethEnabledClass}`} title="Toggle choropleth" id="toolbar-choropleth" style={ {height: 'inherit', backgroundImage: `url(${choroplethIcon})`, backgroundSize:  '40px', backgroundRepeat: 'no-repeat'} } onClick={this.toggleParam.bind(this, 'choroplethEnabled')}/>
         <div className={`col-sm-1 doHover toolbar-icon ${neighBoundEnabledClass}`} title="Toggle neighborhood boundaries" id="toolbar-neighborhood" style={ {height: 'inherit', backgroundImage: `url(${neighbIcon})`, backgroundSize:  '40px', backgroundRepeat: 'no-repeat'} } onClick={this.toggleParam.bind(this, 'neighborhoodEnabled')}/>
-        <div className="col-sm-1 toolbar-icon doHover" id="toolbar-calendar">
-			    <FontAwesome name="calendar" title="Select date range" size="2x" onClick={this.getCalendars.bind(this)}/>
-        </div>
-        <div className="col-sm-1 toolbar-icon doHover" id="toolbar-search">
-			    <FontAwesome name="search" size="2x" title="Search 311 database" onClick={this.getSearch.bind(this)}/>
-        </div>
       </div>
     )
   }

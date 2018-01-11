@@ -354,12 +354,16 @@ html, body, #app-container, #dashbaord-container, .card {
   color: #d4d6d8;
   font-size: 1.1em; }
 
+#app-container {
+  overflow: hidden; }
+
 /** App Skin**/
 .social-logos {
   text-align: right; }
 
 .social-logos a {
   margin-top: 2em;
+  margin-right: 1em;
   color: #c6b4b4; }
 
 .title-info {

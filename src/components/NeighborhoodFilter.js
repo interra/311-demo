@@ -125,16 +125,14 @@ export default class NeighborhoodFilter extends BaseFilter {
     const count = data.filter(n => n.neighborhood === feature.properties.name)
     //@@TODO we could generalize this to choropleth by different stats:
     const val = (count.length > 0) ? parseFloat(count[0].rate) : undefined
-    console.log('r', val)
     return val
   }
   
   // get whole data series as array of integers for legend scale
   getLegendData() {
     const data = this.props.addlData.getServiceNumbersByNeighborhood || []
-    // @@TODO this shuold be a configured variable (eg rate / count):
-    console.log("legDA", data)
-    return data.map(rec => { console.log(rec, rec.rate, parseFloat(rec.rate)); return parseFloat(rec.rate)})
+    // @@TODO this shuold be a configured variable (eg rate / count) see getNeighborhoodData above:
+    return data.map(rec => parseFloat(rec.rate))
   }
   
   /**
@@ -221,7 +219,6 @@ export default class NeighborhoodFilter extends BaseFilter {
   getChoropleth() {
     const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
     const features = phillyHoodsGeoJson.features
-    console.log("getCH", features)
     if (this.state.choroplethEnabled) {
       return (
         <div id="choropleth-container">

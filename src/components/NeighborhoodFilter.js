@@ -56,7 +56,6 @@ export default class NeighborhoodFilter extends BaseFilter {
   
   // description
   onEachFeature(feature, layer) {
-    console.log('FL', feature,layer)
     layer.on({
       click: this.setActiveRegion.bind(this),
     })
@@ -124,13 +123,18 @@ export default class NeighborhoodFilter extends BaseFilter {
   getNeighborhoodData(feature) {
     const data = this.props.addlData.getServiceNumbersByNeighborhood || []
     const count = data.filter(n => n.neighborhood === feature.properties.name)
-    return (count.length > 0) ? count[0].count: undefined
+    //@@TODO we could generalize this to choropleth by different stats:
+    const val = (count.length > 0) ? parseFloat(count[0].rate) : undefined
+    console.log('r', val)
+    return val
   }
   
   // get whole data series as array of integers for legend scale
   getLegendData() {
     const data = this.props.addlData.getServiceNumbersByNeighborhood || []
-    return data.map(rec => rec.count)
+    // @@TODO this shuold be a configured variable (eg rate / count):
+    console.log("legDA", data)
+    return data.map(rec => { console.log(rec, rec.rate, parseFloat(rec.rate)); return parseFloat(rec.rate)})
   }
   
   /**
@@ -191,7 +195,7 @@ export default class NeighborhoodFilter extends BaseFilter {
            </MarkerClusterGroup>
   }
 
-  getNeighborhoodLayer() {
+  getNeighborhoodBoundaries() {
     const geoid = this.state.selected.join('_')
     const {infoWindowPos, infoWindowActive,activeSubunitName, activeSubunitValue } = this.state
 
@@ -216,24 +220,26 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   getChoropleth() {
     const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
+    const features = phillyHoodsGeoJson.features
+    console.log("getCH", features)
     if (this.state.choroplethEnabled) {
       return (
         <div id="choropleth-container">
           <Choropleth
-              data={{type: 'FeatureCollection', features: phillyHoodsGeoJson.features }}
+              data={{type: 'FeatureCollection', features: features }}
               valueProperty={this.getNeighborhoodData.bind(this)}
               scale={choroplethColorScale}
               steps={steps}
               mode={mode}
               style={choroplethStyle}
           />
-          { this.getNeighborhoodLayer() }
+          { this.getNeighborhoodBoundaries() }
         </div>
       )
     } else if (this.state.neighborhoodEnabled) {
       return (
         <div class="geojson-no-choropleth">
-          { this.getNeighborhoodLayer() }
+          { this.getNeighborhoodBoundaries() }
         </div>
       ) 
     }
@@ -243,7 +249,6 @@ export default class NeighborhoodFilter extends BaseFilter {
     const legendData = this.getLegendData()
     const legendOpen = (this.state.popupOpen) ? false : legendData.length
     const { choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
-    
     if (this.state.choroplethEnabled) {
       return ( 
         <ChoroplethLegend 
@@ -288,7 +293,6 @@ export default class NeighborhoodFilter extends BaseFilter {
     let leafletOverrides = {}
     const  leafletSettings = Object.assign(this.props.leafletSettings, leafletOverrides)
     const { tileUrl, tileAttr } = leafletSettings
-    console.log("LESFLET", leafletSettings)
     
     return (
     <div id="map-container">
@@ -302,7 +306,6 @@ export default class NeighborhoodFilter extends BaseFilter {
         <button 
           onClick={ () => {
             this.setState({zoom:12})
-            console.log(this)
             this.refs.map.leafletElement.setView(this.props.leafletSettings.center, this.props.leafletSettings.zoom)
             this.render()
           }

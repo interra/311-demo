@@ -29,7 +29,8 @@ export default class NeighborhoodFilter extends BaseFilter {
   constructor(props) {
     super(props)
     this.state = {
-      neighborhoodEnabled: true
+      neighborhoodEnabled: true,
+      choroplethEnabled: true
     }
   }
   
@@ -188,7 +189,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     const rows = this.props.addlData.getOutstandingRequests || []
     const markers = rows.filter(row => (row.lat && row.lon)).map(this.getMarker.bind(this))
 
-    return <MarkerClusterGroup>
+    return <MarkerClusterGroup options={{spiderifyOnMaxZoom: false, chunkedLoading: true}}>
             {markers}
            </MarkerClusterGroup>
   }

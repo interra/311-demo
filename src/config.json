@@ -66,7 +66,6 @@
                     "leafletSettings": { 
                           "center": [39.9728, -75.1638],
                           "zoom": 12, 
-                          "maxZoom": 19, 
                           "minZoom": 6, 
                           "scrollWheelZoom": false,
                           "legends": true,
@@ -81,7 +80,7 @@
                     },
                     "choroplethSettings": {
                         "choroplethStyle": {
-                            "fillColor": "#F28F3B",
+                            "fillColor": "rgba(0,0,0,0)",
                             "weight": 2,
                             "opacity": 1,
                             "color": "white",

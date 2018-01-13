@@ -151,13 +151,17 @@ div.leaflet-popup-content-wrapper ul li {margin-bottom:1em;}
 /* Toolbar */
 .toolbar-icon {width: 50px; height:40px; background-position: 5px; margin-left:1em; margin-bottom:3px}
 .toolbar-icon--enabled {border: 1px yellow dotted}
-#filters .autocomplete-filter-container{width:55%; float:right; margin-top:1em;}
+#filters .autocomplete-filter-container{width:55%; float:right; margin-top:1em; margin-bottom:1em;}
 #filters .autocomplete-filter-container div.Select {z-index:500}
 #toolbar-calendar {margin-top:1em}
 #toolbar-search {margin-top:1em}
 
 /* Choropleth legend component styles */
-.choropleth-legend {font-size: 1em; background-color:white; opacity:.9; color: black; padding:1em; width:12em; position: absolute; z-index:440; top:12%; left:5%}
+#map-container .choropleth-legend {max-width:15%; left:20px; top:200px; border: 1px solid}
+.choropleth-legend-caption {font-size:1em}
+.choropleth-legend .legend-row{font-size:.6em;}
+
+.choropleth-legend {background-color:white; opacity:.9; color: black; padding:1em; width:12em; position: absolute; z-index:440;}
 .choropleth-legend .legend-row {display: inline-block; width:100%; height:2em}
 .choropleth-legend .legend-row .color-chip {height:1.2em; width:1.2em; display:inline-block; margin-right:1em}
 .choropleth-legend .legend-row .val-container {font-size:1.2em; margin-right:1.5em;}

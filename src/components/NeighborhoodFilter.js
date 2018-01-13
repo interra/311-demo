@@ -99,7 +99,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   updateStyle(feature) {
     const neighborhoodEnabledStyle = {"stroke": "black", "stroke-width": 2, "stroke-dasharray": "20,10,5,5,5,10", fillColor: "transparent", fillOpacity: "0" }
     const {selectedFillColor, selectedFillOpacity, unselectedFillColor, unselectedFillOpacity} = this.props.leafletSettings
-    
+    return neighborhoodEnabledStyle
     const styles = (feature.properties.selected) 
     ? 
       { fillColor: selectedFillColor,
@@ -197,6 +197,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   getNeighborhoodBoundaries() {
     const geoid = this.state.selected.join('_')
     const {infoWindowPos, infoWindowActive,activeSubunitName, activeSubunitValue } = this.state
+    const neighbStyle = {color: "black", weight: 1, opacity:.6, fillColor: "transparent", fillOpacity: "0" }
 
     return (
     <div className="neighborhood-layer">
@@ -205,7 +206,7 @@ export default class NeighborhoodFilter extends BaseFilter {
           key={geoid}
           className="neighborhoods_path"
           onEachFeature={this.onEachFeature.bind(this)}
-          style={this.updateStyle.bind(this)}
+          style={neighbStyle}
         />
         <HoverInfo
           active={infoWindowActive}
@@ -294,7 +295,6 @@ export default class NeighborhoodFilter extends BaseFilter {
     
     return (
     <div id="map-container">
-      {this.getToolbar()}
       <Map ref="map" {...leafletSettings}>
         <TileLayer
           attribution={tileAttr}

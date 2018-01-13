@@ -1,5 +1,5 @@
 {
-    "title": "Philly Open311",
+    "title": "Philly Open311 - 2017 data",
     "backend": "cartodb",
     "addlQs": [
         "getServiceNumbersByNeighborhood",
@@ -75,8 +75,8 @@
                           "selectedFillOpacity": 0,
                           "unselectedFillColor": "transparent",
                           "unselectedFillOpacity": 0,
-                          "tileUrl": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
-                          "tileAttr": "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"
+                          "tileUrl": "http://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png",
+                          "tileAttr": "© <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors © <a href=\"http://cartodb.com/attributions#basemaps\">CartoDB</a>"
                     },
                     "choroplethSettings": {
                         "choroplethStyle": {

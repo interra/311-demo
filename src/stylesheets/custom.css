@@ -194,7 +194,7 @@ div.leaflet-popup-content-wrapper ul li {
 
 /* Choropleth legend component styles */
 #map-container .choropleth-legend {
-  max-width: 15%;
+  max-width: 20%;
   left: 20px;
   top: 200px;
   border: 1px solid; }

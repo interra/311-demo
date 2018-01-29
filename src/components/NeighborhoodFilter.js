@@ -88,7 +88,7 @@ export default class NeighborhoodFilter extends BaseFilter {
           infoWindowActive: true,
           infoWindowPos: {x: e.originalEvent.clientX, y: e.originalEvent.clientY},
           activeSubunitName: feature.properties.name,
-          activeSubunitValue: this.getNeighborhoodData(feature) || 'No requests',
+          activeSubunitValue: this.getNeighborhoodVal(feature) || 'No requests',
           selected: [feature.properties.name]
         }  
       }
@@ -121,12 +121,31 @@ export default class NeighborhoodFilter extends BaseFilter {
   } 
 
   // get a single value from data per feature for choropleth
-  getNeighborhoodData(feature) {
+  getNeighborhoodVal(feature) {
     const data = this.props.addlData.getServiceNumbersByNeighborhood || []
     const count = data.filter(n => n.neighborhood === feature.properties.name)
-    //@@TODO we could generalize this to choropleth by different stats:
-    const val = (count.length > 0) ? parseFloat(count[0].rate) : undefined
-    return val
+    return (count.length > 0) ? parseFloat(count[0].rate) : undefined
+  }
+
+  // get data fields for active data subunit
+  getNeighborhoodData() {
+    const data = this.props.addlData.getServiceNumbersByNeighborhood || []
+    const selected = data.filter(n => n.neighborhood === this.state.activeSubunitName
+    )
+
+    console.log('gnd', data, selected)
+    
+    // @@TODO I would like this to be in config 
+    // @@TODO not code
+    if (selected.length > 0) {
+      return [
+        {key: "Total Requests", val: selected[0].count},
+        {key: "Area (sq. mi.)", val: parseFloat(selected[0].sqmi).toFixed(2)},
+        {key: "Request Rate (per sq. mi.)", val: parseFloat(selected[0].rate).toFixed(2)}
+      ]
+    }
+
+    return []
   }
   
   // get whole data series as array of integers for legend scale
@@ -197,6 +216,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   getNeighborhoodBoundaries() {
     const geoid = this.state.selected.join('_')
     const {infoWindowPos, infoWindowActive,activeSubunitName, activeSubunitValue } = this.state
+    const rows = this.getNeighborhoodData()
     const neighbStyle = {color: "black", weight: 1, opacity:.6, fillColor: "transparent", fillOpacity: "0" }
 
     return (
@@ -211,8 +231,7 @@ export default class NeighborhoodFilter extends BaseFilter {
         <HoverInfo
           active={infoWindowActive}
           position={infoWindowPos}
-          name={activeSubunitName}
-          value={activeSubunitValue}
+          rows={rows}
         />
     </div>
     )
@@ -226,7 +245,7 @@ export default class NeighborhoodFilter extends BaseFilter {
         <div id="choropleth-container">
           <Choropleth
               data={{type: 'FeatureCollection', features: features }}
-              valueProperty={this.getNeighborhoodData.bind(this)}
+              valueProperty={this.getNeighborhoodVal.bind(this)}
               scale={choroplethColorScale}
               steps={steps}
               mode={mode}

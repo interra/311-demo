@@ -44,9 +44,11 @@ class App extends Component {
           <div className="col-md-12 311-app-title">
             <h1>
               {props.title}
-                <FontAwesome name="info-circle" size="1x" className="title-info doHover" onClick={this.toggleInfoWindow.bind(this)} />
             </h1>
             <div className="social-logos">
+               <a>
+                <FontAwesome name="info-circle" size="1x" className="title-info doHover" onClick={this.toggleInfoWindow.bind(this)} />
+                </a>
               <a href="https://github.com/interra/311-demo">
                 <FontAwesome name="github" className="doHover" size="2x" target="_blank" />
               </a>

@@ -366,8 +366,10 @@ html, body, #app-container, #dashbaord-container, .card {
   margin-right: 1em;
   color: #c6b4b4; }
 
-.title-info {
-  float: right;
+span.title-info {
+  margin-right: 20px;
+  margin-bottom: 3px;
+  font-size: 2em;
   color: #c6b4b4; }
 
 .interra-icon-white {
@@ -448,14 +450,11 @@ div.leaflet-popup, div.leaflet-popup-content {
 
 .hoverinfo {
   position: fixed;
-  z-index: 500;
-  opacity: .94;
-  color: black;
-  padding: 20px;
-  border-radius: 5px;
-  min-height: 50px;
-  background-color: #f6e4e4;
-  box-shadow: 1px 1px 3px grey; }
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 500; }
+
+.hoverinfo table.table {
+  margin-bottom: 0; }
 
 .warning {
   background: #fda921;
@@ -534,7 +533,7 @@ div.leaflet-popup-content-wrapper ul li {
 #map-container .choropleth-legend {
   max-width: 20%;
   left: 20px;
-  top: 200px;
+  top: 240px;
   border: 1px solid; }
 
 .choropleth-legend-caption {

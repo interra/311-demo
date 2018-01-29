@@ -8,12 +8,21 @@ export default class HoverInfo extends Component {
       display: this.props.active ? 'block' : 'none',
     }
 
+    console.log("Hoverinfo",this);
+
     return (
       <div className="hoverinfo" style={hoverInfoStyle}>
-        <p>{this.props.name}</p>
-        <p>{this.props.value}</p>
-        <span className="warning">This neighborhood panel is under construction!</span>
-      </div>
+        <table className="table table-inverse">
+          <tbody>
+            {this.props.rows.map(row => 
+              <tr>
+                <th scope="row">{row.key}</th>
+                <td>{row.val}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+			</div>
     )
   }
 }

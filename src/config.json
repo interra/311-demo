@@ -1,5 +1,4 @@
 {
-    "title": "Philly Open311 - 2017 data",
     "backend": "cartodb",
     "addlQs": [
         "getServiceNumbersByNeighborhood",
@@ -27,8 +26,9 @@
                             "filterVal": "service_name",
                             "default": "311 Requests in Philadelphia",
                             "joiner": ","
-
-                        }
+                        },
+                        "cardClasses": ["select-service"],
+                        "subheader": "This demo uses published 311 data from 2017."
                     },
                     "field": "service_name",
                     "multi": false,

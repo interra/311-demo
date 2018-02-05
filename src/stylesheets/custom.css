@@ -94,7 +94,9 @@ div.leaflet-popup, div.leaflet-popup-content {
 
 @media screen and (max-width: 699px) {
   #map-container {
-    width: 96%; } }
+    width: 96%; }
+  #region-00 {
+    margin-top: 3em; } }
 
 #map-container .fa-crosshairs {
   position: relative;

@@ -35,7 +35,24 @@ export default class NeighborhoodFilter extends BaseFilter {
   }
   
   componentWillMount() {
+    const geojsonUrl = this.props.geojsonUrl
+    console.log(geojsonUrl, this.props)
     this.resetInfoWindow()
+    this.getGeojson(geojsonUrl).then(res => {
+      this.setState({geojson: res})
+    })
+  }
+  
+  getGeojson(url) {
+    return new Promise((resolve, reject) => {
+      fetch(url).then(function(response) {
+        console.log('BB', response)
+        return response.json();
+      }).then(function(geojson) {
+        console.log("CC", geojson)
+        resolve(geojson)
+      }); 
+    })
   }
 
   resetInfoWindow() {
@@ -219,11 +236,14 @@ export default class NeighborhoodFilter extends BaseFilter {
     const {infoWindowPos, infoWindowActive,activeSubunitName, activeSubunitValue } = this.state
     const rows = this.getNeighborhoodData()
     const neighbStyle = {color: "black", weight: 1, opacity:.6, fillColor: "transparent", fillOpacity: "0" }
+    const geojson = this.state.geojson
+
+    if (!geojson) return
 
     return (
     <div className="neighborhood-layer">
       <GeoJSON
-          data={phillyHoodsGeoJson}
+          data={geojson}
           key={geoid}
           className="neighborhoods_path"
           onEachFeature={this.onEachFeature.bind(this)}

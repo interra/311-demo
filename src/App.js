@@ -12,6 +12,7 @@ import InfoModal from './InfoModal.js'
 document.title = "Philly 311 Demo"
 
 const history = createHistory()
+
 const OUTSTANDING_REQUEST_LIMIT = 30
 
 class App extends Component {

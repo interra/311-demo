@@ -22,13 +22,12 @@
                     "filterKey": "service_name",
                     "cardProps": {
                         "header": {
-                            "template": "Pending Requests -- \"%%var%%\"",
+                            "template": "Pending Requests -- \"%%var%%\" -- 2017 Data",
                             "filterVal": "service_name",
-                            "default": "311 Requests in Philadelphia",
+                            "default": "311 Requests in Philadelphia -- 2017 Data",
                             "joiner": ","
                         },
-                        "cardClasses": ["select-service"],
-                        "subheader": "This demo uses published 311 data from 2017."
+                        "cardClasses": ["select-service"]
                     },
                     "field": "service_name",
                     "multi": false,
@@ -92,6 +91,7 @@
                         "legendCaption": "Requests / sq mi",
                         "mode": "e"
                     },
+                    "geojsonUrl": "/static/Neighborhoods_Philadelphia.json",
                     "multi": true
                 }
             ]

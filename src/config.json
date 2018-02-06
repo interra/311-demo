@@ -41,6 +41,7 @@
                 {
                     "type": "NeighborhoodFilter",
                     "className": "map-left",
+                    "queryKey": "getCapsByDistrict",
                     "filterKey": "neighborhood",
                     "filters": ["complaint_type"],
                     "componentKey": "districtMap",
@@ -71,6 +72,8 @@
                         "choroplethColorScale": ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"],
                         "steps": 5,
                         "legendCaption": "Requests / district",
+                        "featureKey": "DISTRICT_",
+                        "dataKey": "dist_occurrence",
                         "mode": "e"
                     },
                     "geojsonUrl": "/static/PhlPoliceDistricts.json",

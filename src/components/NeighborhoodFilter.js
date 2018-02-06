@@ -43,13 +43,14 @@ export default class NeighborhoodFilter extends BaseFilter {
     })
   }
   
+  /**
+   * Fetch geojson by url
+   **/
   getGeojson(url) {
     return new Promise((resolve, reject) => {
       fetch(url).then(function(response) {
-        console.log('BB', response)
         return response.json();
       }).then(function(geojson) {
-        console.log("CC", geojson)
         resolve(geojson)
       }); 
     })
@@ -72,7 +73,6 @@ export default class NeighborhoodFilter extends BaseFilter {
     this.render()
   }
   
-  // description
   onEachFeature(feature, layer) {
     layer.on({
       click: this.setActiveRegion.bind(this),
@@ -86,7 +86,11 @@ export default class NeighborhoodFilter extends BaseFilter {
 
     return feature
   }
-
+  
+  // note - not really implemented
+  // this could allow users to select a geojson region
+  // and then update state accordingly
+  // so we could provide drill-down behavior for ex
   setActiveRegion(e) {
     const feature = (e.layer) ? e.layer.feature : e.target.feature
     let newState
@@ -113,6 +117,8 @@ export default class NeighborhoodFilter extends BaseFilter {
       this.render()}
   }
 
+  // not really implemented I think
+  // update geojson style based on whether it is selected (state)
   updateStyle(feature) {
     const neighborhoodEnabledStyle = {"stroke": "black", "stroke-width": 2, "stroke-dasharray": "20,10,5,5,5,10", fillColor: "transparent", fillOpacity: "0" }
     const {selectedFillColor, selectedFillOpacity, unselectedFillColor, unselectedFillOpacity} = this.props.leafletSettings
@@ -138,15 +144,24 @@ export default class NeighborhoodFilter extends BaseFilter {
   } 
 
   // get a single value from data per feature for choropleth
+  // @@UGH userify all this
   getNeighborhoodVal(feature) {
-    const data = this.props.addlData.getServiceNumbersByNeighborhood || []
-    const count = data.filter(n => n.neighborhood === feature.properties.name)
-    return (count.length > 0) ? parseFloat(count[0].rate) : undefined
+    console.log("feature", feature)
+    const queryKey = this.props.queryKey
+    const data = this.props.addlData[queryKey] || []
+    console.log("data",data)
+    const featureKey = this.props.choroplethSettings.featureKey
+    const dataKey = this.props.choroplethSettings.dataKey
+
+    const count = data.filter(n => n[dataKey] === feature.properties[featureKey])
+    console.log("neighVal", count)
+    return (count.length > 0) ? parseFloat(count[0].count) : undefined // @@TODO ugh this needs to correspond with the API return
   }
 
   // get data fields for active data subunit
   getNeighborhoodData() {
-    const data = this.props.addlData.getServiceNumbersByNeighborhood || []
+    const queryKey = this.props.queryKey
+    const data = this.props.addlData[queryKey] || []
     const selected = data.filter(n => n.neighborhood === this.state.activeSubunitName
     )
 
@@ -168,7 +183,8 @@ export default class NeighborhoodFilter extends BaseFilter {
   
   // get whole data series as array of integers for legend scale
   getLegendData() {
-    const data = this.props.addlData.getServiceNumbersByNeighborhood || []
+    const queryKey = this.props.queryKey
+    const data = this.props.addlData[queryKey] || []
     // @@TODO this shuold be a configured variable (eg rate / count) see getNeighborhoodData above:
     return data.map(rec => parseFloat(rec.rate))
   }
@@ -260,7 +276,7 @@ export default class NeighborhoodFilter extends BaseFilter {
 
   getChoropleth() {
     const { choroplethStyle, choroplethColorScale, steps, mode, legendCaption } = this.props.choroplethSettings
-    const features = phillyHoodsGeoJson.features
+    const features = (this.state.geojson) ? this.state.geojson.features : []
     if (this.state.choroplethEnabled) {
       return (
         <div id="choropleth-container">
@@ -307,15 +323,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     newState[param] = !this.state[param]
     this.setState(Object.assign(this.state, newState))
   }
-
-  getCalendars() {
   
-  }
-
-  getSearch() {
-    
-  }
-
   getToolbar() {
     const choroplethEnabledClass = (this.state.choroplethEnabled) ? 'toolbar-icon-enabled' : ''
     const neighBoundEnabledClass = (this.state.neighborhoodEnabled) ? 'toolbar-icon-enabled' : ''

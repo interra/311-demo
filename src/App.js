@@ -66,27 +66,17 @@ class App extends Component {
   }
 }
 
+// @@USERSPACE
+// @@TODO Need docs or improvements for how to update this wrapped query per app instance
 const query = gql`
-  query getComponents ($components: [ComponentInput]!, $serviceName: String!, $mapQueryKey: String!, $limit:Int!) {
-  getServiceNumbersByNeighborhood (serviceName: $serviceName, componentKey: $mapQueryKey){
-    data {JSONResponse}
-    componentKey
-    responseType
-  }
-  
-  getOutstandingRequests (serviceName: $serviceName, componentKey: $mapQueryKey, limit: $limit){
+  query getComponents ($components: [ComponentInput]!, $complaintType: String, $mapQueryKey: String!) {
+  getCapsByDistrict (complaintType: $complaintType, componentKey: $mapQueryKey){
     data {JSONResponse}
     componentKey
     responseType
   }
 
-
-  getComponents(
-    components: $components
-  ) 
-
-  
-  { 
+  getComponents(components: $components){ 
     type
     componentKey
     data {
@@ -95,7 +85,7 @@ const query = gql`
       time
     }
   }
-  }
+}
 `
 
 const getDashFilters = () => {
@@ -179,12 +169,12 @@ const graphqlQueryVars = () => {
   const filterVals = getWhere(filters, params)
   const _componentsQ = getComponentsQ()
   const componentsQ = prefetchProcessDashComponents(_componentsQ, filterVals)
-  const serviceName = getFilterValue(filterVals, "service_name")
+  const complaintType = getFilterValue(filterVals, "complaintType") // @@TODO need to user-ify this
   const limit = OUTSTANDING_REQUEST_LIMIT
 
   const variables = {
     components: componentsQ,
-    serviceName: serviceName,
+    complaintType: complaintType, // @@TODO userify
     limit: limit,
     mapQueryKey: "neighborhoodMap"
   }

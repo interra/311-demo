@@ -1,16 +1,6 @@
 {
-    "backend": "cartodb",
     "addlQs": [
-        "getServiceNumbersByNeighborhood",
-        "getOutstandingRequests"
-    ],
-    "dataResources": [
-        {
-            "resourceHandle": "philly_311",
-            "resourceType": "cartodb",
-            "url": "https://phl.carto.com/api/v2/sql",
-            "query": "?q=SELECT service_name, COUNT(cartodb_id) FROM public_cases_fc WHERE service_name NOT IN ('Information Request') GROUP BY service_name ORDER BY count DESC LIMIT 10"
-        }
+        "getCapsByDistrict"
     ],
     "regions": [
         {
@@ -19,49 +9,41 @@
             "children": [
                 {
                     "type": "Autocomplete",
-                    "filterKey": "service_name",
+                    "filterKey": "complaint_type",
                     "cardProps": {
                         "header": {
-                            "template": "Pending Requests -- \"%%var%%\" -- 2017 Data",
-                            "filterVal": "service_name",
-                            "default": "311 Requests in Philadelphia -- 2017 Data",
+                            "template": "Complaints Against Police -- \"%%var%%\" -- 2017 Data",
+                            "filterVal": "complaint_type",
+                            "default": "Complaints Against Police -- 2017 Data",
                             "joiner": ","
                         },
-                        "cardClasses": ["select-service"]
+                        "cardClasses": ["select-complaint"]
                     },
-                    "field": "service_name",
+                    "field": "complaint_type",
                     "multi": false,
                     "noData": true,
-                    "placeholder": "SELECT A REQUEST TYPE",
+                    "placeholder": "SELECT A COMPLAINT TYPE - LEAVE BLANK FOR ALL",
                     "operation": "IN",
-                    "options": 
-			[
-			    {"label": "Miscellaneous", "value": "Miscellaneous"},
-			    {"label": "Maintenance Residential or Commercial", "value": "Maintenance Residential or Commercial"},
-			    {"label": "Rubbish/Recyclable Material Collection", "value":"Rubbish/Recyclable Material Collection"}, 
-			    {"label": "Illegal Dumping", "value": "Illegal Dumping"},                
-			    {"label": "Abandoned Vehicle", "value":"Abandoned Vehicle"},                      
-			    {"label": "Graffiti Removal", "value": "Graffiti Removal"},                       
-			    {"label": "Street Defect", "value": "Street Defect"},     
-			    {"label": "Street Light Outage", "value": "Street Light Outage"},                 
-			    {"label": "Vacant Lot Clean-Up", "value": "Vacant Lot Clean-Up"},
-			    {"label": "Vacant House or Commercial", "value": "Vacant House or Commercial"},
-			    {"label": "Salting", "value": "Salting"},                           
-			    {"label": "Sanitation / Dumpster Violation", "value": "Sanitation / Dumpster Violation"},
-			    {"label": "Traffic Signal Emergency", "value": "Traffic Signal Emergency"},
-			    {"label": "Street Trees", "value": "Street Trees"},     
-			    {"label": "Building Dangerous", "value": "Building Dangerous"},                 
-			    {"label": "Smoke Detector", "value": "Smoke Detector"},   
-			    {"label": "Building Construction", "value": "Building Construction"}, 
-			    {"label": "Construction Site Task Force", "value": "Construction Site Task Force"}
-                        ]
+		    "options": [
+		      {"label": "DEPARTMENTAL VIOLATIONS", "value" : "DEPARTMENTAL VIOLATIONS"},
+		      {"label": "LACK OF SERVICE", "value" : "LACK OF SERVICE"},
+		      {"label": "PHYSICAL ABUSE", "value" : "PHYSICAL ABUSE"},
+		      {"label": "VERBAL ABUSE", "value" : "VERBAL ABUSE"},
+		      {"label": "HARASSMENT", "value" : "HARASSMENT"},
+		      {"label": "UNPROFESSIONAL CONDUCT", "value" : "UNPROFESSIONAL CONDUCT"},
+		      {"label": "NON-INVESTIGATORY INCIDENT", "value" : "NON-INVESTIGATORY INCIDENT"},
+		      {"label": "CRIMINAL ALLEGATION", "value" : "CRIMINAL ALLEGATION"},
+		      {"label": "CIVIL RIGHTS COMPLAINT", "value" : "CIVIL RIGHTS COMPLAINT"},
+		      {"label": "DOMESTIC", "value" : "DOMESTIC"},
+		      {"label": "SEXUAL CRIME/MISCONDUCT", "value" : "SEXUAL CRIME/MISCONDUCT"}
+		    ]
                 },
                 {
                     "type": "NeighborhoodFilter",
                     "className": "map-left",
                     "filterKey": "neighborhood",
-                    "filters": ["service_name"],
-                    "componentKey": "neighborhoodMap",
+                    "filters": ["complaint_type"],
+                    "componentKey": "districtMap",
                     "leafletSettings": { 
                           "center": [39.9728, -75.1638],
                           "zoom": 12, 
@@ -88,214 +70,11 @@
                         },
                         "choroplethColorScale": ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"],
                         "steps": 5,
-                        "legendCaption": "Requests / sq mi",
+                        "legendCaption": "Requests / district",
                         "mode": "e"
                     },
-                    "geojsonUrl": "/static/Neighborhoods_Philadelphia.json",
+                    "geojsonUrl": "/static/PhlPoliceDistricts.json",
                     "multi": true
-                }
-            ]
-        },
-        {
-            "id": "region-00",
-            "className": "col-md-5",
-            "needsParam": "service_name",
-            "children": [
-                {
-                    "type": "Metric",
-                    "componentKey": "metric-total",
-                    "resourceHandle": "philly_311",
-                    "filters": ["service_name"],
-                    "background": "rgba(192,66,90,.8)",
-                    "icon": "phone",
-                    "format": ",",
-                    "caption": "Total Reported in 2017",
-                    "dataType": "Scalar",
-                    "where": [],
-                    "count": "service_name"
-                },
-                {
-                    "type": "Chart",
-                    "componentKey": "discrete-1",
-                    "cardProps": {
-                        "header": {
-                            "template": "Most \"%%var%%\" Requests by Neighborhood",
-                            "default": "No request type selected",
-                            "filterVal": "service_name",
-                            "joiner": ","
-                        },
-                        "cardClasses": ["discrete-1", "discrete"]
-                    },
-                    "dataType": "ChartJS",
-                    "resourceHandle": "philly_311",
-                    "limit": 10,
-                    "group": "neighborhood_name",
-                    "count": "neighborhood_name",
-                    "order": {
-                        "attribute": "count",
-                        "order": "DESC"
-                    },
-                    "where": [
-                        {
-                            "attribute": "service_name",
-                            "value": {"filterVal": "service_name"}
-                        }
-                    ],
-                    "dataFields": [
-                        {
-                            "resourceHandle": "philly_311",
-                            "field": "neighborhood_name",
-                            "type": "STRING",
-                            "fieldHandle": "neighborhood_name"
-                        }
-                    ],
-                    "chartOptions": {
-                        "scales": {
-                            "xAxes": [
-                                {
-                                    "stacked": false,
-                                    "beginAtZero": true,
-                                    "ticks": {
-                                        "stepSize": 1,
-                                        "fontColor": "yellow",
-                                        "min": 0,
-                                        "autoSkip": false
-                                    }
-                                }
-                            ],
-                            "yAxes": [
-                              {
-                                "beginAtZero": true,
-                                "ticks": {
-                                  "fontColor": "white",
-                                  "min": 0
-                                }
-                              }
-                            ]
-                        }
-                    },
-                    "series": [
-                        {
-                            "label": "Number of requests",
-                            "x": "neighborhood_name",
-                            "y": "count",
-                            "bg": "rgba(255,99,132,0.6)",
-                            "border": "rgba(255,99,132,1)",
-                            "bgHover": "rgba(255,99,132,0.8)",
-                            "borderHover": "rgba(255,99,132,1)"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": "region-00-no-service-name",
-            "className": "col-md-4",
-            "title": "Choose a Request Type",
-            "needsNoParam": "service_name",
-            "children": [
-                {
-                    "type": "Metric",
-                    "componentKey": "m-a-3",
-                    "format": ",",
-                    "componentKey": "metric-total",
-                    "cardProps": {
-                        "cardClasses": ["doHover"],
-                        "link": true,
-                        "href": "/?service_name=Street%20Defect"
-                    },
-                    "resourceHandle": "philly_311",
-                    "background": "rgba(77, 132, 209, .8)",
-                    "icon": "road",
-                    "caption": "Street Defect Requests",
-                    "dataType": "Scalar",
-                    "where": [{
-                        "attribute": "service_name",
-                        "value": "Street Defect"
-                    }],
-                    "count": "service_name"
-                },
-                {
-                    "type": "Metric",
-                    "componentKey": "m-a-4",
-                    "format": ",",
-                    "cardProps": {
-                        "cardClasses": ["doHover"],
-                        "link": true,
-                        "href": "/?service_name=Illegal%20Dumping"
-                    },
-                    "resourceHandle": "philly_311",
-                    "filters": ["service_name"],
-                    "background": "rgba(137, 42, 121, .8)",
-                    "icon": "trash",
-                    "caption": "Illegal Dumping Requests",
-                    "dataType": "Scalar",
-                    "where": [{
-                        "attribute": "service_name",
-                        "value": "Illegal Dumping"
-                    }],
-                    "count": "service_name"
-                },
-                {
-                    "type": "Metric",
-                    "componentKey": "m-a-5",
-                    "format": ",",
-                    "cardProps": {
-                        "cardClasses": ["doHover"],
-                        "link": true,
-                        "href": "/?service_name=Maintenance%20Residential%20or%20Commercial"
-                    },
-                    "resourceHandle": "philly_311",
-                    "background": "rgba(192,66,90,.8)",
-                    "icon": "wrench",
-                    "caption": "Maintenance Requests",
-                    "dataType": "Scalar",
-                    "where": [{
-                        "attribute": "service_name",
-                        "value": "Maintenance Residential or Commercial"
-                    }],
-                    "count": "service_name"
-                },
-                {
-                    "type": "Metric",
-                    "componentKey": "m-a-6",
-                    "format": ",",
-                    "cardProps": {
-                        "cardClasses": ["doHover"],
-                        "link": true,
-                        "href": "/?service_name=Graffiti%20Removal"
-                    },
-                    "resourceHandle": "philly_311",
-                    "filters": ["service_name"],
-                    "background": "rgba(244, 200, 66, .8)",
-                    "icon": "eyedropper",
-                    "caption": "Graffiti Removal Requests",
-                    "dataType": "Scalar",
-                    "where": [{
-                        "attribute": "service_name",
-                        "value": "Graffiti Removal"
-                    }],
-                    "count": "service_name"
-                },
-                {
-                    "type": "Metric",
-                    "componentKey": "m-a-2",
-                    "format": ",",
-                    "cardProps": {
-                        "cardClasses": ["doHover"],
-                        "link": true,
-                        "href": "/?service_name=Information%20Request"
-                    },
-                    "resourceHandle": "philly_311",
-                    "background": "rgba(244, 200, 66, .8)",
-                    "icon": "institution",
-                    "caption": "Total Requests For Information",
-                    "dataType": "Scalar",
-                    "where": [{
-                         "attribute": "service_name",
-                         "value": "Information Request"
-                    }],
-                    "count": "service_name"
                 }
             ]
         }

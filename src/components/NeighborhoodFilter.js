@@ -37,7 +37,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   componentWillMount() {
     const geojsonUrl = this.props.geojsonUrl
     this.resetInfoWindow()
-    this.getGeojson(geojsonUrl).then(res => {
+    this.fetchGeojson(geojsonUrl).then(res => {
       this.setState({geojson: res})
     })
   }
@@ -45,7 +45,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   /**
    * Fetch geojson by url
    **/
-  getGeojson(url) {
+  fetchGeojson(url) {
     return new Promise((resolve, reject) => {
       fetch(url).then(function(response) {
         return response.json();
@@ -156,22 +156,33 @@ export default class NeighborhoodFilter extends BaseFilter {
 
     return (count.length > 0) ? parseFloat(count[0].count) : undefined // @@TODO ugh this needs to correspond with the API return
   }
-
+  
+  getActiveFeature() {
+    const featureKey = this.props.choroplethSettings.featureKey
+    const features = (this.state.geojson) ? this.state.geojson.features : null
+    const feature = (features) ? features.filter(f => f.properties[featureKey] == this.state.activeSubunitName)[0] : null
+  
+    return feature
+  }
+  
   // get data fields for active data subunit
   getNeighborhoodData() {
     const queryKey = this.props.queryKey
     const data = this.props.addlData[queryKey] || []
     const dataKey = this.props.choroplethSettings.dataKey
-    const selected = data.filter(n => n[dataKey] === this.state.activeSubunitName
-    )
+    const selected = data.filter(n => n[dataKey] === this.state.activeSubunitName)
+    const activeFeature = this.getActiveFeature()
+    console.log("NN", selected, activeFeature)
 
     // @@TODO I would like this to be in config 
     // @@TODO not code
     // @@TODO or in user space somehow
     if (selected.length > 0) {
       return [
-        //{key: "Neighborhood", val: selected[0].neighborhood.replace(/_/g,' ')},
-        {key: "Total Complaints", val: selected[0].count}, // @@ UGH this count / rate val needs a config var
+        {key: "Police District", val: selected[0].dist_occurrence},
+        {key: "Total Complaints", val: selected[0].count},
+        {key: "Address", val: activeFeature.properties.LOCATION},
+        {key: "Phone", val: activeFeature.properties.PHONE}
       ]
     }
 
@@ -182,6 +193,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   getLegendData() {
     const queryKey = this.props.queryKey
     const data = this.props.addlData[queryKey] || []
+    
     // @@TODO this shuold be a configured variable (eg rate / count) see getNeighborhoodData above:
     return data.map(rec => parseFloat(rec.count))
   }
@@ -345,18 +357,6 @@ export default class NeighborhoodFilter extends BaseFilter {
           attribution={tileAttr}
           url={tileUrl}
         />
-        <Control>
-        <button 
-          onClick={ () => {
-            this.setState({zoom:12})
-            this.refs.map.leafletElement.setView(this.props.leafletSettings.center, this.props.leafletSettings.zoom)
-            this.render()
-          }}
-        >
-          Reset View
-        </button>
-        </Control>
-        {this.getMarkers()}
         {this.getChoropleth()}
       </Map>
       {this.getChoroplethLegend()}

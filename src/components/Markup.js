@@ -21,9 +21,7 @@ export default class Markup extends Component{
   
   render() {
     return (
-    <Card {...this.props.cardVariables}>
       <div dangerouslySetInnerHTML={ {__html: this.getContent()}}></div>
-    </Card>
     )
   }
 }

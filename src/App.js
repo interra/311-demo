@@ -15,6 +15,13 @@ const history = createHistory()
 
 const OUTSTANDING_REQUEST_LIMIT = 30
 
+/**
+ * @@TODO - I would like to divide this App component
+ * into a BaseComponent mixin that mixes in the API 
+ * and other interactions, and a App component that 
+ * contains user-defined render function and additional
+ * functionality
+ */
 class App extends Component {
   constructor(props) {
     super(props)

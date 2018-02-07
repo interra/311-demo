@@ -90,12 +90,15 @@ export default class NeighborhoodFilter extends BaseFilter {
   // this could allow users to select a geojson region
   // and then update state accordingly
   // so we could provide drill-down behavior for ex
+  // @@TODO this should be in user space
   setActiveRegion(e) {
     const feature = (e.layer) ? e.layer.feature : e.target.feature
+    const key = this.props.featureIdentifier
     let newState
 
     if (feature) {
-      if (this.state.activeSubunitName === feature.properties.name) {
+      console.log("FF", feature)
+      if (this.state.activeSubunitName === feature.properties[key]) {
         // feature is already selected
         newState = {
           infoWindowActive: false,
@@ -107,9 +110,9 @@ export default class NeighborhoodFilter extends BaseFilter {
         newState = {
           infoWindowActive: true,
           infoWindowPos: {x: e.originalEvent.clientX, y: e.originalEvent.clientY},
-          activeSubunitName: feature.properties.name,
+          activeSubunitName: feature.properties[key],
           activeSubunitValue: this.getNeighborhoodVal(feature) || 'No requests',
-          selected: [feature.properties.name]
+          selected: [feature.properties[key]]
         }  
       }
       this.setState(newState)  
@@ -158,17 +161,17 @@ export default class NeighborhoodFilter extends BaseFilter {
   getNeighborhoodData() {
     const queryKey = this.props.queryKey
     const data = this.props.addlData[queryKey] || []
-    const selected = data.filter(n => n.neighborhood === this.state.activeSubunitName
+    const dataKey = this.props.choroplethSettings.dataKey
+    const selected = data.filter(n => n[dataKey] === this.state.activeSubunitName
     )
 
     // @@TODO I would like this to be in config 
     // @@TODO not code
+    // @@TODO or in user space somehow
     if (selected.length > 0) {
       return [
-        {key: "Neighborhood", val: selected[0].neighborhood.replace(/_/g,' ')},
-        {key: "Total Requests", val: selected[0].count},
-        {key: "Area (sq. mi.)", val: parseFloat(selected[0].sqmi).toFixed(2)},
-        {key: "Request Rate (per sq. mi.)", val: parseFloat(selected[0].rate).toFixed(2)}
+        //{key: "Neighborhood", val: selected[0].neighborhood.replace(/_/g,' ')},
+        {key: "Total Complaints", val: selected[0].count}, // @@ UGH this count / rate val needs a config var
       ]
     }
 

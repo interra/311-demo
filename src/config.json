@@ -77,7 +77,37 @@
                         "mode": "e"
                     },
                     "geojsonUrl": "/static/PhlPoliceDistricts.json",
+                    "featureIdentifier": "DISTRICT_",
                     "multi": true
+                }
+            ]
+        },
+        {
+            "id": "sidebar",
+            "className": "col-md-5",
+            "children": [
+                {
+                    "type": "Markup",
+                    "className": "lead",
+                    "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the density of requests per police district. Use the filters to select a subset of the data. Click on the map for details about each police district.",
+                    "cardProps": {
+                        "cardClasses": ["lead"]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "sidebar",
+            "className": "col-md-12",
+            "children": [
+                {
+                    "type": "Markup",
+                    "className": "lead",
+                    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupida",
+                    "cardProps": {
+                        "cardClasses": ["lead"],
+                        "header": "About the data."
+                    }
                 }
             ]
         }

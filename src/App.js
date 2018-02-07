@@ -169,7 +169,7 @@ const graphqlQueryVars = () => {
   const filterVals = getWhere(filters, params)
   const _componentsQ = getComponentsQ()
   const componentsQ = prefetchProcessDashComponents(_componentsQ, filterVals)
-  const complaintType = getFilterValue(filterVals, "complaintType") // @@TODO need to user-ify this
+  const complaintType = getFilterValue(filterVals, "complaint_type") // @@TODO need to user-ify this
   const limit = OUTSTANDING_REQUEST_LIMIT
 
   const variables = {

@@ -36,7 +36,6 @@ export default class NeighborhoodFilter extends BaseFilter {
   
   componentWillMount() {
     const geojsonUrl = this.props.geojsonUrl
-    console.log(geojsonUrl, this.props)
     this.resetInfoWindow()
     this.getGeojson(geojsonUrl).then(res => {
       this.setState({geojson: res})
@@ -146,15 +145,12 @@ export default class NeighborhoodFilter extends BaseFilter {
   // get a single value from data per feature for choropleth
   // @@UGH userify all this
   getNeighborhoodVal(feature) {
-    console.log("feature", feature)
     const queryKey = this.props.queryKey
     const data = this.props.addlData[queryKey] || []
-    console.log("data",data)
     const featureKey = this.props.choroplethSettings.featureKey
     const dataKey = this.props.choroplethSettings.dataKey
-
     const count = data.filter(n => n[dataKey] === feature.properties[featureKey])
-    console.log("neighVal", count)
+
     return (count.length > 0) ? parseFloat(count[0].count) : undefined // @@TODO ugh this needs to correspond with the API return
   }
 
@@ -165,8 +161,6 @@ export default class NeighborhoodFilter extends BaseFilter {
     const selected = data.filter(n => n.neighborhood === this.state.activeSubunitName
     )
 
-    console.log('gnd', data, selected)
-    
     // @@TODO I would like this to be in config 
     // @@TODO not code
     if (selected.length > 0) {
@@ -186,7 +180,7 @@ export default class NeighborhoodFilter extends BaseFilter {
     const queryKey = this.props.queryKey
     const data = this.props.addlData[queryKey] || []
     // @@TODO this shuold be a configured variable (eg rate / count) see getNeighborhoodData above:
-    return data.map(rec => parseFloat(rec.rate))
+    return data.map(rec => parseFloat(rec.count))
   }
   
   /**
@@ -354,8 +348,7 @@ export default class NeighborhoodFilter extends BaseFilter {
             this.setState({zoom:12})
             this.refs.map.leafletElement.setView(this.props.leafletSettings.center, this.props.leafletSettings.zoom)
             this.render()
-          }
-          }
+          }}
         >
           Reset View
         </button>

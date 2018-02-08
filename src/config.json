@@ -1,6 +1,7 @@
 {
     "addlQs": [
-        "getCapsByDistrict"
+        "getCapsByDistrict",
+        "getTimeSeriesData"
     ],
     "regions": [
         {
@@ -97,9 +98,14 @@
             ]
         },
         {
-            "id": "sidebar",
+            "id": "bottom",
             "className": "col-md-12",
             "children": [
+                {
+                    "type": "TimeSeriesChart",
+                    "componentKey": "time-series-1",
+                    "queryKey": "getTimeSeriesData"
+                },
                 {
                     "type": "Markup",
                     "className": "lead",

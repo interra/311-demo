@@ -83,6 +83,12 @@ const query = gql`
     responseType
   }
 
+  getTimeSeriesData (complaintType: $complaintType, componentKey: "Foobar") {
+    data {JSONResponse}
+    componentKey
+    responseType
+  }
+
   getComponents(components: $components){ 
     type
     componentKey

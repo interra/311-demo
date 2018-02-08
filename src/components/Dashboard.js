@@ -46,6 +46,10 @@ export default class Dashboard extends Component {
     }
   }
 
+  getChartJSTimeSeriesData(data, settings) {
+  
+  }
+
   // given a dashboard nt definition, return appropriate data from API response
   // @@TODO want to clean this up to allow for additional arbitrary graphql queries - as defined by parent app, which will add valid component-level data to arbitrary components
   // @@TODO define the data api for the dashboard here - 

@@ -23,22 +23,23 @@ export default class Dashboard extends Component {
   }
 
   getChartJSData(data, settings) {
-    console.log(settings)
     const xField = settings.series[0].x // use the same labels for all series
     const labels = data.map(row => row[xField])
-    console.log("lavel", labels)
     const datasets = settings.series.map(ser => {
       const _data = data.map(row => row[ser.y])
-      return {
-        label: ser.label,
-        backgroundColor: ser.bg,
+      const _settings = {
         borderColor: ser.border,
         borderWidth: ser.borderWidth,
         hoverBackgroundColor: ser.bgHover,
         hoverBorderColor: ser.borderHover,
         data: _data
       }
+
+      // add any additional settings from config
+      return Object.assign({}, ser, _settings)
     })
+
+    console.log("dataset", datasets)
 
     return  {
       labels: labels,

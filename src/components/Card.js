@@ -72,6 +72,7 @@ export default class Card extends Component {
         <div className="card-bottom">
           {regions.footerHeader}
           {regions.footerSubheader}
+          {regions.footer}
           {regions.bottommatter}
           {regions.footerSubheader2}
           {regions.bottommatter2}

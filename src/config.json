@@ -70,7 +70,13 @@
                             "dashArray": 3,
                             "fillOpacity": 0.5
                         },
-                        "choroplethColorScale": ["#f1eef6", "#d7b5d8", "#df65b0", "#dd1c77", "#980043"],
+                        "choroplethColorScale": [
+                            "#eff3ff",
+                            "#bdd7e7",
+                            "#6baed6",
+                            "#3182bd",
+                            "#08519c"
+                        ],
                         "steps": 5,
                         "legendCaption": "Requests / district",
                         "featureKey": "DISTRICT_",
@@ -90,21 +96,70 @@
                 {
                     "type": "Markup",
                     "className": "lead",
-                    "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the density of requests per police district. Use the filters to select a subset of the data. Click on the map for details about each police district.",
+                    "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the density of requests per police district. Darker colors represent districts with more complaints.  Use the filters to select a subset of the data. Click on the map for details about each police district.",
                     "cardProps": {
                         "cardClasses": ["lead"]
                     }
+                },
+                {
+                    "type": "Metric",
+                    "componentKey": "metric-total",
+                    "resourceHandle": "complaints",
+                    "background": "rgb(28, 12, 142)",
+                    "icon": "product-hunt",
+                    "format": ",",
+                    "caption": "Total Complaints",
+                    "dataType": "Scalar",
+                    "where": [],
+                    "count": "summary"
+                },
+                {
+                    "type": "Chart",
+                    "componentKey": "chart-3",
+                    "dataType": "ChartJS",
+                    "resourceHandle": "complaints",
+                    "count": "general_cap_classification",
+                    "where": [],
+                    "dataFields": [
+                        {
+                            "resourceHandle": "complaints",
+                            "field": "general_cap_classification",
+                            "type": "STRING"
+                        }
+                    ],
+                    "settings": {
+                        "type": "pieChart",
+                        "rotateLabels": 45,
+                        "height": 700,
+                        "legend": {
+                            "maxKeyLength": 1500
+                        }
+                    },
+                    "series": [
+                        {
+                            "label": "FPP kabek",
+                            "x": "general_cap_classification",
+                            "y": "count",
+                            "backgroundColor": ["rgba(157,87,87,1)", "rgba(166,101,123,1)", "rgba(157,123,157,1)", "rgba(132,147,182,1)" ,"rgb(99,171,190)","rgb(86,192,179)", "rgb(114,208,155)", "rgb(166,219,127)", "rgb(228,223,109)", "rgb(190,152,197)", "rgb(117,171,204)", "rgb(106,181,117)", "rgb(166,170,75)","rgb(219,150,77)"]
+                        }
+                    ]
                 }
             ]
         },
         {
-            "id": "bottom",
+            "id": "time-series",
             "className": "col-md-12",
             "children": [
                 {
                     "type": "TimeSeriesChart",
                     "componentKey": "time-series-1",
-                    "queryKey": "getTimeSeriesData"
+                    "queryKey": "getTimeSeriesData",
+                    "cardProps": {
+                        "header": "Complaints over time",
+                        "subheader": "Following is a summary of all complaints against the Philadelphia police for the time-frame given in the data. By clicking the labels in the legend you can select which complaint types to show.",
+                        "footer": "Click on labels to toggle series in chart"
+
+                    }
                 },
                 {
                     "type": "Markup",

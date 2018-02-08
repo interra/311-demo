@@ -8,7 +8,8 @@ export default class Chart extends Component {
   }
 
   doBarChart() {
-    return <Bar data={this.props.data} options={this.props.chartOptions} />
+    const {height, width} = this.props.chartOptions 
+    return <Bar data={this.props.data} options={this.props.chartOptions} height={height} width={width} />
   }
   
   render() {

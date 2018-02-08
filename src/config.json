@@ -18,6 +18,7 @@
                             "default": "Complaints Against Police -- 2017 Data",
                             "joiner": ","
                         },
+                        "footer": "Select a complaint type to show distribution by district in map below. (Note that density does not account for area of district, and is therefore approximate)",
                         "cardClasses": ["select-complaint"]
                     },
                     "field": "complaint_type",
@@ -96,14 +97,12 @@
                 {
                     "type": "Metric",
                     "componentKey": "metric-total",
-                    "resourceHandle": "complaints",
-                    "background": "rgb(28, 12, 142)",
+                    "background": "rgba(143, 169, 211, .5)",
                     "icon": "product-hunt",
                     "format": ",",
                     "caption": "Total Complaints",
                     "dataType": "Scalar",
-                    "where": [],
-                    "count": "summary"
+                    "value": 3645
                 },
                 {
                     "type": "Chart",
@@ -112,7 +111,6 @@
                     "resourceHandle": "complaints",
                     "count": "general_cap_classification",
                     "where": [],
-                    "height": 600,
                     "dataFields": [
                         {
                             "resourceHandle": "complaints",
@@ -120,11 +118,14 @@
                             "type": "STRING"
                         }
                     ],
+                    "cardProps": {
+                        "header": "All complaints against Police"
+                    },
                     "settings": {
                         "type": "pieChart"
                     },
                     "chartOptions": {
-                        "height": 300,
+                        "height": 250,
                         "width": "content-box",
                         "legend": {
                             "position": "bottom",
@@ -148,6 +149,7 @@
                     "className": "lead",
                     "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the density of requests per police district. Darker colors represent districts with more complaints.  Use the filters to select a subset of the data. Click on the map for details about each police district.",
                     "cardProps": {
+                        "header": "About this dashboard",
                         "cardClasses": ["lead"]
                     }
                 }
@@ -171,10 +173,12 @@
                 {
                     "type": "Markup",
                     "className": "lead",
-                    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupida",
+                    "content": "Data is from the city website: http://philly.data.gov",
                     "cardProps": {
                         "cardClasses": ["lead"],
-                        "header": "About the data."
+                        "header": "About the data",
+                        "footerHeader": "A note about missing data",
+                        "footer": "Not all requests have a valid District ID. These requests are included in the data used in the time-series chart (Complaints over time) and the pie chart (All complaints against police) but are NOT included in the Choropleth map (top-left)."
                     }
                 }
             ]

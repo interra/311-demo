@@ -3,7 +3,8 @@ import {Bar, Pie} from 'react-chartjs-2'
 
 export default class Chart extends Component {
   doPieChart() {
-    return <Pie data={this.props.data} options={this.props.chartOptions} />
+    const {height, width} = this.props.chartOptions 
+    return <Pie data={this.props.data} options={this.props.chartOptions} height={height} width={width} />
   }
 
   doBarChart() {
@@ -22,8 +23,6 @@ export default class Chart extends Component {
       case 'pieChart':
         chart = this.doPieChart()
         break
-
-
     }
 
     return chart

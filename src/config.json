@@ -94,14 +94,6 @@
             "className": "col-md-5",
             "children": [
                 {
-                    "type": "Markup",
-                    "className": "lead",
-                    "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the density of requests per police district. Darker colors represent districts with more complaints.  Use the filters to select a subset of the data. Click on the map for details about each police district.",
-                    "cardProps": {
-                        "cardClasses": ["lead"]
-                    }
-                },
-                {
                     "type": "Metric",
                     "componentKey": "metric-total",
                     "resourceHandle": "complaints",
@@ -120,6 +112,7 @@
                     "resourceHandle": "complaints",
                     "count": "general_cap_classification",
                     "where": [],
+                    "height": 600,
                     "dataFields": [
                         {
                             "resourceHandle": "complaints",
@@ -128,11 +121,17 @@
                         }
                     ],
                     "settings": {
-                        "type": "pieChart",
-                        "rotateLabels": 45,
-                        "height": 700,
+                        "type": "pieChart"
+                    },
+                    "chartOptions": {
+                        "height": 300,
+                        "width": "content-box",
                         "legend": {
-                            "maxKeyLength": 1500
+                            "position": "bottom",
+                            "labels": {
+                                "fontColor": "white",
+                                "fontSize": 14
+            }  
                         }
                     },
                     "series": [
@@ -143,6 +142,14 @@
                             "backgroundColor": ["rgba(157,87,87,1)", "rgba(166,101,123,1)", "rgba(157,123,157,1)", "rgba(132,147,182,1)" ,"rgb(99,171,190)","rgb(86,192,179)", "rgb(114,208,155)", "rgb(166,219,127)", "rgb(228,223,109)", "rgb(190,152,197)", "rgb(117,171,204)", "rgb(106,181,117)", "rgb(166,170,75)","rgb(219,150,77)"]
                         }
                     ]
+                },
+                {
+                    "type": "Markup",
+                    "className": "lead",
+                    "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the density of requests per police district. Darker colors represent districts with more complaints.  Use the filters to select a subset of the data. Click on the map for details about each police district.",
+                    "cardProps": {
+                        "cardClasses": ["lead"]
+                    }
                 }
             ]
         },

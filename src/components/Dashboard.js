@@ -7,108 +7,6 @@ export default class Dashboard extends Component {
   componentWillMount() {
     this.history = this.props.history
   }
-
-  // @@TODO should return n series
-  // @@TODO based on config
-  getNVD3ChartData(data) {
-    return [{
-      key: "A",
-      values: data
-    }]
-  }
-  
-  getPieChartData(data) {
-    const sortKey = Object.keys(data[0])[0]
-    return sortBy(data, sortKey)
-  }
-
-  getChartJSData(data, settings) {
-    const xField = settings.series[0].x // use the same labels for all series
-    const labels = data.map(row => row[xField])
-    const datasets = settings.series.map(ser => {
-      const _data = data.map(row => row[ser.y])
-      const _settings = {
-        borderColor: ser.border,
-        borderWidth: ser.borderWidth,
-        hoverBackgroundColor: ser.bgHover,
-        hoverBorderColor: ser.borderHover,
-        data: _data
-      }
-
-      // add any additional settings from config
-      return Object.assign({}, ser, _settings)
-    })
-
-    console.log("dataset", datasets)
-
-    return  {
-      labels: labels,
-      datasets: datasets
-    }
-  }
-
-  getChartJSTimeSeriesData(data, settings) {
-  
-  }
-
-  // given a dashboard nt definition, return appropriate data from API response
-  // @@TODO want to clean this up to allow for additional arbitrary graphql queries - as defined by parent app, which will add valid component-level data to arbitrary components
-  // @@TODO define the data api for the dashboard here - 
-  // @@TODO there are two levels of abstraction: 
-  //          standardized components
-  //          arbitrary app-defined graphql query data
-  getComponentData(component) {
-    if (this.props.data.getComponents) {
-      const componentData = this.props.data.getComponents
-      // append data from addl queries, used for the map layer component
-      const cDatas = componentData.filter(item => {
-        if (item.componentKey) {
-          return item.componentKey === component.componentKey
-        }
-
-        return false
-      })
-
-      if (cDatas.length > 0) {
-        const cData = JSON.parse(cDatas[0].data.JSONResponse)
-        
-        switch (component.dataType) {
-          case 'NVD3PieChartSeries':
-            const pieData = this.getPieChartData(cData)
-            return pieData
-          case 'NVD3ChartSeries':
-            return this.getNVD3ChartData(cData)
-          case 'ChartJS':
-            return this.getChartJSData(cData, component)
-          case 'Scalar':
-            return [cData[0].count] // assumes a count value - better to just return a scalar from the api
-          default:
-            return cData
-        }
-      } else {
-        return []
-      }
-    }
-
-    return []
-  }
-  
-  /**
-   * Allow us to define arbitrary graphQL queries and use their
-   * data in custom components
-   **/
-  getAddlData (qs) {
-      return this.props.additionalQs.reduce( (acc, addl) => {
-          const _data = this.props.data[addl]
-          if (_data && _data.responseType === "JSONResponse") {
-            acc[addl] = JSON.parse(_data.data.JSONResponse)
-          } else {
-            acc[addl] = _data
-          }
-
-          return acc
-      }, {})
-  }
   
   getRegionTitle(region) {
     if (region.title) { 
@@ -132,9 +30,6 @@ export default class Dashboard extends Component {
   }
   
   getRegion(region, i) {
-    const addlData = this.getAddlData(this.props.addlQs)
-    
-    console.log("RR", region, this.props.params)
     
     // do conditional rendering based on present filters
     if (this.regionShouldRender(region, this.props.params)) {
@@ -145,8 +40,7 @@ export default class Dashboard extends Component {
           region.children.map((component,j) => {
             if (Components.hasOwnProperty(component.type)) {
               const Component = Components[component.type]
-              const componentData = this.getComponentData(component)
-              const componentProps = Object.assign(component, {data: componentData, params: this.props.params, addlData: addlData})
+              const componentProps = Object.assign(component, {params: this.props.params})
               const cardProps = component.cardProps || {}
               const toCard = Object.assign(cardProps, {children: [<Component {...componentProps} key={component.componentKey || 'filter_' + i + '_' + j} history={region.history} />]})
               // wrap component in Card component and return
@@ -173,7 +67,6 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    console.log('DASH', this)
     return (
       <div className="dashboard-container">
           {this.getRegions(this.props.regions)}

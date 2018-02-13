@@ -149,7 +149,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   // @@UGH userify all this
   getNeighborhoodVal(feature) {
     const queryKey = this.props.queryKey
-    const data = this.props.addlData[queryKey] || []
+    const data = this.props.data
     const featureKey = this.props.choroplethSettings.featureKey
     const dataKey = this.props.choroplethSettings.dataKey
     const count = data.filter(n => n[dataKey] === feature.properties[featureKey])
@@ -168,7 +168,8 @@ export default class NeighborhoodFilter extends BaseFilter {
   // get data fields for active data subunit
   getNeighborhoodData() {
     const queryKey = this.props.queryKey
-    const data = this.props.addlData[queryKey] || []
+    const data = this.props.data || []
+    console.log('nhd', data)
     const dataKey = this.props.choroplethSettings.dataKey
     const selected = data.filter(n => n[dataKey] === this.state.activeSubunitName)
     const activeFeature = this.getActiveFeature()
@@ -192,7 +193,7 @@ export default class NeighborhoodFilter extends BaseFilter {
   // get whole data series as array of integers for legend scale
   getLegendData() {
     const queryKey = this.props.queryKey
-    const data = this.props.addlData[queryKey] || []
+    const data = this.props.data[queryKey] || []
     
     // @@TODO this shuold be a configured variable (eg rate / count) see getNeighborhoodData above:
     return data.map(rec => parseFloat(rec.count))

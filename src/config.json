@@ -13,9 +13,9 @@
                     "filterKey": "complaint_type",
                     "cardProps": {
                         "header": {
-                            "template": "Complaints Against Police -- \"%%var%%\" -- 2017 Data",
+                            "template": "Complaints Against Police (BETA) -- \"%%var%%\"",
                             "filterVal": "complaint_type",
-                            "default": "Complaints Against Police -- 2017 Data",
+                            "default": "Complaints Against Police (BETA)",
                             "joiner": ","
                         },
                         "footer": "Select a complaint type to show distribution by district in map below. (Note that density does not account for area of district, and is therefore approximate)",
@@ -147,7 +147,7 @@
                 {
                     "type": "Markup",
                     "className": "lead",
-                    "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the density of requests per police district. Darker colors represent districts with more complaints.  Use the filters to select a subset of the data. Click on the map for details about each police district.",
+                    "content": "Philadelphia periodically releases a list of complaints against police officers. The map to the left shows the number of requests per police district. Darker colors represent districts with more complaints. (Note that figures are not adjusted for district area). Use the filters to select a subset of the data. Click on the map for details about each police district.",
                     "cardProps": {
                         "header": "About this dashboard",
                         "cardClasses": ["lead"]
@@ -165,7 +165,7 @@
                     "queryKey": "getTimeSeriesData",
                     "cardProps": {
                         "header": "Complaints over time",
-                        "subheader": "Following is a summary of all complaints against the Philadelphia police for the time-frame given in the data. By clicking the labels in the legend you can select which complaint types to show.",
+                        "subheader": "Following is a summary of all complaints against the Philadelphia police by time from January, 2013 through December 2017. Click the labels in the legend to select which complaint types to show.",
                         "footer": "Click on labels to toggle series in chart"
 
                     }
@@ -178,7 +178,7 @@
                         "cardClasses": ["lead"],
                         "header": "About the data",
                         "footerHeader": "A note about missing data",
-                        "footer": "Not all requests have a valid District ID. These requests are included in the data used in the time-series chart (Complaints over time) and the pie chart (All complaints against police) but are NOT included in the Choropleth map (top-left)."
+                        "footer": "Some of the recorded requests are not associated with a valid Police District. These requests are included in the data used in the time-series chart (Complaints over time) and the pie chart (All complaints against police) but are NOT included in the Choropleth map (top-left) statistics."
                     }
                 }
             ]

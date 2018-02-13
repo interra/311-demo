@@ -28,7 +28,7 @@ export default class TimeSeriesChart extends Component{
   
   componentDidUpdate(prevProps, prevState) {
     if (!this.state.hasData) {
-      const hasData = typeof this.props.addlData.getTimeSeriesData
+      const hasData = typeof this.props.data.getTimeSeriesData
       if (hasData) this.setState({hasData: hasData})
     }
   }
@@ -62,12 +62,17 @@ export default class TimeSeriesChart extends Component{
   
   // Note this is based on the graphql API return data shape
   getData() {
-    const raw = this.props.addlData.getTimeSeriesData[0][0]
-    const labeldata = this.props.addlData.getTimeSeriesData[1][0]
-    const labels = this.getLabels(labeldata)
-    const datasets = this.getDatasets(raw, labels)
-    console.log("DS", datasets)
-    return { labels: labels, datasets: datasets }
+    if (this.props.data && this.props.getTimeSeriesData) {
+      console.log("tsd, get", this.props.data)
+      const raw = this.props.data.getTimeSeriesData[0][0]
+      const labeldata = this.props.data.getTimeSeriesData[1][0]
+      const labels = this.getLabels(labeldata)
+      const datasets = this.getDatasets(raw, labels)
+      console.log("DS", datasets)
+      return { labels: labels, datasets: datasets }
+    } else {
+      return []
+    }
   }
   
   render() {

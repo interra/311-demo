@@ -8,6 +8,7 @@ import gql from 'graphql-tag'
 import FontAwesome from 'react-fontawesome'
 import interraLogoWhite from './images/interra-logo-white.png'
 import InfoModal from './InfoModal.js'
+import Adaptors from './Adaptors.js'
 
 document.title = "Philly 311 Demo"
 
@@ -40,11 +41,43 @@ class App extends Component {
     this.setState({infoWindowOpen : !this.state.infoWindowOpen})
   }
 
+  /**
+   * This is where all of the voodoo happens:
+   *
+   * - Assign componentData to components based on configured `componentKey` value
+   * - Assign paramaters to components based on `configured `filters` array value
+   *  - Assign additional data based on configured `queryKey` value
+   **/
+  getPopulatedDashboardTree() {
+    const A = new Adaptors()
+    const data = Object.assign({}, this.props.data) 
+    const componentData = data.getComponents || []
+    const populatedRegions = config.regions.map(region => {
+      const children = region.children.map(component => {
+        let _data = A.getComponentData(component, componentData) || []
+        let addlData = {}
+
+        if (component.queryKey && data[component.queryKey]) {
+          console.log("ADDDD",data[component.queryKey])
+          _data = JSON.parse(data[component.queryKey].data.JSONResponse)
+        } 
+        
+        return Object.assign({}, component, {data: _data, addlData: addlData})
+      })
+
+      return Object.assign({}, region, {children: children})
+    })
+
+    const tree = Object.assign({}, config, {regions: populatedRegions}, {params: getParams()}, {history: history})
+
+    return tree
+  }
+
   render() {
-    const additionalQs = config.addlQs;
     const infoWindowClass = (this.state.infoWindowOpen) ? 'info-window-open' : 'info-window-closed'
-    const props = Object.assign(config, this.props, {params: getParams(), history: history, additionalQs: additionalQs})
     const doClose = this.toggleInfoWindow.bind(this)
+    const props = this.getPopulatedDashboardTree()
+    console.log("PROPS", props)
     
     return (
       <div id="app-container" className={infoWindowClass}>
@@ -100,7 +133,6 @@ const query = gql`
   }
 }
 `
-
 const getDashFilters = () => {
   const filterRegion = config.regions.filter(region => region.id === "filters")
   if (filterRegion.length === 1) {

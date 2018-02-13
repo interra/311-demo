@@ -58,7 +58,7 @@ class App extends Component {
         let addlData = {}
 
         if (component.queryKey && data[component.queryKey]) {
-          console.log("ADDDD",data[component.queryKey])
+          console.log("ADDDD", component.queryKey, data[component.queryKey])
           _data = JSON.parse(data[component.queryKey].data.JSONResponse)
         } 
         
@@ -69,7 +69,6 @@ class App extends Component {
     })
 
     const tree = Object.assign({}, config, {regions: populatedRegions}, {params: getParams()}, {history: history})
-
     return tree
   }
 
